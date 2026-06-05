@@ -774,4 +774,58 @@ document.addEventListener("DOMContentLoaded", function () {
             window.scrollTo({ top: 0, behavior: "smooth" });
         });
     }
+
+    // ---- Pages services : outils-métier + configurateur → WhatsApp ----
+    // Sélecteur « reco / diagnostic » : affiche le résultat lié à l'option choisie.
+    document.querySelectorAll(".nx-reco-select").forEach(function (sel) {
+        var scope = sel.closest(".svc-tool") || sel.closest("form");
+        var out = scope ? scope.querySelector(".nx-reco-out") : null;
+        sel.addEventListener("change", function () {
+            if (!out) { return; }
+            var opt = sel.options[sel.selectedIndex];
+            var txt = opt ? opt.getAttribute("data-out") : "";
+            if (txt) { out.textContent = txt; out.hidden = false; }
+            else { out.hidden = true; }
+        });
+    });
+
+    // Checklist de réception : barre de progression.
+    document.querySelectorAll("[data-checklist]").forEach(function (tool) {
+        var checks = tool.querySelectorAll("[data-check]");
+        var bar = tool.querySelector(".nx-config-progress-bar");
+        var label = tool.querySelector(".nx-config-progress-label");
+        var total = checks.length;
+        var update = function () {
+            var n = tool.querySelectorAll("[data-check]:checked").length;
+            if (bar) { bar.style.setProperty("--p", Math.round((n / total) * 100) + "%"); }
+            if (label) { label.textContent = n + " / " + total; }
+        };
+        checks.forEach(function (c) { c.addEventListener("change", update); });
+    });
+
+    // Bouton « Préparer ma demande WhatsApp » : assemble un message structuré.
+    document.querySelectorAll("[data-wa-build]").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+            var form = btn.closest(".nx-config");
+            if (!form) { return; }
+            var scope = form.closest(".svc-config-wrap") || form;
+            var wa = form.getAttribute("data-wa");
+            var service = form.getAttribute("data-service");
+            var lines = ["Bonjour NEXUS DKS GROUP,", "Je souhaite un devis pour : " + service + ".", ""];
+            scope.querySelectorAll("[data-field]").forEach(function (f) {
+                var val = (f.value || "").trim();
+                if (val) { lines.push("• " + f.getAttribute("data-label") + " : " + val); }
+            });
+            var groups = {};
+            scope.querySelectorAll("[data-check]:checked").forEach(function (c) {
+                var g = c.getAttribute("data-group") || "Éléments";
+                (groups[g] = groups[g] || []).push(c.value);
+            });
+            Object.keys(groups).forEach(function (g) {
+                lines.push("• " + g + " : " + groups[g].join(", "));
+            });
+            lines.push("", "Merci de me faire une proposition en FCFA.");
+            window.open("https://wa.me/" + wa + "?text=" + encodeURIComponent(lines.join("\n")), "_blank", "noopener");
+        });
+    });
 });

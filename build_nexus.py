@@ -211,7 +211,7 @@ def head(title, desc, path, page_class, prefix=""):
 def header(active, prefix=""):
     cat_items = ""
     for slug, label, *_ in CATS:
-        cat_items += '<li role="none"><a class="nav-dropdown-link" href="%snos-services.html#%s" role="menuitem">%s</a></li>\n' % (prefix, slug, label)
+        cat_items += '<li role="none"><a class="nav-dropdown-link" href="%sservices/%s.html" role="menuitem">%s</a></li>\n' % (prefix, slug, label)
     cat_items += '<li role="none"><a class="nav-dropdown-link" href="%sentretien-proprete.html" role="menuitem">Offre &amp; formules &rarr;</a></li>\n' % prefix
     a = lambda k: " is-active" if active == k else ""
     serv = " is-active" if active in ("services", "offre") else ""
@@ -249,7 +249,7 @@ __ITEMS__          </ul>
    .replace("__DOWN__", ico("down")).replace("__SEND__", ico("send"))
 
 def footer(prefix=""):
-    cat_links = "".join('<a href="%snos-services.html#%s">%s</a>\n' % (prefix, s, l) for s, l, *_ in CATS)
+    cat_links = "".join('<a href="%sservices/%s.html">%s</a>\n' % (prefix, s, l) for s, l, *_ in CATS)
     return """</main>
 <footer class="site-footer">
   <div class="container">
@@ -496,7 +496,7 @@ def build_home():
     <p>%s</p>
     <span class="nx-card-photo-link">En savoir plus %s</span>
   </div>
-  <a class="nx-card-photo-cover" href="nos-services.html#%s" aria-label="En savoir plus : %s"></a>
+  <a class="nx-card-photo-cover" href="services/%s.html" aria-label="En savoir plus : %s"></a>
 </article>
 """ % (d, slug, img, label, desc, ico("arrow"), slug, label)
     prestations = """<section id="services" class="section section-soft">
@@ -671,8 +671,9 @@ def build_services():
   <div class="nx-presta-head"><span class="nx-ico is-lime">%s</span><span class="nx-num">%02d</span></div>
   <h3>%s</h3><p>%s</p>
   <ul class="nx-list">%s</ul>
+  <a class="nx-blog-link" href="services/%s.html">Découvrir ce service %s</a>
 </article>
-""" % (" d%d" % (i % 3) if i % 3 else "", slug, ico(icon), i + 1, label, desc, bl)
+""" % (" d%d" % (i % 3) if i % 3 else "", slug, ico(icon), i + 1, label, desc, bl, slug, ico("arrow"))
     prestations = """<section class="section">
   <div class="container">
     <div class="section-header reveal"><div class="section-heading">
@@ -1034,10 +1035,318 @@ def build_404():
     write("404.html", head(title, desc, "404.html", "page-404") + header("") + body + footer())
 
 
+# ============================================================ PAGES SERVICES (détail)
+# Image dédiée + contenu technique (≈60%) + outil-métier wow + configurateur WhatsApp.
+SVC_IMG = {
+    "entreprises-bureaux": "svc-bureaux.jpg", "fin-de-chantier": "svc-fin-chantier.jpg",
+    "residences": "svc-residences.jpg", "restaurants-lounges": "svc-restaurants.jpg",
+    "espaces-specifiques": "svc-espaces.jpg", "textiles-surfaces": "svc-textiles.jpg",
+}
+
+SERVICES_DETAIL = {
+ "entreprises-bureaux": {
+  "eyebrow": "Tertiaire · B2B · Institutions",
+  "accroche": "Un plan de propreté piloté pour des bureaux sains, valorisants et propices à la performance.",
+  "intro": [
+   "L'entretien tertiaire ne s'improvise pas : il se pilote. Nous établissons un <strong>plan de propreté</strong> contractuel qui cartographie vos zones — open-spaces, salles de réunion, sanitaires, circulations, points de restauration — et leur affecte une fréquence d'intervention proportionnée au trafic et au risque sanitaire.",
+   "Nos protocoles combinent <strong>bionettoyage</strong> des surfaces, <strong>désinfection ciblée des points de contact</strong> à fort passage (poignées, interrupteurs, ascenseurs, sanitaires) et traçabilité des passages. Microfibre code-couleur pour éliminer les transferts microbiens, dosage maîtrisé, produits adaptés à chaque support.",
+  ],
+  "points": [
+   ("clipboard", "Plan de propreté", "Cartographie des zones, fréquences et niveaux de prestation formalisés dans un cahier des charges."),
+   ("spray", "Bionettoyage", "Nettoyage et désinfection en un geste sur les surfaces et points de contact sensibles."),
+   ("droplet", "Microfibre code-couleur", "Une couleur par zone (sanitaires, bureaux, cuisine) — zéro contamination croisée."),
+   ("clipboard", "Traçabilité", "Fiches de passage et contrôle qualité après chaque intervention."),
+  ],
+  "reco": ("Fréquence recommandée selon votre trafic", "Niveau de fréquentation", [
+   ("Faible — petite équipe", "Recommandé : 1 à 2 passages par semaine."),
+   ("Modéré — bureaux classiques", "Recommandé : 3 passages par semaine."),
+   ("Intense — accueil public", "Recommandé : passage quotidien (5j/7)."),
+   ("Très intense — fort flux", "Recommandé : quotidien + repasse en milieu de journée."),
+  ]),
+  "fields": [
+   ("select", "Type de locaux", ["Bureaux cloisonnés", "Open-space", "Plateau mixte", "Cabinet / clinique", "Coworking"]),
+   ("select", "Surface approximative", ["Moins de 100 m²", "100 à 300 m²", "300 à 800 m²", "Plus de 800 m²"]),
+   ("select", "Occupants", ["Moins de 10", "10 à 30", "30 à 80", "Plus de 80"]),
+   ("text", "Contraintes horaires", "Ex. avant 8h, après 18h, week-end…"),
+  ],
+  "targets": ["PME & sièges sociaux", "Cabinets (conseil, médical, juridique)", "Institutions & administrations", "Coworkings & incubateurs", "Banques & assurances"],
+ },
+ "fin-de-chantier": {
+  "eyebrow": "BTP · Livraison · Remise en état",
+  "accroche": "La remise en état post-travaux qui transforme un chantier livré en espace prêt à occuper — sans la moindre trace.",
+  "intro": [
+   "Le nettoyage de fin de chantier est une <strong>prestation technique à part entière</strong>, distincte de l'entretien courant. Il s'attaque aux résidus de construction : laitance de ciment, traces de peinture et d'enduit, colles, films de protection, poussières fines incrustées dans les menuiseries et les VMC.",
+   "Nous opérons en <strong>plusieurs passes</strong> : dégrossissage et évacuation des gravats, décollage et décapage des salissures adhérentes, puis finition fine des vitrages, sols et surfaces. Objectif : une réception <strong>« prête à occuper »</strong>, contrôlée poste par poste avant remise des clés.",
+  ],
+  "points": [
+   ("droplet", "Décapage laitance", "Élimination des voiles de ciment et résidus minéraux sur sols et faïences."),
+   ("sparkle", "Décollage de films", "Retrait des films de protection, adhésifs et traces de peinture sans rayer."),
+   ("sparkle", "Vitrages sans trace", "Vitres, châssis et menuiseries, en intérieur et extérieur accessible."),
+   ("wind", "Dépoussiérage fin", "Poussières incrustées : VMC, plinthes, gaines, luminaires, interstices."),
+  ],
+  "checklist": ("Checklist de réception « prêt à occuper »", [
+   "Gravats & déchets évacués", "Films de protection & adhésifs retirés", "Laitance & traces de ciment décapées",
+   "Vitrages & menuiseries nettoyés", "Sols lavés et protégés", "Sanitaires désinfectés",
+   "Poussières fines (VMC, plinthes, luminaires)", "Contrôle final poste par poste",
+  ]),
+  "fields": [
+   ("select", "Type de chantier", ["Construction neuve", "Rénovation", "Extension", "Local commercial"]),
+   ("select", "Surface approximative", ["Moins de 100 m²", "100 à 300 m²", "300 à 1000 m²", "Plus de 1000 m²"]),
+   ("select", "Niveaux", ["Plain-pied", "2 niveaux", "3 niveaux et plus"]),
+   ("text", "Échéance souhaitée", "Ex. livraison le 30/06, urgent…"),
+  ],
+  "targets": ["Entreprises du BTP", "Promoteurs immobiliers", "Architectes & maîtres d'œuvre", "Agences immobilières", "Particuliers en fin de travaux"],
+ },
+ "residences": {
+  "eyebrow": "Particuliers · B2C · Confort",
+  "accroche": "Votre intérieur soigné comme il le mérite — la sérénité d'un foyer impeccable, sans y penser.",
+  "intro": [
+   "Du <strong>grand ménage de remise à neuf</strong> à l'entretien récurrent, nous adaptons la prestation au rythme de votre foyer. Chaque intervention suit une logique <strong>du plus propre au plus sale</strong> et <strong>du haut vers le bas</strong> pour ne jamais re-salir une zone déjà traitée.",
+   "Cuisine dégraissée, sanitaires détartrés et désinfectés, sols adaptés à chaque revêtement (carrelage, parquet, marbre), vitrerie intérieure : un protocole complet, des produits adaptés aux matériaux et une discrétion totale.",
+  ],
+  "points": [
+   ("sparkle", "Grand ménage", "Remise à neuf en profondeur : idéal avant emménagement ou après événement."),
+   ("refresh", "Entretien récurrent", "Passages planifiés (hebdo, bi-mensuel, mensuel) selon votre rythme."),
+   ("shield", "Soin des matériaux", "Gestes et produits adaptés : parquet, marbre, inox, surfaces fragiles."),
+   ("smile", "Discrétion & confiance", "Personnel encadré, ponctuel et respectueux de votre intimité."),
+  ],
+  "reco": ("Quelle formule pour vous ?", "Votre objectif", [
+   ("Remise à neuf ponctuelle", "Recommandé : grand ménage en profondeur, intervention unique."),
+   ("Entretien régulier", "Recommandé : abonnement récurrent au rythme choisi."),
+   ("Avant état des lieux", "Recommandé : nettoyage complet de restitution, finitions garanties."),
+  ]),
+  "fields": [
+   ("select", "Type de logement", ["Studio", "Appartement", "Maison", "Duplex / Villa"]),
+   ("select", "Nombre de pièces", ["1 à 2", "3 à 4", "5 à 6", "7 et plus"]),
+   ("select", "Rythme souhaité", ["Ponctuel", "Hebdomadaire", "Bi-mensuel", "Mensuel"]),
+   ("text", "Date souhaitée", "Ex. samedi matin, dès que possible…"),
+  ],
+  "targets": ["Particuliers & familles", "Expatriés & cadres", "Locations meublées & Airbnb", "Syndics & gestionnaires", "Résidences de standing"],
+ },
+ "restaurants-lounges": {
+  "eyebrow": "CHR · Hygiène · Réputation",
+  "accroche": "L'hygiène irréprochable qui protège votre réputation et celle de vos clients.",
+  "intro": [
+   "En restauration, la propreté est un <strong>enjeu sanitaire et réputationnel</strong>. Nos protocoles s'alignent sur les <strong>bonnes pratiques d'hygiène (HACCP)</strong> : dégraissage des plans, équipements et hottes, désinfection des surfaces en contact alimentaire, traitement des sols antidérapants et gestion des zones froides.",
+   "Nous intervenons <strong>en horaires décalés</strong> — la nuit, après le service ou avant l'ouverture — pour ne jamais perturber votre exploitation. Microfibre code-couleur, dégraissants alimentaires et un soin particulier aux espaces d'accueil qui font votre image.",
+  ],
+  "points": [
+   ("shield", "Conforme HACCP", "Protocoles alignés sur les bonnes pratiques d'hygiène alimentaire."),
+   ("flask", "Dégraissage cuisine", "Plans, équipements, crédences et hottes : la graisse n'a aucune chance."),
+   ("disc", "Sols antidérapants", "Traitement adapté aux sols techniques de cuisine et zones humides."),
+   ("clock", "Horaires décalés", "Nuit, après-service, avant-ouverture : zéro impact sur votre activité."),
+  ],
+  "checklist": ("Planifiez votre intervention hors-service — zones à couvrir", [
+   "Cuisine & plonge", "Salle & bar", "Terrasse / extérieur", "Sanitaires clients", "Réserves & chambres froides", "Vitrines & accueil",
+  ]),
+  "fields": [
+   ("select", "Type d'établissement", ["Restaurant", "Lounge / bar", "Fast-food", "Traiteur", "Hôtel-restaurant"]),
+   ("select", "Surface approximative", ["Moins de 80 m²", "80 à 200 m²", "200 à 500 m²", "Plus de 500 m²"]),
+   ("reco", "Créneau d'intervention", [
+     ("Nuit (après fermeture)", "Intervention nocturne : locaux opérationnels dès l'ouverture."),
+     ("Après-service", "Remise en état immédiate après le dernier couvert."),
+     ("Avant-ouverture", "Mise en propreté juste avant l'accueil des clients."),
+   ]),
+   ("select", "Fréquence", ["Quotidienne", "Plusieurs fois/semaine", "Hebdomadaire", "Ponctuelle"]),
+  ],
+  "targets": ["Restaurants & brasseries", "Lounges & bars", "Hôtels & resorts", "Traiteurs & food-courts", "Franchises CHR"],
+ },
+ "espaces-specifiques": {
+  "eyebrow": "ERP · Événementiel · Forte affluence",
+  "accroche": "Des lieux à forte fréquentation entretenus avec des protocoles dédiés : confort, sécurité et image.",
+  "intro": [
+   "Salles de cinéma, de conférence, de spectacle, espaces événementiels : ces <strong>établissements recevant du public (ERP)</strong> imposent des contraintes de <strong>forte fréquentation</strong> et de <strong>rotation rapide</strong>. Nous y répondons par des protocoles dédiés et une logistique de <strong>remise en état express entre deux événements</strong>.",
+   "Désinfection des sièges et points de contact, gestion des déchets en volume, nettoyage des sols techniques et des grandes surfaces vitrées, traitement des sanitaires à fort passage : tout est calibré pour la sécurité et le confort du public.",
+  ],
+  "points": [
+   ("shield", "Protocoles ERP", "Conformes aux exigences des établissements recevant du public."),
+   ("refresh", "Remise en état express", "Rotation rapide entre deux séances ou événements."),
+   ("broom", "Gestion de volume", "Déchets, grandes surfaces, fort passage : logistique dimensionnée."),
+   ("sofa", "Désinfection sièges", "Points de contact et assises traités à chaque rotation."),
+  ],
+  "reco": ("Estimez votre rotation entre événements", "Type d'établissement", [
+   ("Salle de cinéma", "Remise en état express : ~20 à 40 min entre deux séances selon la capacité."),
+   ("Salle de conférence", "Réagencement + désinfection : prévoir ~30 à 60 min entre deux sessions."),
+   ("Salle de fête / réception", "Remise à blanc complète : ~2 à 4 h selon la surface et l'affluence."),
+   ("Espace événementiel", "Logistique sur mesure : équipe dimensionnée selon le programme."),
+  ]),
+  "fields": [
+   ("select", "Capacité d'accueil", ["Moins de 100", "100 à 300", "300 à 800", "Plus de 800"]),
+   ("select", "Fréquence d'événements", ["Quotidienne", "Hebdomadaire", "Mensuelle", "Ponctuelle"]),
+   ("select", "Grandes surfaces vitrées", ["Oui, importantes", "Modérées", "Peu / pas"]),
+   ("text", "Prochaine échéance", "Ex. événement le 15/07…"),
+  ],
+  "targets": ["Cinémas & lieux culturels", "Centres de conférence", "Salles de fête & réception", "Organisateurs d'événements", "Établissements ERP"],
+ },
+ "textiles-surfaces": {
+  "eyebrow": "Traitement technique · Profondeur",
+  "accroche": "La technicité du nettoyage en profondeur : redonner éclat et hygiène à vos textiles et revêtements.",
+  "intro": [
+   "Le traitement des textiles et surfaces dures relève d'une <strong>expertise machine</strong>. Selon le support, le protocole change : <strong>injection-extraction</strong> pour les moquettes et tapis, <strong>shampouinage</strong> et détachage pour canapés et fauteuils, <strong>désinfection vapeur</strong> pour les matelas, <strong>cristallisation</strong> et lustrage pour les sols durs.",
+   "Chaque fibre et chaque revêtement a sa chimie : nous sélectionnons le détergent, la température et la mécanique adaptés pour un résultat profond, sans agresser le matériau.",
+  ],
+  "points": [
+   ("droplet", "Injection-extraction", "Moquettes : pulvérisation d'une solution puis extraction immédiate des salissures."),
+   ("sofa", "Shampouinage textile", "Canapés, fauteuils, sièges : détachage et ravivage des fibres."),
+   ("shield", "Désinfection matelas", "Traitement anti-acariens et assainissement en profondeur."),
+   ("disc", "Cristallisation", "Sols durs (marbre, granito) : brillance et protection durables."),
+  ],
+  "reco": ("Diagnostic express : quel protocole pour votre support ?", "Votre support", [
+   ("Moquette / Tapis", "Protocole : injection-extraction — pulvérisation détergente puis extraction des salissures et de l'humidité."),
+   ("Canapé / fauteuil tissu", "Protocole : shampouinage + détachage — ravivage des fibres, séchage maîtrisé."),
+   ("Canapé / siège cuir", "Protocole : nettoyage doux + nourrissage du cuir, sans dessécher la matière."),
+   ("Matelas", "Protocole : aspiration profonde + désinfection vapeur, traitement anti-acariens."),
+   ("Sol dur (marbre / granito)", "Protocole : cristallisation + lustrage — brillance et protection durables."),
+   ("Carrelage & joints", "Protocole : décapage + protection des joints — éclat et hygiène retrouvés."),
+  ]),
+  "fields": [
+   ("select", "Quantité / surface", ["1 pièce / petit", "2 à 3 pièces", "Surface importante", "Lot / volume pro"]),
+   ("select", "Niveau d'encrassement", ["Léger", "Moyen", "Très encrassé"]),
+   ("text", "Précisions", "Ex. taches, matière, accès…"),
+  ],
+  "targets": ["Hôtels & résidences", "Bureaux & institutions", "Salles de réception", "Particuliers", "Syndics & gestionnaires"],
+ },
+}
+
+def build_service_pages():
+    slugs = list(SERVICES_DETAIL.keys())
+    for idx, slug in enumerate(slugs):
+        D = SERVICES_DETAIL[slug]
+        _, label, icon, desc, bullets = CATMAP[slug]
+        img = SVC_IMG[slug]
+
+        hero = """<section class="svc-hero">
+  <img class="svc-hero-bg" src="../img/services/%s" alt="" aria-hidden="true">
+  <div class="container">
+    <nav class="svc-crumb" aria-label="Fil d'Ariane"><a href="../index.html">Accueil</a><span>/</span><a href="../nos-services.html">Services</a><span>/</span><b>%s</b></nav>
+    <span class="nx-eyebrow">%s</span>
+    <h1>%s</h1>
+    <p class="lead">%s</p>
+    <div class="nx-hero-cta"><a class="btn-lime" href="#config">%s Configurer ma demande</a><a class="btn-secondary" href="https://wa.me/%s" target="_blank" rel="noopener noreferrer">%s WhatsApp</a></div>
+  </div>
+</section>""" % (img, label, D["eyebrow"], label, D["accroche"], ico("send"), SITE["wa"], ico("message"))
+
+        pts = "".join('<article class="nx-feature reveal%s"><span class="nx-ico is-lime">%s</span><div><h3>%s</h3><p>%s</p></div></article>' % (" d%d" % (k % 3) if k % 3 else "", ico(ic), t, d) for k, (ic, t, d) in enumerate(D["points"]))
+        intro = "".join("<p>%s</p>" % p for p in D["intro"])
+        expertise = """<section class="section">
+  <div class="container">
+    <div class="svc-split">
+      <div class="reveal">
+        <span class="nx-eyebrow">Expertise technique</span>
+        <h2 class="section-title">%s</h2>
+        %s
+      </div>
+      <div class="nx-feature-list reveal d1">%s</div>
+    </div>
+  </div>
+</section>""" % (D["accroche"], intro, pts)
+
+        bl = "".join("<li>%s<span>%s</span></li>" % (ico("check"), b) for b in bullets)
+        presta = """<section class="section section-soft">
+  <div class="container">
+    <div class="svc-presta">
+      <div class="reveal">
+        <span class="nx-eyebrow">Ce que nous prenons en charge</span>
+        <h2 class="section-title">Prestations &amp; protocoles</h2>
+        <p class="section-copy">%s</p>
+        <ul class="nx-list">%s</ul>
+      </div>
+      <figure class="svc-presta-media reveal d1"><img src="../img/services/%s" alt="%s" loading="lazy"><figcaption>%s</figcaption></figure>
+    </div>
+  </div>
+</section>""" % (desc, bl, img, label, label)
+
+        # outil-métier : reco (select → résultat) ou checklist (cases + progression)
+        tool = ""
+        if "reco" in D:
+            rtitle, rlabel, ropts = D["reco"]
+            o = '<option value="">Choisir…</option>' + "".join('<option data-out="%s">%s</option>' % (out, lab) for lab, out in ropts)
+            tool = """<div class="svc-tool reveal" data-reco>
+  <div class="svc-tool-head"><span class="nx-ico is-navy">%s</span><h3>%s</h3></div>
+  <label class="nx-config-field"><span>%s</span><select class="nx-reco-select" data-field data-label="%s">%s</select></label>
+  <div class="nx-reco-out" hidden></div>
+</div>""" % (ico("target"), rtitle, rlabel, rlabel, o)
+        elif "checklist" in D:
+            ctitle, citems = D["checklist"]
+            checks = "".join('<label class="nx-check"><input type="checkbox" data-check data-group="%s" value="%s"><span>%s</span></label>' % (ctitle, it, it) for it in citems)
+            tool = """<div class="svc-tool reveal" data-checklist>
+  <div class="svc-tool-head"><span class="nx-ico is-navy">%s</span><h3>%s</h3></div>
+  <div class="nx-config-progress"><div class="nx-config-progress-bar"></div><span class="nx-config-progress-label">0 / %d</span></div>
+  <div class="nx-checks">%s</div>
+</div>""" % (ico("clipboard"), ctitle, len(citems), checks)
+
+        # configurateur → WhatsApp
+        ff = ""
+        for f in D["fields"]:
+            if f[0] == "select":
+                _, flab, opts = f
+                o = '<option value="">Choisir…</option>' + "".join("<option>%s</option>" % x for x in opts)
+                ff += '<label class="nx-config-field"><span>%s</span><select data-field data-label="%s">%s</select></label>' % (flab, flab, o)
+            elif f[0] == "text":
+                _, flab, ph = f
+                ff += '<label class="nx-config-field"><span>%s</span><input type="text" data-field data-label="%s" placeholder="%s"></label>' % (flab, flab, ph)
+            elif f[0] == "reco":
+                _, flab, ropts = f
+                o = '<option value="">Choisir…</option>' + "".join('<option data-out="%s">%s</option>' % (out, lab) for lab, out in ropts)
+                ff += '<label class="nx-config-field"><span>%s</span><select class="nx-reco-select" data-field data-label="%s">%s</select></label>' % (flab, flab, o)
+        config = """<section id="config" class="section">
+  <div class="container">
+    <div class="section-header reveal"><div class="section-heading">
+      <span class="nx-eyebrow">Configurateur express</span>
+      <h2 class="section-title">Préparez votre demande en 30 secondes</h2>
+      <p class="section-copy">Renseignez l'essentiel : nous générons un message WhatsApp pré-rempli. Vous validez, nous revenons vers vous avec un devis ferme en FCFA sous 24&nbsp;h.</p>
+    </div></div>
+    <div class="svc-config-wrap reveal">
+      %s
+      <form class="nx-config" data-service="%s" data-wa="%s">
+        <div class="nx-config-grid">%s</div>
+        <div class="nx-reco-out" hidden></div>
+        <div class="nx-config-actions">
+          <button type="button" class="btn-lime" data-wa-build>%s Préparer ma demande WhatsApp</button>
+          <a class="btn-secondary" href="../contact.html">%s Formulaire complet</a>
+        </div>
+        <p class="form-note">Aucun engagement : votre message s'ouvre dans WhatsApp, vous l'envoyez si vous le souhaitez.</p>
+      </form>
+    </div>
+  </div>
+</section>""" % (tool, label, SITE["wa"], ff, ico("message"), ico("send"))
+
+        tg = "".join('<li>%s<span>%s</span></li>' % (ico("badge"), t) for t in D["targets"])
+        # services connexes
+        others = ""
+        for j in (1, 2, 3):
+            os_ = slugs[(idx + j) % len(slugs)]
+            others += '<a class="svc-related-card" href="%s.html"><img src="../img/services/%s" alt="" loading="lazy"><span>%s %s</span></a>' % (os_, SVC_IMG[os_], CATMAP[os_][1], ico("arrow"))
+        target = """<section class="section section-soft">
+  <div class="container">
+    <div class="svc-split">
+      <div class="reveal">
+        <span class="nx-eyebrow">À qui s'adresse ce service</span>
+        <h2 class="section-title">Pensé pour vos enjeux</h2>
+        <p class="section-copy">Nous adaptons protocoles, fréquences et horaires à votre réalité — du particulier exigeant à l'institution la plus structurée.</p>
+        <ul class="nx-list nx-list-target">%s</ul>
+      </div>
+      <div class="reveal d1">
+        <h3 class="svc-related-title">Autres expertises</h3>
+        <div class="svc-related">%s</div>
+      </div>
+    </div>
+  </div>
+</section>""" % (tg, others)
+
+        body = hero + expertise + presta + config + target \
+            + cta(prefix="../", title="Un projet d'entretien %s ?" % label.lower(),
+                  text="Décrivez votre besoin : diagnostic, protocole sur mesure et devis clair en FCFA sous 24&nbsp;heures.")
+        title = "%s — Entretien professionnel | NEXUS DKS GROUP Cotonou" % label
+        meta = "%s à Cotonou : %s" % (label, desc[:120])
+        write("services/%s.html" % slug, head(title, meta, "services/%s.html" % slug, "page-service", prefix="../") + header("services", prefix="../") + body + footer(prefix="../"))
+
+
 # ============================================================ MAIN
 if __name__ == "__main__":
     build_home()
     build_services()
+    build_service_pages()
     build_offre()
     build_about()
     build_blog()
