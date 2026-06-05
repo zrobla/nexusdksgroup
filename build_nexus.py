@@ -453,6 +453,13 @@ def build_home():
   </div>
 </section>""".replace("__SEND__", ico("send")).replace("__CK__", ico("check")).replace("__I_SPARK__", ico("sparkle")).replace("__I_SHIELD__", ico("shield")).replace("__I_BLDG__", ico("building")).replace("__I_USERS__", ico("users")).replace("__I_TARGET__", ico("target")).replace("__I_DROP__", ico("droplet")).replace("__I_SPRAY__", ico("spray")).replace("__I_DISC__", ico("disc")).replace("__ARR__", ico("arrow"))
 
+    STATS = [
+        ("briefcase", "is-lime", "6", "domaines de prestations"),
+        ("target",    "is-navy", "0&nbsp;défaut", "objectif qualité"),
+        ("clock",     "is-gold", "24&nbsp;h", "votre devis en FCFA"),
+        ("users",     "is-lime", "100%", "équipes encadrées"),
+    ]
+    statbar = "".join('<div class="nx-statbar-item"><span class="nx-ico %s nx-ico-sm">%s</span><div><strong>%s</strong><span>%s</span></div></div>' % (cls, ico(name), num, lab) for name, cls, num, lab in STATS)
     pitch = """<section class="section compact">
   <div class="container">
     <div class="section-header reveal"><div class="section-heading">
@@ -478,8 +485,9 @@ def build_home():
         <div class="nx-hero-cta" style="margin-top:26px"><a class="btn-main" href="about.html">Découvrir notre méthode</a></div>
       </div>
     </div>
+    <div class="nx-statbar reveal">__STATBAR__</div>
   </div>
-</section>""".replace("__CK__", ico("check")).replace("__SPK__", ico("sparkle"))
+</section>""".replace("__CK__", ico("check")).replace("__SPK__", ico("sparkle")).replace("__STATBAR__", statbar)
 
     # prestations (6 catégories) — cartes photo immersives (image dédiée par service)
     SERVICE_IMG = {

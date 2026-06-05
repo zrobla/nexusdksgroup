@@ -556,6 +556,28 @@ h1, h2, h3, h4, h5,
 /* Présentation : image à gauche épousant la hauteur du texte (jamais « trop longue ») */
 .nx-why-inline { align-items: stretch; }
 .nx-why-inline .nx-figure { min-height: 320px; }
+
+/* Barre de chiffres-preuves — affinée, faible hauteur */
+.nx-statbar {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    margin-top: 34px;
+    background: #fff; border: 1px solid var(--line); border-radius: var(--r-md);
+    overflow: hidden;
+}
+.nx-statbar-item {
+    display: flex; align-items: center; gap: 13px;
+    padding: 15px 20px; border-left: 1px solid var(--line);
+    transition: background 0.2s var(--ease);
+}
+.nx-statbar-item:first-child { border-left: none; }
+.nx-statbar-item:hover { background: var(--paper); }
+.nx-statbar-item .nx-ico-sm { flex: 0 0 40px; }
+.nx-statbar-item strong {
+    display: block; font-family: "Bricolage Grotesque", sans-serif;
+    font-size: 1.55rem; font-weight: 800; color: var(--indigo);
+    line-height: 1; letter-spacing: -0.02em;
+}
+.nx-statbar-item span { display: block; margin-top: 3px; color: var(--ink-soft); font-size: 0.82rem; line-height: 1.25; }
 .nx-figure {
     position: relative;
     border-radius: var(--r-lg);
@@ -959,6 +981,9 @@ h1, h2, h3, h4, h5,
 }
 @media (max-width: 600px) {
     .nx-grid.cols-2, .nx-grid.cols-3, .nx-grid.cols-4, .nx-method, .nx-formulas, .nx-stats { grid-template-columns: 1fr; }
+    .nx-statbar { grid-template-columns: repeat(2, 1fr); }
+    .nx-statbar-item:nth-child(odd) { border-left: none; }
+    .nx-statbar-item:nth-child(n+3) { border-top: 1px solid var(--line); }
     .nx-cta { padding: 36px 26px; }
     .site-logo-full { height: 44px; }
     .nx-hero { padding-top: calc(var(--header-height) + 40px); }
