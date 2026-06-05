@@ -467,6 +467,7 @@ def build_home():
       <h2 class="section-title">Nous ne faisons pas que nettoyer, <span class="nx-mark">nous valorisons vos espaces.</span></h2>
       <p class="section-copy">NEXUS DKS GROUP — ENTRETIEN est une entreprise spécialisée dans les services d'entretien professionnel à Cotonou et ses environs. Notre conviction : faire de l'entretien professionnel une norme, et non un luxe. Un environnement propre, c'est une image renforcée, une santé préservée et une tranquillité retrouvée.</p>
     </div></div>
+    <div class="nx-statbar reveal">__STATBAR__</div>
     <div class="nx-split nx-why-inline">
       <div class="nx-figure reveal">
         <img src="img/people/agente-cover.jpg" alt="Agente d'entretien NEXUS DKS GROUP">
@@ -485,7 +486,6 @@ def build_home():
         <div class="nx-hero-cta" style="margin-top:26px"><a class="btn-main" href="about.html">Découvrir notre méthode</a></div>
       </div>
     </div>
-    <div class="nx-statbar reveal">__STATBAR__</div>
   </div>
 </section>""".replace("__CK__", ico("check")).replace("__SPK__", ico("sparkle")).replace("__STATBAR__", statbar)
 
