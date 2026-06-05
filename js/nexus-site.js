@@ -422,7 +422,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    var partnerRails = document.querySelectorAll(".partners-grid[data-partners-carousel]");
+    var partnerRails = document.querySelectorAll("[data-partners-carousel]");
     if (partnerRails.length) {
         var reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 

@@ -598,6 +598,31 @@ h1, h2, h3, h4, h5,
     line-height: 1; letter-spacing: -0.02em;
 }
 .nx-statbar-item span { display: block; margin-top: 3px; color: var(--ink-soft); font-size: 0.82rem; line-height: 1.25; }
+
+/* Marquee équipements — défilement continu premium, fondu des bords */
+.nx-marquee {
+    display: flex; gap: 22px;
+    margin-top: 38px; padding: 8px clamp(20px, 5vw, 80px);
+    overflow-x: auto; scrollbar-width: none;
+    cursor: grab; scroll-behavior: auto;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+}
+.nx-marquee::-webkit-scrollbar { display: none; }
+.nx-marquee.is-dragging { cursor: grabbing; }
+.nx-marquee-card {
+    flex: 0 0 auto; width: 250px;
+    background: #fff; border: 1px solid var(--line); border-radius: var(--r-lg);
+    overflow: hidden; box-shadow: var(--shadow-sm);
+    transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease), border-color 0.3s var(--ease);
+}
+.nx-marquee-card:hover { transform: translateY(-5px); box-shadow: var(--shadow); border-color: rgba(43, 51, 140, 0.18); }
+.nx-marquee-media { aspect-ratio: 4 / 3; overflow: hidden; background: var(--paper-2); }
+.nx-marquee-media img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.55s var(--ease); }
+.nx-marquee-card:hover .nx-marquee-media img { transform: scale(1.07); }
+.nx-marquee-cap { display: flex; align-items: center; gap: 11px; padding: 14px 16px; }
+.nx-marquee-cap .nx-ico-sm { flex: 0 0 36px; width: 36px; height: 36px; }
+.nx-marquee-cap > span:last-child { font-weight: 700; color: var(--ink); font-size: 0.95rem; line-height: 1.25; }
 .nx-figure {
     position: relative;
     border-radius: var(--r-lg);

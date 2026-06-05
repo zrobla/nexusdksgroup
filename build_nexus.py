@@ -526,8 +526,8 @@ def build_home():
 
     # équipements
     eq = ""
-    for i, (img, name, icon, d) in enumerate(EQUIP):
-        eq += '<article class="nx-equip reveal%s"><div class="nx-equip-media"><img src="img/equip/%s" alt="%s" loading="lazy"></div><div class="nx-equip-cap">%s</div></article>\n' % (" d%d" % (i % 3) if i % 3 else "", img, name, name)
+    for (img, name, icon, d) in EQUIP:
+        eq += '<article class="nx-marquee-card"><div class="nx-marquee-media"><img src="img/equip/%s" alt="%s" loading="lazy"></div><div class="nx-marquee-cap"><span class="nx-ico is-lime nx-ico-sm">%s</span><span>%s</span></div></article>\n' % (img, name, ico(icon), name)
     equip = """<section class="section section-soft">
   <div class="container">
     <div class="section-header reveal"><div class="section-heading">
@@ -535,8 +535,8 @@ def build_home():
       <h2 class="section-title">Un matériel professionnel pour un résultat professionnel</h2>
       <p class="section-copy">Aspiration industrielle, injection-extraction, monobrosse, haute pression et gammes de produits spécialisés : chaque support reçoit le traitement qu'il mérite.</p>
     </div></div>
-    <div class="nx-grid cols-3">%s</div>
   </div>
+  <div class="nx-marquee" data-partners-carousel role="list" aria-label="Nos équipements professionnels">%s</div>
 </section>""" % eq
 
     # méthode
