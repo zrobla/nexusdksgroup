@@ -1,0 +1,16 @@
+# Sources lourdes (médias bruts du client) — non versionnées
+photo_*.jpg
+video_*.mp4
+description activités.txt
+# Zone de dépôt d'images brutes (non utilisées telles quelles dans le site)
+new _images/
+# Config locale d'outillage
+.claude/
+# Artefact ImageMagick accidentel
+info:-
+# Outils / divers
+__pycache__/
+*.pyc
+.DS_Store
+*.pdf
+BROCHURE NEXUS.pdf
