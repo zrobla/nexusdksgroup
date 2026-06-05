@@ -561,8 +561,7 @@ h1, h2, h3, h4, h5,
 /* Barre de chiffres-preuves — affinée, faible hauteur */
 .nx-statbar {
     display: grid; grid-template-columns: repeat(4, 1fr);
-    margin-top: 34px;
-    transform: translateY(-5px);
+    margin: 32px 0;
     background: #fff; border: 1px solid var(--line); border-radius: var(--r-md);
     overflow: hidden;
 }
