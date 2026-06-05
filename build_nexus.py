@@ -476,17 +476,29 @@ def build_home():
   </div>
 </section>""".replace("__PILLARS__", pillars)
 
-    # prestations (6 catégories)
+    # prestations (6 catégories) — cartes photo immersives (image dédiée par service)
+    SERVICE_IMG = {
+        "entreprises-bureaux":  "hero-entreprises.jpg",
+        "fin-de-chantier":      "btp-finition.jpg",
+        "residences":           "immobilier.jpg",
+        "restaurants-lounges":  "entretien.jpg",            # provisoire — image resto/lounge à fournir
+        "espaces-specifiques":  "entretien-equipement.jpg",  # provisoire — image salle/ERP à fournir
+        "textiles-surfaces":    "hero-bionettoyage.jpg",     # provisoire — image textiles à affiner
+    }
     cards = ""
     for i, (slug, label, icon, desc, bullets) in enumerate(CATS):
         d = " d%d" % (i % 3) if i % 3 else ""
-        cards += """<article class="nx-card reveal%s" id="%s">
-  <span class="nx-ico is-lime">%s</span>
-  <h3>%s</h3>
-  <p>%s</p>
-  <a class="nx-blog-link" href="nos-services.html#%s">En savoir plus %s</a>
+        img = SERVICE_IMG.get(slug, "entretien.jpg")
+        cards += """<article class="nx-card-photo reveal%s" id="%s">
+  <img class="nx-card-photo-bg" src="img/services/%s" alt="" aria-hidden="true" loading="lazy">
+  <div class="nx-card-photo-body">
+    <h3>%s</h3>
+    <p>%s</p>
+    <span class="nx-card-photo-link">En savoir plus %s</span>
+  </div>
+  <a class="nx-card-photo-cover" href="nos-services.html#%s" aria-label="En savoir plus : %s"></a>
 </article>
-""" % (d, slug, ico(icon), label, desc, slug, ico("arrow"))
+""" % (d, slug, img, label, desc, ico("arrow"), slug, label)
     prestations = """<section id="services" class="section section-soft">
   <div class="container">
     <div class="section-header reveal"><div class="section-heading">

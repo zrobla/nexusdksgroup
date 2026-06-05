@@ -295,6 +295,78 @@ h1, h2, h3, h4, h5,
 .nx-card p { margin: 0; color: var(--ink-soft); }
 .nx-card .nx-list { margin-top: auto; }
 
+/* ---- Cartes services « photo immersive » (accueil) ---- */
+.nx-card-photo {
+    position: relative;
+    display: flex;
+    min-height: 360px;
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    isolation: isolate;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease);
+}
+.nx-card-photo-bg {
+    position: absolute; inset: 0; z-index: -2;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s var(--ease);
+}
+/* voile dégradé permanent — lisibilité du texte */
+.nx-card-photo::after {
+    content: "";
+    position: absolute; inset: 0; z-index: -1;
+    background: linear-gradient(to top, rgba(7, 11, 78, 0.92) 0%, rgba(7, 11, 78, 0.6) 38%, rgba(7, 11, 78, 0.12) 72%, rgba(7, 11, 78, 0.04) 100%);
+    transition: background 0.35s var(--ease);
+}
+.nx-card-photo-body {
+    position: relative;
+    margin-top: auto;
+    padding: 26px 24px;
+    color: #fff;
+}
+/* filet lime signature, déployé au survol */
+.nx-card-photo-body::before {
+    content: "";
+    position: absolute; left: 24px; bottom: 0;
+    height: 3px; width: 0;
+    background: var(--lime);
+    transition: width 0.4s var(--ease);
+}
+.nx-card-photo-body h3 { margin: 0; color: #fff; font-size: 1.3rem; font-weight: 800; line-height: 1.2; }
+.nx-card-photo-body p {
+    margin: 0; color: rgba(255, 255, 255, 0.84);
+    font-size: 0.93rem; line-height: 1.5;
+    max-height: 0; opacity: 0; overflow: hidden;
+    transition: max-height 0.45s var(--ease), opacity 0.35s var(--ease), margin 0.45s var(--ease);
+}
+.nx-card-photo-link {
+    display: inline-flex; align-items: center; gap: 8px;
+    margin-top: 14px;
+    color: var(--lime-bright); font-weight: 700; font-size: 0.92rem;
+    opacity: 0; transform: translateY(8px);
+    transition: opacity 0.35s var(--ease) 0.05s, transform 0.35s var(--ease) 0.05s;
+}
+.nx-card-photo-link .nx-svg { width: 18px; height: 18px; }
+/* lien couvrant : toute la carte est cliquable */
+.nx-card-photo-cover { position: absolute; inset: 0; z-index: 1; }
+/* états actifs (survol + focus clavier) */
+.nx-card-photo:hover, .nx-card-photo:focus-within { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
+.nx-card-photo:hover .nx-card-photo-bg, .nx-card-photo:focus-within .nx-card-photo-bg { transform: scale(1.07); }
+.nx-card-photo:hover::after, .nx-card-photo:focus-within::after {
+    background: linear-gradient(to top, rgba(7, 11, 78, 0.95) 0%, rgba(7, 11, 78, 0.72) 45%, rgba(7, 11, 78, 0.3) 100%);
+}
+.nx-card-photo:hover .nx-card-photo-body p, .nx-card-photo:focus-within .nx-card-photo-body p {
+    max-height: 9rem; opacity: 1; margin-top: 10px;
+}
+.nx-card-photo:hover .nx-card-photo-link, .nx-card-photo:focus-within .nx-card-photo-link { opacity: 1; transform: none; }
+.nx-card-photo:hover .nx-card-photo-body::before, .nx-card-photo:focus-within .nx-card-photo-body::before { width: 40px; }
+/* tactile (pas de survol) : tout est affiché d'emblée */
+@media (hover: none) {
+    .nx-card-photo-body p { max-height: 9rem; opacity: 1; margin-top: 10px; }
+    .nx-card-photo-link { opacity: 1; transform: none; }
+}
+
 .nx-list { list-style: none; margin: 6px 0 0; padding: 0; display: grid; gap: 10px; }
 .nx-list li { display: flex; align-items: flex-start; gap: 10px; color: var(--ink-soft); font-size: 0.97rem; }
 .nx-list li .nx-svg { width: 18px; height: 18px; color: var(--lime-deep); margin-top: 3px; flex: 0 0 auto; }
