@@ -453,6 +453,18 @@ def build_home():
   </div>
 </section>""".replace("__SEND__", ico("send")).replace("__CK__", ico("check")).replace("__I_SPARK__", ico("sparkle")).replace("__I_SHIELD__", ico("shield")).replace("__I_BLDG__", ico("building")).replace("__I_USERS__", ico("users")).replace("__I_TARGET__", ico("target")).replace("__I_DROP__", ico("droplet")).replace("__I_SPRAY__", ico("spray")).replace("__I_DISC__", ico("disc")).replace("__ARR__", ico("arrow"))
 
+    PILLARS = [
+        ("briefcase", "is-lime", "6", "domaines de prestations couverts"),
+        ("target",    "is-navy", "0&nbsp;défaut", "objectif qualité après chaque passage"),
+        ("clock",     "is-gold", "24&nbsp;h", "pour recevoir votre devis en FCFA"),
+        ("users",     "is-lime", "100%", "équipes formées &amp; encadrées"),
+    ]
+    pillars = "".join(
+        '<article class="nx-pillar reveal"><span class="nx-pillar-ico nx-ico %s">%s</span>'
+        '<strong class="nx-pillar-num">%s</strong><span class="nx-pillar-label">%s</span></article>'
+        % (cls, ico(name), num, label)
+        for name, cls, num, label in PILLARS
+    )
     pitch = """<section class="section compact">
   <div class="container">
     <div class="section-header reveal"><div class="section-heading">
@@ -460,14 +472,9 @@ def build_home():
       <h2 class="section-title">Nous ne faisons pas que nettoyer, <span class="nx-mark">nous valorisons vos espaces.</span></h2>
       <p class="section-copy">NEXUS DKS GROUP — ENTRETIEN est une entreprise spécialisée dans les services d'entretien professionnel à Cotonou et ses environs. Notre conviction : faire de l'entretien professionnel une norme, et non un luxe. Un environnement propre, c'est une image renforcée, une santé préservée et une tranquillité retrouvée.</p>
     </div></div>
-    <div class="nx-stats reveal">
-      <div class="nx-stat"><strong>6</strong><span>domaines de prestations couverts</span></div>
-      <div class="nx-stat"><strong>0&nbsp;défaut</strong><span>objectif qualité après chaque passage</span></div>
-      <div class="nx-stat"><strong>24&nbsp;h</strong><span>pour recevoir votre devis en FCFA</span></div>
-      <div class="nx-stat"><strong>100%</strong><span>équipes formées &amp; encadrées</span></div>
-    </div>
+    <div class="nx-pillars reveal">__PILLARS__</div>
   </div>
-</section>"""
+</section>""".replace("__PILLARS__", pillars)
 
     # prestations (6 catégories)
     cards = ""
