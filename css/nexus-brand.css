@@ -469,6 +469,9 @@ h1, h2, h3, h4, h5,
 .nx-step p { margin: 0; color: var(--ink-soft); font-size: 0.95rem; }
 
 /* ---------------------------------------------------------- Cibles B2C / B2B */
+/* Témoignages « imbriqués » sous les cartes audience (continuité de fond + espacement resserré) */
+.nx-tuck-b { padding-bottom: 30px; }
+.nx-tuck-t { padding-top: 6px; }
 .nx-audience { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; }
 .nx-aud {
     position: relative;

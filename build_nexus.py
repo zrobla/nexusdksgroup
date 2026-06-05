@@ -582,7 +582,7 @@ def build_home():
 </section>""" % eq
 
     # audience B2C/B2B
-    audience = """<section class="section section-soft">
+    audience = """<section class="section section-soft nx-tuck-b">
   <div class="container">
     <div class="section-header reveal"><div class="section-heading">
       <span class="nx-eyebrow">À qui nous nous adressons</span>
@@ -604,7 +604,7 @@ def build_home():
     qc = ""
     for i, (txt, who, role, ini) in enumerate(quotes):
         qc += '<article class="nx-quote reveal%s"><p>« %s »</p><div class="nx-quote-by"><span class="nx-avatar">%s</span><div><strong>%s</strong><br><span>%s</span></div></div></article>\n' % (" d%d" % (i % 3) if i % 3 else "", txt, ini, who, role)
-    testi = """<section class="section">
+    testi = """<section class="section section-soft nx-tuck-t">
   <div class="container">
     <div class="section-header reveal"><div class="section-heading">
       <span class="nx-eyebrow">Ils nous font confiance</span>
@@ -634,7 +634,7 @@ def build_home():
   </div>
 </section>""" % (bc, ico("arrow"))
 
-    body = hero + pitch + prestations + audience + equip + testi + blog + cta() + contact_section()
+    body = hero + pitch + prestations + audience + testi + equip + blog + cta() + contact_section()
     title = "NEXUS DKS GROUP — Entretien professionnel à Cotonou (Bénin)"
     desc = "Entretien professionnel à Cotonou : bureaux, commerces, résidences, fin de chantier, restaurants, textiles. Équipes encadrées, matériel pro, devis en FCFA sous 24 h."
     write("index.html", head(title, desc, "index.html", "page-home") + header("home") + body + footer())
