@@ -1208,6 +1208,47 @@ SERVICES_DETAIL = {
  },
 }
 
+# Précision technique par déclinaison (alignée sur l'ordre des bullets de CATS).
+# Enrichit la liste sur la page dédiée sans alourdir la carte de nos-services.
+SVC_TECH = {
+ "entreprises-bureaux": [
+  "Détergent-désinfectant virucide, temps de contact respecté, microfibre dédiée par zone.",
+  "Poignées, interrupteurs, ascenseurs : zones à fort risque tracées à chaque passage.",
+  "Détartrage et désinfection des sanitaires, réassort papier et savon planifié.",
+  "Cahier des charges, fréquences contractuelles et contrôle qualité après intervention.",
+ ],
+ "fin-de-chantier": [
+  "Tri et évacuation des gravats, emballages et chutes de chantier.",
+  "Décapage de la laitance ciment et retrait des adhésifs sans rayer les supports.",
+  "Raclette professionnelle, finition vitrages sans trace, dépoussiérage des menuiseries.",
+  "Contrôle poste par poste et levée des réserves avant remise des clés.",
+ ],
+ "residences": [
+  "Remise à neuf en profondeur, du haut vers le bas, sans re-salissure.",
+  "Passages planifiés (hebdo, bi-mensuel, mensuel) au rythme du foyer.",
+  "Produits adaptés à chaque support : parquet, marbre, inox, faïence.",
+  "Prise de rendez-vous rapide par téléphone ou WhatsApp.",
+ ],
+ "restaurants-lounges": [
+  "Dégraissants alimentaires sur plans, crédences, équipements et hottes.",
+  "Surfaces d'accueil, mobilier et vitrines soignés pour votre image.",
+  "Méthodes alignées sur les bonnes pratiques d'hygiène (HACCP).",
+  "Nuit, après-service ou avant-ouverture : zéro impact sur l'exploitation.",
+ ],
+ "espaces-specifiques": [
+  "Désinfection des sièges et points de contact à chaque rotation.",
+  "Remise à blanc des grandes surfaces et gestion des déchets en volume.",
+  "Conformité aux exigences des établissements recevant du public (ERP).",
+  "Logistique dimensionnée pour une rotation rapide entre deux événements.",
+ ],
+ "textiles-surfaces": [
+  "Injection de shampooing, détachage et ravivage des fibres, séchage maîtrisé.",
+  "Pulvérisation détergente puis extraction des salissures et de l'humidité.",
+  "Aspiration profonde et désinfection vapeur, traitement anti-acariens.",
+  "Cristallisation et lustrage du marbre : brillance et protection durables.",
+ ],
+}
+
 def build_service_pages():
     slugs = list(SERVICES_DETAIL.keys())
     for idx, slug in enumerate(slugs):
@@ -1241,7 +1282,14 @@ def build_service_pages():
   </div>
 </section>""" % (D["accroche"], intro, pts)
 
-        bl = "".join("<li>%s<span>%s</span></li>" % (ico("check"), b) for b in bullets)
+        techs = SVC_TECH.get(slug, [])
+        bl = ""
+        for k, b in enumerate(bullets):
+            t = techs[k] if k < len(techs) else ""
+            if t:
+                bl += '<li>%s<div class="nx-list-rich"><strong>%s</strong><em>%s</em></div></li>' % (ico("check"), b, t)
+            else:
+                bl += "<li>%s<span>%s</span></li>" % (ico("check"), b)
         presta = """<section class="section section-soft">
   <div class="container">
     <div class="svc-presta">
