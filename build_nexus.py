@@ -632,7 +632,7 @@ def build_home():
   </div>
 </section>""" % (bc, ico("arrow"))
 
-    body = hero + pitch + audience + prestations + equip + method + engage + testi + blog + cta() + contact_section()
+    body = hero + pitch + prestations + audience + equip + method + engage + testi + blog + cta() + contact_section()
     title = "NEXUS DKS GROUP — Entretien professionnel à Cotonou (Bénin)"
     desc = "Entretien professionnel à Cotonou : bureaux, commerces, résidences, fin de chantier, restaurants, textiles. Équipes encadrées, matériel pro, devis en FCFA sous 24 h."
     write("index.html", head(title, desc, "index.html", "page-home") + header("home") + body + footer())
