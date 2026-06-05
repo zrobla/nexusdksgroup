@@ -2,8 +2,8 @@
 photo_*.jpg
 video_*.mp4
 description activités.txt
-# Zone de dépôt d'images brutes (non utilisées telles quelles dans le site)
-new _images/
+# Zones de dépôt d'images brutes (non utilisées telles quelles dans le site)
+new _images*/
 # Config locale d'outillage
 .claude/
 # Artefact ImageMagick accidentel

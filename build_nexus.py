@@ -478,12 +478,12 @@ def build_home():
 
     # prestations (6 catégories) — cartes photo immersives (image dédiée par service)
     SERVICE_IMG = {
-        "entreprises-bureaux":  "hero-entreprises.jpg",
-        "fin-de-chantier":      "btp-finition.jpg",
-        "residences":           "immobilier.jpg",
-        "restaurants-lounges":  "entretien.jpg",            # provisoire — image resto/lounge à fournir
-        "espaces-specifiques":  "entretien-equipement.jpg",  # provisoire — image salle/ERP à fournir
-        "textiles-surfaces":    "hero-bionettoyage.jpg",     # provisoire — image textiles à affiner
+        "entreprises-bureaux":  "svc-bureaux.jpg",
+        "fin-de-chantier":      "svc-fin-chantier.jpg",
+        "residences":           "svc-residences.jpg",
+        "restaurants-lounges":  "svc-restaurants.jpg",
+        "espaces-specifiques":  "svc-espaces.jpg",
+        "textiles-surfaces":    "svc-textiles.jpg",
     }
     cards = ""
     for i, (slug, label, icon, desc, bullets) in enumerate(CATS):
