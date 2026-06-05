@@ -534,52 +534,6 @@ h1, h2, h3, h4, h5,
 .section-dark .nx-stat strong { color: var(--lime-bright); }
 .section-dark .nx-stat span { color: rgba(255, 255, 255, 0.7); }
 
-/* Piliers Présentation — cartes corporate premium */
-.nx-pillars { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; }
-.nx-pillar {
-    position: relative;
-    background: #fff;
-    border: 1px solid var(--line);
-    border-radius: var(--r-lg);
-    padding: 30px 26px 28px;
-    overflow: hidden;
-    isolation: isolate;
-    transition: transform 0.32s var(--ease), box-shadow 0.32s var(--ease), border-color 0.32s var(--ease);
-}
-/* filet d'accent supérieur, révélé au survol */
-.nx-pillar::before {
-    content: "";
-    position: absolute; top: 0; left: 0; right: 0; height: 3px;
-    background: linear-gradient(90deg, var(--indigo), var(--lime));
-    transform: scaleX(0); transform-origin: left;
-    transition: transform 0.45s var(--ease);
-}
-/* halo diffus en fond, apparaît au survol */
-.nx-pillar::after {
-    content: "";
-    position: absolute; z-index: -1;
-    right: -40px; top: -40px;
-    width: 150px; height: 150px; border-radius: 50%;
-    background: radial-gradient(circle, rgba(156, 198, 61, 0.16), transparent 70%);
-    opacity: 0; transition: opacity 0.4s var(--ease);
-}
-.nx-pillar:hover { transform: translateY(-6px); box-shadow: var(--shadow); border-color: rgba(43, 51, 140, 0.18); }
-.nx-pillar:hover::before { transform: scaleX(1); }
-.nx-pillar:hover::after { opacity: 1; }
-.nx-pillar-ico { width: 50px; height: 50px; border-radius: 14px; margin-bottom: 20px; transition: transform 0.32s var(--ease); }
-.nx-pillar:hover .nx-pillar-ico { transform: translateY(-2px) scale(1.05); }
-.nx-pillar-num {
-    display: block;
-    font-family: "Bricolage Grotesque", sans-serif;
-    font-size: 2.6rem; font-weight: 800;
-    color: var(--indigo); line-height: 1; letter-spacing: -0.02em;
-}
-.nx-pillar-label {
-    display: block; margin-top: 12px;
-    padding-top: 12px; border-top: 1px solid var(--line);
-    color: var(--ink-soft); font-size: 0.93rem; font-weight: 500; line-height: 1.45;
-}
-
 /* ------------------------------------------------------------------- Citation */
 .nx-quote {
     position: relative;
@@ -599,6 +553,9 @@ h1, h2, h3, h4, h5,
 /* --------------------------------------------------------------- Split média */
 .nx-split { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 44px; align-items: center; }
 .nx-split.reverse { grid-template-columns: 0.95fr 1.05fr; }
+/* Présentation : image à gauche épousant la hauteur du texte (jamais « trop longue ») */
+.nx-why-inline { align-items: stretch; }
+.nx-why-inline .nx-figure { min-height: 320px; }
 .nx-figure {
     position: relative;
     border-radius: var(--r-lg);
@@ -993,14 +950,15 @@ h1, h2, h3, h4, h5,
     .nav-dropdown-link { color: #fff; }
     .nav-cta { margin: 8px 0 0; justify-content: center; }
     .nx-hero-grid, .nx-split, .nx-split.reverse, .nx-audience, .showcase-grid { grid-template-columns: 1fr; }
+    .nx-why-inline .nx-figure { min-height: 0; aspect-ratio: 4 / 3; }
     .nx-grid.cols-3, .nx-grid.cols-4, .nx-method, .nx-formulas { grid-template-columns: repeat(2, 1fr); }
-    .nx-stats, .nx-pillars { grid-template-columns: repeat(2, 1fr); }
+    .nx-stats { grid-template-columns: repeat(2, 1fr); }
     .nx-hero::after { display: none; }
     .nx-hero-figure { min-height: 360px; margin-top: 20px; }
     .nx-hero-chip.tl { left: 0; } .nx-hero-chip.br { right: 0; }
 }
 @media (max-width: 600px) {
-    .nx-grid.cols-2, .nx-grid.cols-3, .nx-grid.cols-4, .nx-method, .nx-formulas, .nx-stats, .nx-pillars { grid-template-columns: 1fr; }
+    .nx-grid.cols-2, .nx-grid.cols-3, .nx-grid.cols-4, .nx-method, .nx-formulas, .nx-stats { grid-template-columns: 1fr; }
     .nx-cta { padding: 36px 26px; }
     .site-logo-full { height: 44px; }
     .nx-hero { padding-top: calc(var(--header-height) + 40px); }

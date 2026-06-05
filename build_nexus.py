@@ -453,18 +453,6 @@ def build_home():
   </div>
 </section>""".replace("__SEND__", ico("send")).replace("__CK__", ico("check")).replace("__I_SPARK__", ico("sparkle")).replace("__I_SHIELD__", ico("shield")).replace("__I_BLDG__", ico("building")).replace("__I_USERS__", ico("users")).replace("__I_TARGET__", ico("target")).replace("__I_DROP__", ico("droplet")).replace("__I_SPRAY__", ico("spray")).replace("__I_DISC__", ico("disc")).replace("__ARR__", ico("arrow"))
 
-    PILLARS = [
-        ("briefcase", "is-lime", "6", "domaines de prestations couverts"),
-        ("target",    "is-navy", "0&nbsp;défaut", "objectif qualité après chaque passage"),
-        ("clock",     "is-gold", "24&nbsp;h", "pour recevoir votre devis en FCFA"),
-        ("users",     "is-lime", "100%", "équipes formées &amp; encadrées"),
-    ]
-    pillars = "".join(
-        '<article class="nx-pillar reveal"><span class="nx-pillar-ico nx-ico %s">%s</span>'
-        '<strong class="nx-pillar-num">%s</strong><span class="nx-pillar-label">%s</span></article>'
-        % (cls, ico(name), num, label)
-        for name, cls, num, label in PILLARS
-    )
     pitch = """<section class="section compact">
   <div class="container">
     <div class="section-header reveal"><div class="section-heading">
@@ -472,9 +460,26 @@ def build_home():
       <h2 class="section-title">Nous ne faisons pas que nettoyer, <span class="nx-mark">nous valorisons vos espaces.</span></h2>
       <p class="section-copy">NEXUS DKS GROUP — ENTRETIEN est une entreprise spécialisée dans les services d'entretien professionnel à Cotonou et ses environs. Notre conviction : faire de l'entretien professionnel une norme, et non un luxe. Un environnement propre, c'est une image renforcée, une santé préservée et une tranquillité retrouvée.</p>
     </div></div>
-    <div class="nx-pillars reveal">__PILLARS__</div>
+    <div class="nx-split nx-why-inline">
+      <div class="nx-figure reveal">
+        <img src="img/people/agente-cover.jpg" alt="Agente d'entretien NEXUS DKS GROUP">
+        <span class="nx-figure-tag">__SPK__ Au service de votre image</span>
+      </div>
+      <div class="reveal d1">
+        <span class="nx-eyebrow">Pourquoi nous</span>
+        <h2 class="section-title">Choisir NEXUS DKS GROUP, c'est&hellip;</h2>
+        <p class="section-copy">Bien plus qu'un prestataire : un partenaire qui comprend que la propreté est un levier d'image, de bien-être et de productivité.</p>
+        <ul class="nx-list" style="margin-top:18px">
+          <li>__CK__<span><strong>Améliorer l'image de vos espaces</strong> — des lieux qui inspirent confiance, dès le premier regard.</span></li>
+          <li>__CK__<span><strong>Offrir un environnement sain et agréable</strong> — pour vos collaborateurs, vos clients, vos proches.</span></li>
+          <li>__CK__<span><strong>Gagner du temps et de l'efficacité</strong> — vous vous concentrez sur votre activité, nous gérons le reste.</span></li>
+          <li>__CK__<span><strong>Bénéficier d'un service professionnel structuré</strong> — protocoles, encadrement et contrôle qualité.</span></li>
+        </ul>
+        <div class="nx-hero-cta" style="margin-top:26px"><a class="btn-main" href="about.html">Découvrir notre méthode</a></div>
+      </div>
+    </div>
   </div>
-</section>""".replace("__PILLARS__", pillars)
+</section>""".replace("__CK__", ico("check")).replace("__SPK__", ico("sparkle"))
 
     # prestations (6 catégories) — cartes photo immersives (image dédiée par service)
     SERVICE_IMG = {
@@ -510,32 +515,6 @@ def build_home():
     <div style="text-align:center;margin-top:34px"><a class="btn-main" href="nos-services.html">Voir le détail des services %s</a></div>
   </div>
 </section>""" % (cards, ico("arrow"))
-
-    # pourquoi (split média agent dame)
-    why = """<section class="section">
-  <div class="container">
-    <div class="nx-split">
-      <div class="reveal">
-        <span class="nx-eyebrow">Pourquoi nous</span>
-        <h2 class="section-title">Choisir NEXUS DKS GROUP, c'est&hellip;</h2>
-        <p class="section-copy">Bien plus qu'un prestataire : un partenaire qui comprend que la propreté est un levier d'image, de bien-être et de productivité.</p>
-        <ul class="nx-list" style="margin-top:18px">
-          <li>__CK__<span><strong>Améliorer l'image de vos espaces</strong> — des lieux qui inspirent confiance, dès le premier regard.</span></li>
-          <li>__CK__<span><strong>Offrir un environnement sain et agréable</strong> — pour vos collaborateurs, vos clients, vos proches.</span></li>
-          <li>__CK__<span><strong>Gagner du temps et de l'efficacité</strong> — vous vous concentrez sur votre activité, nous gérons le reste.</span></li>
-          <li>__CK__<span><strong>Bénéficier d'un service professionnel structuré</strong> — protocoles, encadrement et contrôle qualité.</span></li>
-        </ul>
-        <div class="nx-hero-cta" style="margin-top:26px"><a class="btn-main" href="about.html">Découvrir notre méthode</a></div>
-      </div>
-      <div class="reveal d1">
-        <div class="nx-figure tall">
-          <img src="img/people/agente-cover.jpg" alt="Agente d'entretien NEXUS DKS GROUP">
-          <span class="nx-figure-tag">__SPK__ Au service de votre image</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>""".replace("__CK__", ico("check")).replace("__SPK__", ico("sparkle"))
 
     # équipements
     eq = ""
@@ -645,7 +624,7 @@ def build_home():
   </div>
 </section>""" % (bc, ico("arrow"))
 
-    body = hero + pitch + prestations + why + equip + method + engage + audience + testi + blog + cta() + contact_section()
+    body = hero + pitch + prestations + equip + method + engage + audience + testi + blog + cta() + contact_section()
     title = "NEXUS DKS GROUP — Entretien professionnel à Cotonou (Bénin)"
     desc = "Entretien professionnel à Cotonou : bureaux, commerces, résidences, fin de chantier, restaurants, textiles. Équipes encadrées, matériel pro, devis en FCFA sous 24 h."
     write("index.html", head(title, desc, "index.html", "page-home") + header("home") + body + footer())
