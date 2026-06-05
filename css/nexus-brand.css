@@ -555,8 +555,27 @@ h1, h2, h3, h4, h5,
 .nx-split.reverse { grid-template-columns: 0.95fr 1.05fr; }
 /* Présentation : image à gauche (carré, jamais « trop longue »), texte centré sur l'image */
 .nx-why-inline { align-items: center; }
-.nx-why-inline .nx-figure { aspect-ratio: 1 / 1; }
 .nx-why-inline > div:last-child { display: flex; flex-direction: column; justify-content: center; }
+/* Traitement premium éditorial de l'image */
+.nx-why-inline .nx-figure {
+    aspect-ratio: 1 / 1;
+    background: var(--navy);
+    box-shadow: 20px 20px 0 -2px rgba(156, 198, 61, 0.22), 0 30px 62px rgba(7, 11, 78, 0.3);
+    transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
+}
+.nx-why-inline .nx-figure img { transition: transform 0.75s var(--ease); }
+/* voile dégradé pour la profondeur + lisibilité de l'étiquette */
+.nx-why-inline .nx-figure::after {
+    content: ""; position: absolute; inset: 0; z-index: 1;
+    background: linear-gradient(to top, rgba(7, 11, 78, 0.34), transparent 46%);
+    pointer-events: none;
+}
+.nx-why-inline .nx-figure-tag { z-index: 2; }
+.nx-why-inline .nx-figure:hover {
+    transform: translateY(-5px);
+    box-shadow: 28px 28px 0 -2px rgba(156, 198, 61, 0.3), 0 40px 74px rgba(7, 11, 78, 0.34);
+}
+.nx-why-inline .nx-figure:hover img { transform: scale(1.06); }
 
 /* Barre de chiffres-preuves — affinée, faible hauteur */
 .nx-statbar {
