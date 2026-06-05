@@ -553,9 +553,10 @@ h1, h2, h3, h4, h5,
 /* --------------------------------------------------------------- Split média */
 .nx-split { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 44px; align-items: center; }
 .nx-split.reverse { grid-template-columns: 0.95fr 1.05fr; }
-/* Présentation : image à gauche épousant la hauteur du texte (jamais « trop longue ») */
-.nx-why-inline { align-items: stretch; }
-.nx-why-inline .nx-figure { min-height: 320px; }
+/* Présentation : image à gauche (carré, jamais « trop longue »), texte centré sur l'image */
+.nx-why-inline { align-items: center; }
+.nx-why-inline .nx-figure { aspect-ratio: 1 / 1; }
+.nx-why-inline > div:last-child { display: flex; flex-direction: column; justify-content: center; }
 
 /* Barre de chiffres-preuves — affinée, faible hauteur */
 .nx-statbar {
