@@ -535,8 +535,8 @@ def build_home():
       <h2 class="section-title">Un matériel professionnel pour un résultat professionnel</h2>
       <p class="section-copy">Aspiration industrielle, injection-extraction, monobrosse, haute pression et gammes de produits spécialisés : chaque support reçoit le traitement qu'il mérite.</p>
     </div></div>
+    <div class="nx-marquee" data-partners-carousel role="list" aria-label="Nos équipements professionnels">%s</div>
   </div>
-  <div class="nx-marquee" data-partners-carousel role="list" aria-label="Nos équipements professionnels">%s</div>
 </section>""" % eq
 
     # méthode

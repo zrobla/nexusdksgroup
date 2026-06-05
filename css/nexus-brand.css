@@ -602,7 +602,7 @@ h1, h2, h3, h4, h5,
 /* Marquee équipements — défilement continu premium, fondu des bords */
 .nx-marquee {
     display: flex; gap: 22px;
-    margin-top: 38px; padding: 14px clamp(20px, 6vw, 96px);
+    margin-top: 38px; padding: 14px 0;
     overflow-x: auto; overflow-y: hidden; scrollbar-width: none;
     cursor: grab; scroll-behavior: auto; user-select: none;
     -webkit-overflow-scrolling: touch;
