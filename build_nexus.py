@@ -369,6 +369,48 @@ def write(path, content):
     print("écrit:", path, "(%d Ko)" % (len(content) // 1024))
 
 
+# ---------------------------------------------------------- Sections partagées
+def section_method():
+    steps = ""
+    for i, (t, icon, d) in enumerate(METHOD):
+        steps += '<div class="nx-step reveal%s"><span class="nx-step-num"></span><h4>%s</h4><p>%s</p></div>\n' % (" d%d" % (i % 3) if i % 3 else "", t, d)
+    return """<section class="section">
+  <div class="container">
+    <div class="section-header reveal"><div class="section-heading">
+      <span class="nx-eyebrow">Notre méthode</span>
+      <h2 class="section-title">Chaque intervention suit un processus structuré</h2>
+    </div></div>
+    <div class="nx-method">%s</div>
+  </div>
+</section>""" % steps
+
+def section_engage():
+    return """<section class="section section-dark">
+  <div class="container">
+    <div class="nx-split">
+      <div class="reveal">
+        <span class="nx-eyebrow">Engagement qualité</span>
+        <h2 class="section-title">Objectif : <span class="nx-mark">0 défaut, 100% de satisfaction</span></h2>
+        <p class="section-copy">La qualité est au cœur de notre service. Nous ne livrons pas un passage, nous livrons une exigence — vérifiée, suivie et améliorée en continu.</p>
+        <ul class="nx-list" style="margin-top:18px">
+          <li>__CK__<span>Contrôle qualité systématique après chaque intervention</span></li>
+          <li>__CK__<span>Suivi de la satisfaction client et traçabilité des passages</span></li>
+          <li>__CK__<span>Démarche d'amélioration continue</span></li>
+        </ul>
+      </div>
+      <div class="reveal d1">
+        <div class="nx-grid cols-2" style="gap:16px">
+          <div class="nx-card" style="background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.1)"><span class="nx-ico is-navy">__I_CLOCK__</span><h3 style="color:#fff">Gain de temps</h3><p style="color:rgba(255,255,255,.74)">Vous vous concentrez sur votre cœur de métier.</p></div>
+          <div class="nx-card" style="background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.1)"><span class="nx-ico is-navy">__I_STAR__</span><h3 style="color:#fff">Meilleure image</h3><p style="color:rgba(255,255,255,.74)">Des espaces qui valorisent votre marque.</p></div>
+          <div class="nx-card" style="background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.1)"><span class="nx-ico is-navy">__I_LEAF__</span><h3 style="color:#fff">Environnement sain</h3><p style="color:rgba(255,255,255,.74)">Hygiène et bien-être au quotidien.</p></div>
+          <div class="nx-card" style="background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.1)"><span class="nx-ico is-navy">__I_SMILE__</span><h3 style="color:#fff">Tranquillité d'esprit</h3><p style="color:rgba(255,255,255,.74)">Un partenaire fiable, vraiment.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>""".replace("__CK__", ico("check")).replace("__I_CLOCK__", ico("clock")).replace("__I_STAR__", ico("star")).replace("__I_LEAF__", ico("leaf")).replace("__I_SMILE__", ico("smile"))
+
+
 # ============================================================ ACCUEIL
 def build_home():
     hero = """<section class="nx-hero nx-hero-slider" aria-roledescription="carrousel" aria-label="NEXUS DKS GROUP — présentation">
@@ -539,46 +581,6 @@ def build_home():
   </div>
 </section>""" % eq
 
-    # méthode
-    steps = ""
-    for i, (t, icon, d) in enumerate(METHOD):
-        steps += '<div class="nx-step reveal%s"><span class="nx-step-num"></span><h4>%s</h4><p>%s</p></div>\n' % (" d%d" % (i % 3) if i % 3 else "", t, d)
-    method = """<section class="section">
-  <div class="container">
-    <div class="section-header reveal"><div class="section-heading">
-      <span class="nx-eyebrow">Notre méthode</span>
-      <h2 class="section-title">Chaque intervention suit un processus structuré</h2>
-    </div></div>
-    <div class="nx-method">%s</div>
-  </div>
-</section>""" % steps
-
-    # engagement qualité (dark)
-    engage = """<section class="section section-dark">
-  <div class="container">
-    <div class="nx-split">
-      <div class="reveal">
-        <span class="nx-eyebrow">Engagement qualité</span>
-        <h2 class="section-title">Objectif : <span class="nx-mark">0 défaut, 100% de satisfaction</span></h2>
-        <p class="section-copy">La qualité est au cœur de notre service. Nous ne livrons pas un passage, nous livrons une exigence — vérifiée, suivie et améliorée en continu.</p>
-        <ul class="nx-list" style="margin-top:18px">
-          <li>__CK__<span>Contrôle qualité systématique après chaque intervention</span></li>
-          <li>__CK__<span>Suivi de la satisfaction client et traçabilité des passages</span></li>
-          <li>__CK__<span>Démarche d'amélioration continue</span></li>
-        </ul>
-      </div>
-      <div class="reveal d1">
-        <div class="nx-grid cols-2" style="gap:16px">
-          <div class="nx-card" style="background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.1)"><span class="nx-ico is-navy">__I_CLOCK__</span><h3 style="color:#fff">Gain de temps</h3><p style="color:rgba(255,255,255,.74)">Vous vous concentrez sur votre cœur de métier.</p></div>
-          <div class="nx-card" style="background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.1)"><span class="nx-ico is-navy">__I_STAR__</span><h3 style="color:#fff">Meilleure image</h3><p style="color:rgba(255,255,255,.74)">Des espaces qui valorisent votre marque.</p></div>
-          <div class="nx-card" style="background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.1)"><span class="nx-ico is-navy">__I_LEAF__</span><h3 style="color:#fff">Environnement sain</h3><p style="color:rgba(255,255,255,.74)">Hygiène et bien-être au quotidien.</p></div>
-          <div class="nx-card" style="background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.1)"><span class="nx-ico is-navy">__I_SMILE__</span><h3 style="color:#fff">Tranquillité d'esprit</h3><p style="color:rgba(255,255,255,.74)">Un partenaire fiable, vraiment.</p></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>""".replace("__CK__", ico("check")).replace("__I_CLOCK__", ico("clock")).replace("__I_STAR__", ico("star")).replace("__I_LEAF__", ico("leaf")).replace("__I_SMILE__", ico("smile"))
-
     # audience B2C/B2B
     audience = """<section class="section section-soft">
   <div class="container">
@@ -632,7 +634,7 @@ def build_home():
   </div>
 </section>""" % (bc, ico("arrow"))
 
-    body = hero + pitch + prestations + audience + equip + method + engage + testi + blog + cta() + contact_section()
+    body = hero + pitch + prestations + audience + equip + testi + blog + cta() + contact_section()
     title = "NEXUS DKS GROUP — Entretien professionnel à Cotonou (Bénin)"
     desc = "Entretien professionnel à Cotonou : bureaux, commerces, résidences, fin de chantier, restaurants, textiles. Équipes encadrées, matériel pro, devis en FCFA sous 24 h."
     write("index.html", head(title, desc, "index.html", "page-home") + header("home") + body + footer())
@@ -842,22 +844,6 @@ def build_about():
   </div>
 </section>""" % vc
 
-    # engagement + ce que nous apportons (reuse engage style light)
-    apport = """<section class="section">
-  <div class="container">
-    <div class="section-header reveal"><div class="section-heading">
-      <span class="nx-eyebrow">Ce que nous vous apportons</span>
-      <h2 class="section-title">Concrètement, vous y gagnez</h2>
-    </div></div>
-    <div class="nx-grid cols-4">
-      <article class="nx-card reveal">__I_CLOCK__<h3>Un gain de temps</h3><p>Vous vous concentrez sur votre activité, nous nous occupons du reste.</p></article>
-      <article class="nx-card reveal d1">__I_STAR__<h3>Une meilleure image</h3><p>Des espaces qui valorisent durablement votre marque et votre accueil.</p></article>
-      <article class="nx-card reveal d2">__I_LEAF__<h3>Un environnement sain</h3><p>Hygiène, confort et bien-être pour tous les occupants.</p></article>
-      <article class="nx-card reveal d3">__I_SMILE__<h3>La tranquillité d'esprit</h3><p>Un partenaire fiable, structuré et engagé sur la qualité.</p></article>
-    </div>
-  </div>
-</section>""".replace("__I_CLOCK__", '<span class="nx-ico is-lime">' + ico("clock") + '</span>').replace("__I_STAR__", '<span class="nx-ico is-lime">' + ico("star") + '</span>').replace("__I_LEAF__", '<span class="nx-ico is-lime">' + ico("leaf") + '</span>').replace("__I_SMILE__", '<span class="nx-ico is-lime">' + ico("smile") + '</span>')
-
     # autres activités du groupe
     oc = "".join('<article class="nx-card reveal"><span class="nx-ico">%s</span><h3>%s</h3><p>%s</p></article>\n' % (ico(icon), name, d) for name, icon, d in OTHER)
     other = """<section class="section section-dark">
@@ -872,7 +858,7 @@ def build_about():
   </div>
 </section>""" % oc
 
-    body = banner + presentation + valeurs + apport + other + cta()
+    body = banner + presentation + valeurs + section_engage() + section_method() + other + cta()
     title = "Notre Groupe | NEXUS DKS GROUP — Entretien & multiservices, Cotonou"
     desc = "NEXUS DKS GROUP : spécialiste de l'entretien professionnel à Cotonou, adossé à un groupe multiservices (BTP, immobilier, commerce, agro, événementiel, conseil)."
     write("about.html", head(title, desc, "about.html", "page-about") + header("about") + body + footer())
