@@ -562,6 +562,7 @@ h1, h2, h3, h4, h5,
 .nx-statbar {
     display: grid; grid-template-columns: repeat(4, 1fr);
     margin-top: 34px;
+    transform: translateY(-5px);
     background: #fff; border: 1px solid var(--line); border-radius: var(--r-md);
     overflow: hidden;
 }
