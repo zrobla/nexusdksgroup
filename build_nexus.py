@@ -158,15 +158,15 @@ ARTICLES = [
  ("bionettoyage-bureaux", "Hygiène pro",
   "Bionettoyage en entreprise : pourquoi les points de contact changent tout",
   "Poignées, interrupteurs, claviers, ascenseurs… Ces surfaces invisibles concentrent l'essentiel des transmissions. Décryptage d'une approche qui dépasse le simple nettoyage.",
-  "img/services/bandeau-supplies.jpg", "8 min"),
+  "img/services/blog-bionettoyage.jpg", "8 min"),
  ("fin-de-chantier-checklist", "Chantier",
   "Réussir le nettoyage de fin de chantier : la checklist d'une remise en état impeccable",
   "Entre la dernière finition et la remise des clés se joue la première impression. Voici la méthode pour livrer un espace « prêt à occuper », sans reprise.",
-  "img/equip/haute-pression.jpg", "7 min"),
+  "img/services/blog-fin-chantier.jpg", "7 min"),
  ("moquettes-injection-extraction", "Techniques",
   "Moquettes & textiles : injection-extraction ou shampouinage, que choisir ?",
   "Deux techniques, deux résultats. Comprendre leurs principes pour préserver vos revêtements et prolonger leur durée de vie.",
-  "img/equip/injecteur.jpg", "6 min"),
+  "img/services/blog-textiles.jpg", "6 min"),
 ]
 
 # ---------------------------------------------------------------- Chrome
