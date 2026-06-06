@@ -1286,33 +1286,33 @@ h1, h2, h3, h4, h5,
 /* === Desktop : tous les textes secondaires agrandis pour une lecture sans effort (mobile inchangé) === */
 @media (min-width: 992px) {
     /* listes à coches (Pourquoi nous, services, audience, offre, engagement…) */
-    .nx-list li { font-size: 1.22rem; line-height: 1.55; }
-    .nx-list li .nx-svg { width: 21px; height: 21px; margin-top: 4px; }
-    .nx-why-inline .nx-list li { font-size: 1.3rem; gap: 12px; }
+    .nx-list li { font-size: 1.4rem; line-height: 1.6; }
+    .nx-list li .nx-svg { width: 24px; height: 24px; margin-top: 5px; }
+    .nx-why-inline .nx-list li { font-size: 1.5rem; gap: 13px; }
     /* déclinaisons enrichies (pages services) */
-    .nx-list-rich strong { font-size: 1.18rem; }
-    .nx-list-rich em { font-size: 1.04rem; }
+    .nx-list-rich strong { font-size: 1.34rem; }
+    .nx-list-rich em { font-size: 1.2rem; }
     /* cartes (services accueil, valeurs, engagement, apports…) */
-    .nx-card p { font-size: 1.16rem; line-height: 1.6; }
-    .nx-card h3 { font-size: 1.32rem; }
+    .nx-card p { font-size: 1.32rem; line-height: 1.6; }
+    .nx-card h3 { font-size: 1.5rem; }
     /* cartes de services (photo immersive) */
-    .nx-card-photo-body p { font-size: 1.1rem; line-height: 1.55; }
+    .nx-card-photo-body p { font-size: 1.28rem; line-height: 1.5; }
     /* points d'expertise (pages services) */
-    .nx-feature h3 { font-size: 1.26rem; }
-    .nx-feature p { font-size: 1.14rem; line-height: 1.55; }
+    .nx-feature h3 { font-size: 1.45rem; }
+    .nx-feature p { font-size: 1.3rem; line-height: 1.55; }
     /* cibles B2C/B2B */
-    .nx-aud > p { font-size: 1.22rem; }
+    .nx-aud > p { font-size: 1.4rem; }
     /* témoignages */
-    .nx-quote p { font-size: 1.22rem; line-height: 1.6; }
+    .nx-quote p { font-size: 1.4rem; line-height: 1.6; }
     /* méthode */
-    .nx-step p { font-size: 1.12rem; }
+    .nx-step p { font-size: 1.28rem; }
     /* équipements (nos-services & marquee) */
-    .nx-marquee-cap > span:last-child { font-size: 1.14rem; }
-    .nx-equip-cap { font-size: 1.1rem; }
+    .nx-marquee-cap > span:last-child { font-size: 1.28rem; }
+    .nx-equip-cap { font-size: 1.26rem; }
     /* blog */
-    .nx-blog-body p { font-size: 1.16rem; line-height: 1.55; }
-    .nx-blog-body h3 { font-size: 1.4rem; }
-    .nx-blog-meta { font-size: 0.95rem; }
+    .nx-blog-body p { font-size: 1.32rem; line-height: 1.55; }
+    .nx-blog-body h3 { font-size: 1.6rem; }
+    .nx-blog-meta { font-size: 1.05rem; }
     /* barre de chiffres : libellés */
-    .nx-statbar-item span { font-size: 0.96rem; }
+    .nx-statbar-item span { font-size: 1.05rem; }
 }
