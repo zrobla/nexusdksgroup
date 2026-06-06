@@ -1068,10 +1068,33 @@ h1, h2, h3, h4, h5,
     .nx-statbar-item:nth-child(n+3) { border-top: 1px solid var(--line); }
     .nx-cta { padding: 36px 26px; }
     .site-logo-full { height: 44px; }
-    .nx-hero { padding-top: calc(var(--header-height) + 40px); }
-    .nx-hero-kpis { grid-template-columns: 1fr; }
-    .nx-hero-immersive { padding: 34px 22px; }
-    .nx-hero-controls { gap: 14px; margin-top: 26px; }
+    /* === Hero slider — expérience mobile soignée === */
+    .nx-hero { padding-top: calc(var(--header-height) + 28px); padding-bottom: 52px; }
+    .nx-hero-grid { gap: 22px; }
+    .nx-hero h1 { font-size: clamp(1.95rem, 8.5vw, 2.6rem); line-height: 1.08; margin-bottom: 14px; }
+    .nx-hero .lead { font-size: 1rem; margin-bottom: 22px; }
+    .nx-hero-cta { gap: 10px; }
+    .nx-hero-cta > a { flex: 1 1 100%; justify-content: center; }       /* boutons pleine largeur, tap facile */
+    .nx-hero-note { gap: 10px 16px; font-size: 0.84rem; margin-top: 20px; }
+    /* slide 1 : agent + cartouches maîtrisés (zéro débordement) */
+    .nx-hero-figure { min-height: 290px; margin-top: 6px; }
+    .nx-hero-figure img { max-height: 320px; }
+    .nx-hero-chip { padding: 8px 11px; font-size: 0.76rem; gap: 8px; border-radius: 12px; }
+    .nx-hero-chip .nx-ico { width: 30px; height: 30px; }
+    .nx-hero-chip small { font-size: 0.68rem; }
+    .nx-hero-chip.tl { top: 2%; left: 0; }
+    .nx-hero-chip.br { bottom: 4%; right: 0; }
+    /* slides immersives : compactes, texte aligné en haut → défilé vertical cohérent */
+    .nx-hero-immersive { min-height: 0; justify-content: flex-start; gap: 18px; padding: 30px 20px; border-radius: var(--r-md); }
+    .nx-hero-immersive-copy { max-width: 100%; }
+    .nx-hero-kpis { grid-template-columns: 1fr; gap: 9px; }
+    .nx-kpi { padding: 10px 13px; font-size: 0.88rem; }
+    .nx-kpi .nx-ico { width: 38px; height: 38px; flex-basis: 38px; }
+    /* contrôles tactiles plus généreux */
+    .nx-hero-controls { gap: 16px; margin-top: 22px; }
+    .nx-hero-arrow { width: 44px; height: 44px; }
+    .nx-hero-dot { width: 10px; height: 10px; }
+    .nx-hero-dot.is-active { width: 26px; }
 }
 
 /* ===================================================== PAGES SERVICES ===== */
