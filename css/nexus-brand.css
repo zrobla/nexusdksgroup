@@ -1064,8 +1064,6 @@ h1, h2, h3, h4, h5,
     .nav-cta { margin: 8px 0 0; justify-content: center; }
     .nx-hero-grid, .nx-split, .nx-split.reverse, .nx-audience, .showcase-grid { grid-template-columns: 1fr; }
     .nx-why-inline .nx-figure { min-height: 0; aspect-ratio: 4 / 3; }
-    /* en pile mobile : texte en flux normal (le centrage flex est réservé au desktop) */
-    .nx-why-inline > div:last-child { display: block; min-width: 0; }
     .nx-grid.cols-3, .nx-grid.cols-4, .nx-method, .nx-formulas { grid-template-columns: repeat(2, 1fr); }
     .nx-stats { grid-template-columns: repeat(2, 1fr); }
     .nx-hero::after { display: none; }
@@ -1077,6 +1075,11 @@ h1, h2, h3, h4, h5,
     .nx-statbar { grid-template-columns: repeat(2, 1fr); }
     .nx-statbar-item:nth-child(odd) { border-left: none; }
     .nx-statbar-item:nth-child(n+3) { border-top: 1px solid var(--line); }
+    /* robustesse écrans étroits : pas de débordement à droite (ex. Infinix Hot 50i) */
+    .nx-statbar-item { min-width: 0; padding: 13px 14px; gap: 10px; }
+    .nx-statbar-item .nx-ico-sm { flex: 0 0 34px; width: 34px; height: 34px; }
+    .nx-statbar-item strong { font-size: 1.35rem; }
+    .nx-statbar-item > div { min-width: 0; }
     .nx-cta { padding: 36px 26px; }
     .site-logo-full { height: 44px; }
     /* === Hero slider — expérience mobile soignée === */
@@ -1117,6 +1120,13 @@ h1, h2, h3, h4, h5,
     .nx-mrail:hover, .nx-mrail:focus-within { animation-play-state: paused; }
     .nx-mrail > * { flex: 0 0 80vw; max-width: 80vw; }
     .nx-mrail .reveal { opacity: 1; transform: none; }
+}
+
+/* Très petits écrans : barre de chiffres en 1 colonne (garantie anti-débordement) */
+@media (max-width: 380px) {
+    .nx-statbar { grid-template-columns: 1fr; }
+    .nx-statbar-item { border-left: none; border-top: 1px solid var(--line); }
+    .nx-statbar-item:first-child { border-top: none; }
 }
 
 /* ===================================================== PAGES SERVICES ===== */
