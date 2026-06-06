@@ -811,7 +811,8 @@ document.addEventListener("DOMContentLoaded", function () {
             var scope = form.closest(".svc-config-wrap") || form;
             var wa = form.getAttribute("data-wa");
             var service = form.getAttribute("data-service");
-            var lines = ["Bonjour NEXUS DKS GROUP,", "Je souhaite un devis pour : " + service + ".", ""];
+            var intro = form.getAttribute("data-wa-intro") || ("Je souhaite un devis pour : " + service + ".");
+            var lines = ["Bonjour NEXUS DKS GROUP,", intro, ""];
             scope.querySelectorAll("[data-field]").forEach(function (f) {
                 var val = (f.value || "").trim();
                 if (val) { lines.push("• " + f.getAttribute("data-label") + " : " + val); }
@@ -824,7 +825,8 @@ document.addEventListener("DOMContentLoaded", function () {
             Object.keys(groups).forEach(function (g) {
                 lines.push("• " + g + " : " + groups[g].join(", "));
             });
-            lines.push("", "Merci de me faire une proposition en FCFA.");
+            var outro = form.getAttribute("data-wa-outro") || "Merci de me faire une proposition en FCFA.";
+            lines.push("", outro);
             window.open("https://wa.me/" + wa + "?text=" + encodeURIComponent(lines.join("\n")), "_blank", "noopener");
         });
     });

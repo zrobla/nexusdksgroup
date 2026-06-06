@@ -25,7 +25,7 @@ SITE = {
 }
 
 # Version des assets (cache-busting) — à incrémenter à chaque modif CSS/JS.
-ASSETV = "20260606i"
+ASSETV = "20260606m"
 
 # ---------------------------------------------------------------- Icônes SVG
 _I = {
@@ -68,6 +68,10 @@ _I = {
  "down": '<path d="m6 9 6 6 6-6"/>',
  "scale": '<path d="M12 3v18M5 7h14M7 7l-3 7a3 3 0 0 0 6 0L7 7zM17 7l-3 7a3 3 0 0 0 6 0l-3-7z"/>',
  "link": '<path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/>',
+ "download": '<path d="M12 3v12m0 0 4-4m-4 4-4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/>',
+ "rocket": '<path d="M5 15c-1.5 1-2 4-2 4s3-.5 4-2a2.8 2.8 0 0 0-2-2z"/><path d="M9 15l-3-3c1-5 5-9 11-9 0 6-4 10-9 11z"/><circle cx="14.5" cy="9.5" r="1.5"/>',
+ "heart": '<path d="M12 20S4 14.5 4 9a4 4 0 0 1 8-1 4 4 0 0 1 8 1c0 5.5-8 11-8 11z"/>',
+ "graduation": '<path d="M2 9l10-4 10 4-10 4z"/><path d="M6 11v4c0 1.5 2.7 3 6 3s6-1.5 6-3v-4"/>',
 }
 def ico(name, cls=""):
     c = "nx-svg" + ((" " + cls) if cls else "")
@@ -277,9 +281,10 @@ __CATS__          <a href="__P__entretien-proprete.html">Offre &amp; formules</a
         </div>
         <div class="footer-nav"><h4>Le groupe</h4>
           <a href="__P__about.html">Notre Groupe</a>
+          <a href="__P__carrieres.html">Carrières</a>
           <a href="__P__blog.html">Blog</a>
           <a href="__P__contact.html">Contact</a>
-          <a href="__P__contact.html">Devis gratuit</a>
+          <a href="__P__nexus-dks-group-presentation.pdf" download>__I_DL__ Brochure (PDF)</a>
         </div>
         <div class="footer-nav"><h4>Contact</h4>
           <a href="tel:__T1H__">__I_PH__ __T1D__</a>
@@ -302,7 +307,7 @@ __CATS__          <a href="__P__entretien-proprete.html">Offre &amp; formules</a
    .replace("__S_WA__", SOCIAL["whatsapp"]).replace("__S_FB__", SOCIAL["facebook"]).replace("__S_IG__", SOCIAL["instagram"]).replace("__S_LI__", SOCIAL["linkedin"])\
    .replace("__T1H__", SITE["tel1_href"]).replace("__T1D__", SITE["tel1_disp"]).replace("__T2H__", SITE["tel2_href"]).replace("__T2D__", SITE["tel2_disp"])\
    .replace("__EMAIL__", SITE["email"]).replace("__ADDR__", SITE["addr"]).replace("__YEAR__", SITE["year"])\
-   .replace("__I_PH__", ico("phone")).replace("__I_ML__", ico("mail")).replace("__I_PIN__", ico("pin"))
+   .replace("__I_PH__", ico("phone")).replace("__I_ML__", ico("mail")).replace("__I_PIN__", ico("pin")).replace("__I_DL__", ico("download"))
 
 # ---------------------------------------------------------------- Sections réutilisables
 def cta(prefix="", title="Confiez-nous vos espaces dès aujourd'hui",
@@ -1034,19 +1039,129 @@ def build_articles():
 
 # ============================================================ CONTACT
 def build_contact():
-    banner = """<section class="page-banner" style="--banner-image:url('img/equip/produits.jpg')">
-  <div class="container"><div class="banner-shell reveal">
-    <span class="nx-eyebrow">Contact</span>
-    <h1>Demandez votre devis gratuit</h1>
-    <p class="lead">Un besoin d'entretien ponctuel ou un contrat régulier ? Décrivez-nous vos espaces : nous revenons vers vous sous 24&nbsp;heures.</p>
-    <div class="nx-hero-cta"><a class="btn-lime" href="tel:__T1H__">__PH__ __T1D__</a><a class="btn-secondary" href="https://wa.me/__WA__" target="_blank" rel="noopener noreferrer">__MSG__ WhatsApp</a></div>
-  </div></div>
+    banner = """<section class="contact-hero">
+  <div class="container">
+    <div class="contact-hero-grid">
+      <div class="reveal">
+        <span class="nx-eyebrow">Contact &amp; devis</span>
+        <h1>Demandez votre devis gratuit</h1>
+        <p class="lead">Un besoin d'entretien ponctuel ou un contrat régulier ? Décrivez-nous vos espaces : nous revenons vers vous sous 24&nbsp;heures.</p>
+        <div class="nx-hero-cta"><a class="btn-lime" href="tel:__T1H__">__PH__ __T1D__</a><a class="btn-secondary" href="https://wa.me/__WA__" target="_blank" rel="noopener noreferrer">__MSG__ WhatsApp</a></div>
+        <div class="nx-hero-note"><span>__CK__ Réponse sous 24&nbsp;h</span><span>__CK__ Devis en FCFA</span><span>__CK__ Cotonou &amp; tout le Bénin</span></div>
+      </div>
+      <figure class="contact-hero-card reveal d1">
+        <img src="img/brand/nexus-contact-card.jpg" alt="NEXUS DKS GROUP — matériel professionnel et coordonnées de contact" width="1100" height="1100">
+      </figure>
+    </div>
+  </div>
   <span class="nx-banner-rule"></span>
-</section>""".replace("__T1H__", SITE["tel1_href"]).replace("__T1D__", SITE["tel1_disp"]).replace("__WA__", SITE["wa"]).replace("__PH__", ico("phone")).replace("__MSG__", ico("message"))
+</section>""".replace("__T1H__", SITE["tel1_href"]).replace("__T1D__", SITE["tel1_disp"]).replace("__WA__", SITE["wa"]).replace("__PH__", ico("phone")).replace("__MSG__", ico("message")).replace("__CK__", ico("check"))
     body = banner + contact_section()
     title = "Contact &amp; devis | NEXUS DKS GROUP — Cotonou"
     desc = "Contactez NEXUS DKS GROUP à Cotonou pour un devis d'entretien : téléphone, WhatsApp, email. Réponse sous 24 h. C/34 Guinkomey, Cotonou (Bénin)."
     write("contact.html", head(title, desc, "contact.html", "page-contact") + header("contact") + body + footer())
+
+
+# ============================================================ CARRIÈRES
+def build_carrieres():
+    hero = """<section class="svc-hero svc-hero-article">
+  <img class="svc-hero-bg" src="img/services/hero-entreprises.jpg" alt="" aria-hidden="true">
+  <div class="container">
+    <span class="nx-eyebrow">Carrières · Recrutement</span>
+    <h1>Construisons ensemble la nouvelle norme du propre</h1>
+    <p class="lead">NEXUS DKS GROUP recrute des profils rigoureux, fiers du travail bien fait. Formation continue, encadrement et matériel professionnel : ici, l'entretien est un véritable métier d'expertise.</p>
+    <div class="nx-hero-cta"><a class="btn-lime" href="#postuler">__RKT__ Postuler en 1 minute</a><a class="btn-secondary" href="nexus-dks-group-presentation.pdf" download>__DL__ La brochure</a></div>
+  </div>
+</section>""".replace("__RKT__", ico("rocket")).replace("__DL__", ico("download"))
+
+    JOIN = [
+        ("graduation", "Formation continue", "Montée en compétence sur nos protocoles métier : bionettoyage, injection-extraction, HACCP, ERP."),
+        ("users", "Équipes encadrées", "Un cadre clair, des chefs d'équipe, des consignes précises — et le respect de chacun."),
+        ("spray", "Matériel professionnel", "Vous travaillez avec un équipement de niveau pro, pas avec les moyens du bord."),
+        ("target", "Évolution au mérite", "Le sérieux et la régularité ouvrent l'accès à des postes d'encadrement et de spécialiste."),
+    ]
+    feats = "".join('<article class="nx-feature reveal%s"><span class="nx-ico is-lime">%s</span><div><h3>%s</h3><p>%s</p></div></article>' % (" d%d" % (i % 3) if i % 3 else "", ico(ic), t, d) for i, (ic, t, d) in enumerate(JOIN))
+    why = """<section class="section">
+  <div class="container">
+    <div class="svc-split">
+      <div class="reveal">
+        <span class="nx-eyebrow">Pourquoi nous rejoindre</span>
+        <h2 class="section-title">Un métier d'expertise, un cadre qui fait grandir</h2>
+        <p class="section-copy">Chez NEXUS DKS GROUP, la propreté n'est pas un petit boulot : c'est une discipline. Nous formons, encadrons et équipons nos équipes pour qu'elles livrent une exigence — et en soient fières.</p>
+      </div>
+      <div class="nx-feature-list reveal d1">%s</div>
+    </div>
+  </div>
+</section>""" % feats
+
+    ROLES = [
+        ("Agent d'entretien", "broom", "Nettoyage courant et bionettoyage, sens du détail, ponctualité et discrétion."),
+        ("Chef d'équipe", "users", "Encadrement terrain, contrôle qualité et relation client de proximité."),
+        ("Technicien spécialisé", "droplet", "Injection-extraction, monobrosse, haute pression, nettoyage fin de chantier."),
+        ("Superviseur qualité", "badge", "Contrôle interne après exécution, traçabilité et amélioration continue."),
+        ("Commercial · Développement", "briefcase", "Prospection B2B, devis, suivi de comptes et partenariats institutionnels."),
+        ("Candidature spontanée", "heart", "Un autre profil fiable et motivé ? Présentez-vous : nous cherchons des talents."),
+    ]
+    rc = "".join('<article class="nx-card reveal%s"><span class="nx-ico is-lime">%s</span><h3>%s</h3><p>%s</p></article>\n' % (" d%d" % (i % 3) if i % 3 else "", ico(ic), t, d) for i, (t, ic, d) in enumerate(ROLES))
+    roles = """<section class="section section-soft">
+  <div class="container">
+    <div class="section-header reveal"><div class="section-heading">
+      <span class="nx-eyebrow">Profils recherchés</span>
+      <h2 class="section-title">Les talents qui font la différence</h2>
+      <p class="section-copy">Du terrain à l'encadrement, nous recrutons des personnes fiables, ponctuelles et exigeantes sur la qualité.</p>
+    </div></div>
+    <div class="nx-grid cols-3">%s</div>
+  </div>
+</section>""" % rc
+
+    fields = [
+        ("select", "Poste visé", ["Agent d'entretien", "Chef d'équipe", "Technicien spécialisé", "Superviseur qualité", "Commercial / Développement", "Candidature spontanée"]),
+        ("select", "Expérience", ["Débutant·e motivé·e", "1 à 3 ans", "3 à 5 ans", "Plus de 5 ans"]),
+        ("select", "Disponibilité", ["Immédiate", "Sous 2 semaines", "Sous 1 mois", "À convenir"]),
+        ("text", "Zone / quartier", "Ex. Cotonou, Calavi, Akpakpa…"),
+    ]
+    ff = ""
+    for f in fields:
+        if f[0] == "select":
+            _, flab, opts = f
+            o = '<option value="">Choisir…</option>' + "".join("<option>%s</option>" % x for x in opts)
+            ff += '<label class="nx-config-field"><span>%s</span><select data-field data-label="%s">%s</select></label>' % (flab, flab, o)
+        else:
+            _, flab, ph = f
+            ff += '<label class="nx-config-field"><span>%s</span><input type="text" data-field data-label="%s" placeholder="%s"></label>' % (flab, flab, ph)
+    config = """<section id="postuler" class="section">
+  <div class="container">
+    <div class="section-header reveal"><div class="section-heading">
+      <span class="nx-eyebrow">Postuler</span>
+      <h2 class="section-title">Déposez votre candidature en 30 secondes</h2>
+      <p class="section-copy">Renseignez l'essentiel : nous générons un message WhatsApp pré-rempli. Vous l'envoyez, notre équipe RH vous recontacte. Pensez à joindre votre CV dans la conversation.</p>
+    </div></div>
+    <div class="svc-config-wrap reveal">
+      <div class="svc-tool">
+        <div class="svc-tool-head"><span class="nx-ico is-navy">%s</span><h3>Pourquoi postuler chez nous ?</h3></div>
+        <ul class="nx-list" style="margin-top:4px">
+          <li>%s<span>Un employeur de droit béninois, structuré et fiable</span></li>
+          <li>%s<span>Formation, encadrement et matériel professionnel</span></li>
+          <li>%s<span>Des perspectives d'évolution au mérite</span></li>
+        </ul>
+      </div>
+      <form class="nx-config" data-service="Candidature" data-wa="%s" data-wa-intro="Je souhaite déposer ma candidature chez NEXUS DKS GROUP." data-wa-outro="Merci de me recontacter pour la suite du recrutement.">
+        <div class="nx-config-grid">%s</div>
+        <div class="nx-config-actions">
+          <button type="button" class="btn-lime" data-wa-build>%s Envoyer ma candidature par WhatsApp</button>
+          <a class="btn-secondary" href="contact.html">%s Nous écrire</a>
+        </div>
+        <p class="form-note">Aucun engagement : votre message s'ouvre dans WhatsApp, vous l'envoyez si vous le souhaitez.</p>
+      </form>
+    </div>
+  </div>
+</section>""" % (ico("heart"), ico("check"), ico("check"), ico("check"), SITE["wa"], ff, ico("message"), ico("send"))
+
+    body = hero + why + roles + config + cta(title="Envie de rejoindre l'aventure NEXUS&nbsp;?",
+        text="Postulez dès maintenant, ou téléchargez notre brochure de présentation pour mieux nous connaître.")
+    title = "Carrières & recrutement | NEXUS DKS GROUP — Cotonou (Bénin)"
+    desc = "Rejoignez NEXUS DKS GROUP, entreprise de droit béninois d'entretien professionnel à Cotonou : agents, chefs d'équipe, techniciens, superviseurs. Postulez par WhatsApp."
+    write("carrieres.html", head(title, desc, "carrieres.html", "page-carrieres") + header("") + body + footer())
 
 
 # ============================================================ 404
@@ -1430,5 +1545,6 @@ if __name__ == "__main__":
     build_blog()
     build_articles()
     build_contact()
+    build_carrieres()
     build_404()
     print("\n✅ Site NEXUS DKS GROUP — ENTRETIEN régénéré.")

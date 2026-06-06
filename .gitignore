@@ -14,3 +14,5 @@ __pycache__/
 .DS_Store
 *.pdf
 BROCHURE NEXUS.pdf
+# Exception : brochure de présentation téléchargeable (versionnée)
+!nexus-dks-group-presentation.pdf
