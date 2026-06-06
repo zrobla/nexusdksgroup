@@ -1262,7 +1262,19 @@ h1, h2, h3, h4, h5,
     transition: background 0.2s var(--ease), border-color 0.2s var(--ease);
 }
 .nx-check:hover { background: rgba(255, 255, 255, 0.09); }
-.nx-check input { accent-color: var(--lime); width: 17px; height: 17px; flex: 0 0 auto; }
+/* case dessinée en CSS (pas de widget natif : évite les bugs de rendu GPU de accent-color) */
+.nx-check input {
+    -webkit-appearance: none; appearance: none; margin: 0;
+    width: 19px; height: 19px; flex: 0 0 auto;
+    border: 2px solid rgba(255, 255, 255, 0.45); border-radius: 5px;
+    background: transparent; cursor: pointer; position: relative;
+}
+.nx-check input:checked { background: var(--lime); border-color: var(--lime); }
+.nx-check input:checked::after {
+    content: ""; position: absolute; left: 5px; top: 1px;
+    width: 5px; height: 9px; border: solid var(--navy); border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
 .nx-check.is-checked { background: rgba(156, 198, 61, 0.16); border-color: rgba(156, 198, 61, 0.45); }
 
 /* Configurateur */
@@ -1519,4 +1531,8 @@ h1, h2, h3, h4, h5,
     .svc-presta-media,
     .nx-aside-card,
     .contact-hero-card { box-shadow: 0 10px 24px rgba(8, 17, 60, 0.16) !important; }
+    /* checklist : aucune transition animée au cochage (mise à jour instantanée) */
+    .nx-check,
+    .nx-config-progress-bar,
+    .nx-config-progress-bar::before { transition: none !important; }
 }
