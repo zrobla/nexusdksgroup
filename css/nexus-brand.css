@@ -160,8 +160,8 @@ h1, h2, h3, h4, h5,
     font-family: "Bricolage Grotesque", sans-serif;
     font-weight: 600;
     font-size: 0.92rem;
-    letter-spacing: 0.02em;
-    text-transform: none;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
 }
 .nav-link:hover, .nav-link:focus, .nav-link.is-active,
 .nav-dropdown.is-open .nav-dropdown-toggle,
@@ -172,7 +172,8 @@ h1, h2, h3, h4, h5,
 }
 .nav-dropdown-menu { border-radius: var(--r-md); border-color: var(--line); }
 .nav-dropdown-link {
-    text-transform: none;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
     font-family: "Hanken Grotesk", sans-serif;
     font-weight: 700;
     color: var(--indigo);
@@ -1056,19 +1057,39 @@ h1, h2, h3, h4, h5,
 
 /* ------------------------------------------------------------- Responsive */
 @media (max-width: 991px) {
+    /* header au-dessus de tout le contenu */
+    .site-header { z-index: 1200; }
+    /* menu mobile : panneau qui descend du header, pleine largeur, opaque, au premier plan */
     .site-nav {
-        position: fixed; inset: var(--header-height) 0 0 auto;
-        width: min(86vw, 360px);
-        flex-direction: column; align-items: stretch; gap: 4px;
-        padding: 22px; background: var(--navy);
-        border-left: 1px solid rgba(255,255,255,0.1);
-        transform: translateX(110%); transition: transform 0.35s var(--ease);
-        overflow-y: auto;
+        position: fixed; top: var(--header-height); left: 0; right: 0; bottom: auto;
+        z-index: 1200;
+        display: flex !important; flex-direction: column; align-items: stretch; gap: 4px;
+        width: auto; min-width: 0; padding: 16px 20px 26px;
+        background: var(--navy);
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 0 0 18px 18px;
+        box-shadow: 0 26px 44px rgba(4, 6, 40, 0.45);
+        max-height: calc(100vh - var(--header-height)); overflow-y: auto;
+        transform: translateY(-14px); opacity: 0; visibility: hidden;
+        transition: opacity 0.28s var(--ease), transform 0.28s var(--ease), visibility 0s linear 0.28s;
     }
-    .site-header.is-open .site-nav { transform: translateX(0); }
+    .site-header.is-open .site-nav {
+        transform: translateY(0); opacity: 1; visibility: visible;
+        transition: opacity 0.28s var(--ease), transform 0.28s var(--ease);
+    }
     .menu-toggle { display: inline-flex; }
-    .nav-dropdown-menu { position: static; opacity: 1; pointer-events: auto; transform: none; box-shadow: none; background: rgba(255,255,255,0.05); display: none; min-width: 0; }
-    .nav-dropdown.is-open .nav-dropdown-menu { display: grid; }
+    /* menu déroulant mobile : UN seul accordéon (annule le conflit display/max-height) */
+    .nav-dropdown-menu {
+        position: static; display: grid; min-width: 0;
+        max-height: 0; overflow: hidden;
+        opacity: 0; pointer-events: none; transform: none; box-shadow: none;
+        background: rgba(255, 255, 255, 0.05); padding: 0 8px;
+        transition: max-height 0.32s var(--ease), opacity 0.22s var(--ease), padding 0.28s var(--ease);
+    }
+    .nav-dropdown.is-open .nav-dropdown-menu {
+        max-height: 75vh; overflow-y: auto;
+        opacity: 1; pointer-events: auto; padding: 8px;
+    }
     .nav-dropdown-link { color: #fff; }
     .nav-cta { margin: 8px 0 0; justify-content: center; }
     .nx-hero-grid, .nx-split, .nx-split.reverse, .nx-audience, .showcase-grid { grid-template-columns: 1fr; }
@@ -1399,6 +1420,16 @@ h1, h2, h3, h4, h5,
     .lead, .page-banner .lead { font-size: 2.2rem; line-height: 1.4; }
     .svc-hero .lead { font-size: 2.2rem; line-height: 1.4; }
     .svc-crumb { font-size: 1rem; }
+    /* lead du hero (accueil) : agrandi mais mesuré */
+    .nx-hero .lead, .nx-hero-slide .lead { font-size: 1.6rem; line-height: 1.45; max-width: 600px; }
+    /* footer : agrandi ET surtout mieux contrasté (le vrai souci était le faible contraste) */
+    .footer-brand > p { font-size: 1.2rem; color: rgba(255, 255, 255, 0.82); }
+    .footer-nav a, .footer-address { font-size: 1.14rem; color: rgba(255, 255, 255, 0.8); }
+    .footer-bottom { font-size: 1.05rem; color: rgba(255, 255, 255, 0.62); }
+    .footer-bottom a { color: rgba(255, 255, 255, 0.85); }
+    /* barre de menu + menu déroulant : légèrement agrandis */
+    .nav-link { font-size: 1.08rem; }
+    .nav-dropdown-link { font-size: 1rem; }
     /* corps des articles : lecture confortable */
     .nx-article p { font-size: 1.26rem; line-height: 1.75; }
     .nx-article-lead { font-size: 1.5rem !important; line-height: 1.6; }
