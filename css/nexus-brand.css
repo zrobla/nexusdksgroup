@@ -6,7 +6,7 @@
    Conception : TECH & WEB — tech-and-web.com
    ============================================================================ */
 
-@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700;800&family=Caveat:wght@600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Caveat:wght@600;700&display=swap");
 
 :root {
     --indigo: #2b338c;
@@ -1363,6 +1363,8 @@ h1, h2, h3, h4, h5,
 
 /* === Desktop : tous les textes secondaires agrandis pour une lecture sans effort (mobile inchangé) === */
 @media (min-width: 992px) {
+    /* police du corps de texte : Plus Jakarta Sans (remplace Manrope, jugée trop fine) — desktop uniquement */
+    body { font-family: "Plus Jakarta Sans", "Manrope", sans-serif; }
     /* listes à coches (Pourquoi nous, services, audience, offre, engagement…) */
     .nx-list li { font-size: 1.4rem; line-height: 1.6; }
     .nx-list li .nx-svg { width: 24px; height: 24px; margin-top: 5px; }
