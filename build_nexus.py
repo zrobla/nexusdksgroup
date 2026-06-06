@@ -202,7 +202,7 @@ def head(title, desc, path, page_class, prefix=""):
 <link href="__P__css/nexus-premium.css" rel="stylesheet">
 <link href="__P__css/nexus-brand.css" rel="stylesheet">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":["Organization","ProfessionalService"],"name":"NEXUS DKS GROUP","alternateName":"NEXUS DKS GROUP - ENTRETIEN","url":"__DOMAIN__/","logo":"__DOMAIN__/img/brand/nexus-logo.png","image":"__DOMAIN__/img/brand/nexus-og-card.jpg","email":"__EMAIL__","telephone":"__TEL__","slogan":"Nous ne faisons pas que nettoyer, nous valorisons vos espaces.","description":"Entreprise spécialisée dans les services d'entretien professionnel à Cotonou : entreprises, commerces, résidences et chantiers.","address":{"@type":"PostalAddress","streetAddress":"C/34 Guinkomey, 03 BP 3903","addressLocality":"Cotonou","addressCountry":"BJ"},"areaServed":"Bénin"}
+{"@context":"https://schema.org","@type":["Organization","ProfessionalService"],"name":"NEXUS DKS GROUP","alternateName":"NEXUS DKS GROUP - ENTRETIEN","url":"__DOMAIN__/","logo":"__DOMAIN__/img/brand/nexus-logo.png","image":"__DOMAIN__/img/brand/nexus-og-card.jpg","email":"__EMAIL__","telephone":"__TEL__","slogan":"Nous ne faisons pas que nettoyer, nous valorisons vos espaces.","description":"Entreprise de droit béninois spécialisée dans les services d'entretien professionnel, basée à Cotonou et intervenant à Cotonou, ses environs et dans tout le Bénin : entreprises, commerces, résidences et chantiers.","address":{"@type":"PostalAddress","streetAddress":"C/34 Guinkomey, 03 BP 3903","addressLocality":"Cotonou","addressCountry":"BJ"},"areaServed":"Bénin"}
 </script>
 </head>
 """.replace("__TITLE__", title).replace("__DESC__", desc).replace("__CANON__", canonical)\
@@ -645,7 +645,7 @@ def build_home():
 
     body = hero + pitch + prestations + audience + testi + equip + blog + contact_section(title="Confiez-nous vos espaces dès aujourd'hui")
     title = "NEXUS DKS GROUP — Entretien professionnel à Cotonou (Bénin)"
-    desc = "Entretien professionnel à Cotonou : bureaux, commerces, résidences, fin de chantier, restaurants, textiles. Équipes encadrées, matériel pro, devis en FCFA sous 24 h."
+    desc = "Entreprise de droit béninois d'entretien professionnel à Cotonou, ses environs et dans tout le Bénin : bureaux, commerces, résidences, chantiers. Devis FCFA sous 24 h."
     write("index.html", head(title, desc, "index.html", "page-home") + header("home") + body + footer())
 
 
