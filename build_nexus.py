@@ -7,6 +7,7 @@ propres (distinctes de JERU). Contenu rehaussé : technique (50%) + émotionnel
 (25%) + commercial (25%). Régénère toutes les pages : python3 build_nexus.py
 """
 import os
+import json
 from urllib.parse import quote
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -25,7 +26,7 @@ SITE = {
 }
 
 # Version des assets (cache-busting) — à incrémenter à chaque modif CSS/JS.
-ASSETV = "20260606p"
+ASSETV = "20260606t"
 
 # ---------------------------------------------------------------- Icônes SVG
 _I = {
@@ -174,6 +175,18 @@ ARTICLES = [
   "Moquettes & textiles : injection-extraction ou shampouinage, que choisir ?",
   "Deux techniques, deux résultats. Comprendre leurs principes pour préserver vos revêtements et prolonger leur durée de vie.",
   "img/services/blog-textiles.jpg", "6 min"),
+ ("hygiene-restaurants-argument", "Restauration",
+  "Restaurants & lounges : l'hygiène, votre meilleur argument commercial",
+  "En salle comme en cuisine, la propreté se voit, se sent et se raconte. Comment en faire un levier de réputation et de fidélité.",
+  "img/services/blog-restaurants-hygiene.jpg", "6 min"),
+ ("externaliser-entretien-entreprise", "Conseil",
+  "Externaliser l'entretien de votre entreprise : 6 bénéfices concrets",
+  "Temps gagné, image soignée, coûts maîtrisés : pourquoi confier sa propreté à un prestataire structuré change la donne.",
+  "img/services/blog-externalisation.jpg", "7 min"),
+ ("proximite-technologie-nexus", "Innovation",
+  "Au plus proche de vos espaces : quand la technologie réduit les distances",
+  "Contact de proximité, demandes pré-qualifiées, pilotage interne informatisé : comment NEXUS raccourcit le chemin entre votre besoin et l'intervention.",
+  "img/services/blog-tech-proximite.jpg", "8 min"),
 ]
 
 # ---------------------------------------------------------------- Chrome
@@ -639,8 +652,9 @@ def build_home():
   <div class="nx-blog-body"><div class="nx-blog-meta">Lecture %s</div><h3>%s</h3><p>%s</p><a class="nx-blog-link" href="blog/%s.html">Lire l'article %s</a></div>
 </article>
 """ % (cls, hid, slug, catg, img, ttl, rt, ttl, exc, slug, ico("arrow"))
-    bc = "".join(blog_card(a) for a in ARTICLES)
-    bc_clone = "".join(blog_card(a, clone=True) for a in ARTICLES)
+    teaser = ARTICLES[:3]  # l'accueil ne met en avant que les 3 articles phares
+    bc = "".join(blog_card(a) for a in teaser)
+    bc_clone = "".join(blog_card(a, clone=True) for a in teaser)
     blog = """<section class="section section-soft">
   <div class="container">
     <div class="section-header reveal"><div class="section-heading">
@@ -925,56 +939,188 @@ def build_blog():
 # ============================================================ ARTICLES
 ARTICLE_BODY = {
  "bionettoyage-bureaux": """
-<p class="nx-article-lead">On croit nettoyer un bureau ; en réalité, on gère un réseau de surfaces de contact. Et c'est précisément là que se joue la santé — et l'image — d'une organisation.</p>
-<p>Dans un environnement de travail, l'œil juge le sol, les vitres, les corbeilles. Mais l'essentiel des transmissions microbiennes se concentre sur des zones discrètes : poignées de portes, interrupteurs, boutons d'ascenseur, claviers, téléphones, machines à café. Ces « points de contact » sont touchés des dizaines de fois par jour, par des dizaines de mains.</p>
+<p class="nx-article-lead">On croit nettoyer un bureau ; en réalité, on gère un réseau de surfaces de contact. C'est précisément là — sur quelques centimètres carrés invisibles — que se jouent la santé des équipes et l'image de l'organisation.</p>
+<p>Dans un environnement de travail, l'œil juge le sol, les vitres et les corbeilles. Pourtant, l'essentiel des transmissions microbiennes se concentre sur des zones discrètes : poignées de portes, interrupteurs, boutons d'ascenseur, claviers, téléphones, rampes d'escalier, machines à café. Ces « points de contact » sont touchés des dizaines de fois par jour, par des dizaines de mains différentes. Les ignorer, c'est nettoyer ce qui se voit en laissant intact ce qui contamine.</p>
 <h2>Nettoyage, désinfection, bionettoyage : trois niveaux à ne pas confondre</h2>
-<p>Le <strong>nettoyage</strong> retire les salissures visibles et une partie des micro-organismes. La <strong>désinfection</strong> réduit la charge microbienne à l'aide de produits actifs. Le <strong>bionettoyage</strong> combine les deux dans un ordre précis — détergence puis désinfection — avec un protocole, un temps de contact respecté et une traçabilité.</p>
-<blockquote>Un point de contact désinfecté sans avoir été nettoyé au préalable n'est pas réellement assaini : la salissure protège le micro-organisme.</blockquote>
+<p>Ces trois termes sont souvent employés comme synonymes. Ils décrivent en réalité des opérations distinctes, et les confondre installe un faux sentiment de sécurité.</p>
+<h3>Le nettoyage</h3>
+<p>Il retire les salissures visibles et une partie des micro-organismes, par action mécanique et détergence. Indispensable, mais insuffisant à lui seul dans les zones sensibles.</p>
+<h3>La désinfection</h3>
+<p>Elle réduit la charge microbienne à l'aide de produits actifs (bactéricides, virucides). Son efficacité dépend d'un paramètre trop souvent négligé : le <strong>temps de contact</strong>.</p>
+<h3>Le bionettoyage</h3>
+<p>Il combine les deux dans un ordre précis — détergence <em>puis</em> désinfection — avec un protocole écrit, un temps de contact respecté et une traçabilité des passages. C'est le standard des environnements exigeants.</p>
+<blockquote>Un point de contact désinfecté sans avoir été nettoyé au préalable n'est pas réellement assaini : la salissure protège le micro-organisme du produit actif.</blockquote>
 <h2>Une méthode qui se voit dans les résultats</h2>
+<p>Le bionettoyage n'est pas affaire de produit miracle, mais de méthode rigoureuse, reproductible et contrôlée :</p>
 <ul>
-  <li>Cartographie des points de contact par zone et par fréquence d'usage</li>
-  <li>Choix des produits selon le support (inox, plastique, écrans tactiles)</li>
-  <li>Respect du temps de contact et du sens de passage (du propre vers le sale)</li>
-  <li>Codage couleur du matériel pour éviter les contaminations croisées</li>
+  <li><strong>Cartographie des points de contact</strong>, zone par zone, selon leur fréquence d'usage et leur niveau de risque.</li>
+  <li><strong>Choix des produits selon le support</strong> : inox, plastique, bois et écrans tactiles n'appellent pas la même chimie.</li>
+  <li><strong>Respect du temps de contact</strong> et du sens de passage, toujours du propre vers le sale et du haut vers le bas.</li>
+  <li><strong>Microfibre code-couleur</strong> : une couleur par zone (sanitaires, bureaux, cuisine) pour éliminer les contaminations croisées.</li>
+  <li><strong>Traçabilité</strong> : fiches de passage et contrôle après intervention, pour prouver — et améliorer — la qualité.</li>
 </ul>
+<h2>À quelle fréquence intervenir ?</h2>
+<p>La bonne fréquence dépend du trafic et de la vocation des locaux. Un plateau de bureaux classique se traite efficacement par un passage quotidien et une désinfection ciblée des points de contact ; un espace recevant du public, ou une période épidémique, justifient des repasses en cours de journée. Le principe : ajuster l'effort au risque réel, ni plus, ni moins.</p>
 <h2>Pourquoi cela change tout pour votre entreprise</h2>
-<p>Moins d'absentéisme, des collaborateurs qui se sentent considérés, des visiteurs rassurés dès l'accueil. L'hygiène des points de contact n'est pas une dépense : c'est un investissement dans la continuité de votre activité et dans la perception de votre marque.</p>
+<p>Moins d'arrêts maladie et donc moins d'absentéisme, des collaborateurs qui se sentent considérés, des visiteurs rassurés dès l'accueil : l'hygiène des points de contact agit directement sur la productivité et sur la perception de votre marque. Ce n'est pas une dépense de confort, c'est un investissement dans la continuité de votre activité.</p>
+<div class="nx-article-keys">
+  <h3>À retenir</h3>
+  <ul>
+    <li>Le risque sanitaire se concentre sur les points de contact, pas sur les surfaces visibles.</li>
+    <li>Bionettoyage = nettoyer <em>puis</em> désinfecter, avec temps de contact et traçabilité.</li>
+    <li>Microfibre code-couleur et plan de propreté garantissent un résultat reproductible.</li>
+  </ul>
+</div>
 """,
  "fin-de-chantier-checklist": """
-<p class="nx-article-lead">Entre la dernière finition et la remise des clés se joue la première impression. Un nettoyage de fin de chantier réussi transforme un ouvrage livré en espace « prêt à occuper ».</p>
-<p>Le nettoyage de fin de chantier n'a rien d'un grand ménage classique. Il s'attaque à des salissures spécifiques — laitance de ciment, traces de peinture, colles, films de protection, poussières fines incrustées — qui exigent des techniques et un matériel adaptés.</p>
+<p class="nx-article-lead">Entre la dernière finition et la remise des clés se joue la première impression. Un nettoyage de fin de chantier réussi transforme un ouvrage livré en espace « prêt à occuper » — sans la moindre reprise.</p>
+<p>Le nettoyage de fin de chantier n'a rien d'un grand ménage classique. Il s'attaque à des salissures spécifiques — laitance de ciment, traces de peinture et d'enduit, colles, films de protection, poussières fines incrustées dans les menuiseries et les bouches de ventilation — qui exigent des techniques, des produits et un matériel adaptés. Bâclé, il retarde une livraison ; maîtrisé, il la sécurise.</p>
+<h2>Comprendre les salissures de chantier</h2>
+<p>Avant de nettoyer, il faut identifier. Chaque résidu appelle un traitement précis :</p>
+<ul>
+  <li><strong>Laitance et voiles de ciment</strong> : déposés sur sols et faïences, ils ternissent durablement s'ils ne sont pas décapés.</li>
+  <li><strong>Films de protection et adhésifs</strong> : à retirer sans rayer les supports (vitres, profilés, inox).</li>
+  <li><strong>Traces de peinture et d'enduit</strong> : projections sur sols, vitres et menuiseries.</li>
+  <li><strong>Poussières fines</strong> : les plus sournoises, logées dans les gaines, plinthes, luminaires et VMC.</li>
+</ul>
 <h2>La séquence qui évite les reprises</h2>
+<p>Un fin de chantier efficace se déroule en passes successives, du plus grossier au plus fin.</p>
 <h3>1. Évacuation &amp; dégrossissage</h3>
-<p>Retrait des gravats résiduels, démontage des protections, aspiration industrielle des poussières en hauteur comme au sol.</p>
+<p>Retrait des gravats résiduels, dépose des protections, aspiration industrielle des poussières en hauteur comme au sol.</p>
 <h3>2. Traitement des salissures techniques</h3>
-<p>Décapage des traces de laitance, retrait des résidus de peinture et de colle, nettoyage des menuiseries et des huisseries.</p>
+<p>Décapage de la laitance, retrait des résidus de peinture et de colle, nettoyage des menuiseries et des huisseries.</p>
 <h3>3. Vitrerie &amp; surfaces</h3>
 <p>Nettoyage des vitrages intérieurs et extérieurs accessibles, détachage des encadrements, lustrage des surfaces.</p>
 <h3>4. Finition &amp; contrôle</h3>
 <ul>
-  <li>Nettoyage approfondi des sanitaires et de la robinetterie</li>
-  <li>Traitement adapté du revêtement de sol (cristallisation, lustrage)</li>
-  <li>Contrôle qualité pièce par pièce, à la lumière rasante</li>
+  <li>Nettoyage approfondi des sanitaires et de la robinetterie.</li>
+  <li>Traitement adapté du revêtement de sol (cristallisation, lustrage, protection).</li>
+  <li>Contrôle qualité pièce par pièce, à la lumière rasante, pour traquer la moindre trace.</li>
 </ul>
 <blockquote>Un chantier mal nettoyé peut retarder une livraison de plusieurs jours. Un chantier bien nettoyé se livre le jour même.</blockquote>
+<h2>Le bon matériel, le bon dosage</h2>
+<p>Aspiration industrielle eau et poussières, monobrosse, raclettes professionnelles, décapants adaptés au support : le fin de chantier est un métier d'équipement. Le surdosage de produit, lui, laisse des films collants qui re-fixent la poussière — d'où l'importance d'un personnel formé.</p>
 <h2>Le réflexe gagnant</h2>
-<p>Intégrer le nettoyage de fin de chantier au planning <em>dès l'amont</em>, et non comme une étape subie. C'est la garantie d'une réception fluide et d'un client conquis.</p>
+<p>Intégrer le nettoyage de fin de chantier au planning <em>dès l'amont</em>, et non comme une étape subie en dernière minute. C'est la garantie d'une réception fluide, d'un procès-verbal sans réserve et d'un client conquis.</p>
+<div class="nx-article-keys">
+  <h3>À retenir</h3>
+  <ul>
+    <li>Le fin de chantier est une prestation technique, distincte du ménage courant.</li>
+    <li>On travaille en passes : gravats → salissures techniques → vitrerie → finition &amp; contrôle.</li>
+    <li>Anticiper l'étape dans le planning évite les reprises et sécurise la livraison.</li>
+  </ul>
+</div>
 """,
  "moquettes-injection-extraction": """
-<p class="nx-article-lead">Vos textiles concentrent poussières, allergènes et taches. Deux grandes techniques s'offrent à vous pour leur redonner vie : le shampouinage et l'injection-extraction. Laquelle choisir ?</p>
-<p>Canapés, fauteuils, moquettes et matelas sont des éponges à particules. Un entretien périodique prolonge leur durée de vie, assainit l'air intérieur et préserve l'aspect d'origine. Encore faut-il employer la bonne méthode.</p>
+<p class="nx-article-lead">Vos textiles concentrent poussières, allergènes et taches. Deux grandes techniques s'offrent à vous pour leur redonner vie : le shampouinage et l'injection-extraction. Comment choisir la bonne ?</p>
+<p>Canapés, fauteuils, moquettes, tapis et matelas sont de véritables éponges à particules. Un entretien périodique prolonge leur durée de vie, assainit l'air intérieur — un enjeu réel pour les personnes sensibles ou allergiques — et préserve l'aspect d'origine. Encore faut-il employer la bonne méthode sur la bonne fibre.</p>
+<h2>Pourquoi entretenir ses textiles</h2>
+<p>Au-delà de l'esthétique, un textile encrassé dégrade la qualité de l'air : acariens, pollens et poussières fines s'y accumulent et se redispersent à chaque usage. Un traitement professionnel régulier réduit cette charge et évite l'incrustation définitive des taches.</p>
 <h2>Le shampouinage</h2>
-<p>Une solution moussante est appliquée puis travaillée mécaniquement pour décoller les salissures. Rapide et économique, idéal pour un rafraîchissement régulier des surfaces peu encrassées. Inconvénient : un temps de séchage plus long et un risque de résidus si le rinçage est insuffisant.</p>
+<p>Une solution moussante est appliquée puis travaillée mécaniquement (brosse rotative ou monobrosse) pour décoller les salissures, avant aspiration. Rapide et économique, il convient au rafraîchissement régulier de surfaces peu à moyennement encrassées. Ses limites : un temps de séchage plus long et un risque de résidus moussants si le rinçage est insuffisant.</p>
 <h2>L'injection-extraction</h2>
-<p>Le procédé injecte une solution détergente au cœur de la fibre, puis l'<strong>extrait</strong> immédiatement avec les salissures dissoutes, par aspiration puissante. Résultat : un nettoyage en profondeur, peu de résidus et un séchage maîtrisé.</p>
+<p>Le procédé injecte sous pression une solution détergente au cœur de la fibre, puis l'<strong>extrait</strong> immédiatement — avec les salissures dissoutes — par une aspiration puissante. Résultat : un nettoyage en profondeur, très peu de résidus et un séchage maîtrisé. C'est la référence pour les encrassements importants et les exigences sanitaires.</p>
+<h2>Quelle technique pour quel besoin ?</h2>
 <ul>
-  <li><strong>Encrassement léger à moyen</strong> → shampouinage</li>
-  <li><strong>Encrassement profond, taches anciennes, exigence sanitaire</strong> → injection-extraction</li>
-  <li><strong>Matelas &amp; literie</strong> → injection-extraction + désinfection</li>
+  <li><strong>Encrassement léger à moyen, entretien courant</strong> → shampouinage.</li>
+  <li><strong>Encrassement profond, taches anciennes, exigence sanitaire</strong> → injection-extraction.</li>
+  <li><strong>Matelas &amp; literie</strong> → injection-extraction complétée d'une désinfection.</li>
+  <li><strong>Fibres délicates ou cuir</strong> → traitement doux spécifique, jamais d'eau en excès.</li>
 </ul>
-<blockquote>La bonne technique, c'est celle qui correspond à la fibre, au niveau de salissure et à l'usage du textile.</blockquote>
+<blockquote>La bonne technique, c'est celle qui correspond à la fibre, au niveau de salissure et à l'usage réel du textile.</blockquote>
+<h2>Le séchage, étape décisive</h2>
+<p>Un textile mal séché, c'est la porte ouverte aux odeurs et aux moisissures. Maîtriser l'humidité résiduelle — par l'extraction et la ventilation — fait partie intégrante d'un traitement réussi, et conditionne une remise en service rapide.</p>
 <h2>Notre approche</h2>
-<p>Nous diagnostiquons la nature du textile et le degré d'encrassement avant d'engager le traitement le plus pertinent — avec un matériel professionnel et des produits adaptés à chaque support. Objectif : un résultat visible, durable, et sans mauvaise surprise.</p>
+<p>Nous diagnostiquons la nature du textile et le degré d'encrassement avant d'engager le traitement le plus pertinent, avec un matériel professionnel et des produits adaptés à chaque support. Objectif : un résultat visible, durable et sans mauvaise surprise.</p>
+<div class="nx-article-keys">
+  <h3>À retenir</h3>
+  <ul>
+    <li>Entretenir ses textiles, c'est aussi assainir l'air intérieur.</li>
+    <li>Shampouinage pour l'entretien courant ; injection-extraction pour le nettoyage en profondeur.</li>
+    <li>Le diagnostic de la fibre et la maîtrise du séchage font la différence.</li>
+  </ul>
+</div>
+""",
+ "hygiene-restaurants-argument": """
+<p class="nx-article-lead">En restauration, la propreté n'est pas un détail d'arrière-cuisine : c'est un argument commercial qui se voit, se sent et se raconte. Un client rassuré revient — et en parle autour de lui.</p>
+<p>Avant même la première bouchée, le client juge. Une vitre nette, des sanitaires impeccables, une salle sans trace : autant de signaux qui installent la confiance. À l'inverse, une seule table collante ou un coin négligé suffit à entacher une réputation patiemment construite.</p>
+<h2>L'hygiène, premier avis client</h2>
+<p>À l'ère des avis en ligne, la propreté est l'un des critères les plus commentés. Elle pèse sur la note, donc sur la visibilité, donc sur le chiffre d'affaires. Soigner l'entretien, c'est protéger sa réputation numérique autant que sa salle.</p>
+<h2>Cuisine : la rigueur invisible</h2>
+<p>Derrière le service se joue l'essentiel : dégraissage des plans, des équipements et des hottes, désinfection des surfaces en contact alimentaire, traitement des sols antidérapants, gestion des zones froides. Des protocoles alignés sur les bonnes pratiques d'hygiène (HACCP) protègent vos clients — et votre responsabilité.</p>
+<blockquote>En salle, la propreté se voit ; en cuisine, elle se prouve. Les deux racontent la même exigence.</blockquote>
+<h2>Intervenir sans perturber le service</h2>
+<p>La clé d'un entretien réussi en restauration : des interventions en horaires décalés — la nuit, après le service ou avant l'ouverture. Vos équipes retrouvent des locaux prêts, sans jamais voir leur exploitation ralentie.</p>
+<h2>Faire de la propreté un récit de marque</h2>
+<p>Un établissement qui assume son exigence d'hygiène se distingue. C'est un argument à revendiquer, sur place comme en ligne : il rassure, fidélise et justifie votre positionnement.</p>
+<div class="nx-article-keys">
+  <h3>À retenir</h3>
+  <ul>
+    <li>La propreté est un critère d'avis client majeur — donc commercial.</li>
+    <li>Cuisine : protocoles alignés HACCP ; salle : zéro trace visible.</li>
+    <li>Interventions en horaires décalés pour ne jamais gêner le service.</li>
+  </ul>
+</div>
+""",
+ "externaliser-entretien-entreprise": """
+<p class="nx-article-lead">Gérer soi-même le ménage de ses locaux semble économique. En réalité, le « système D » coûte souvent plus cher — en temps, en qualité et en sérénité — qu'un prestataire structuré.</p>
+<p>Confier l'entretien à un professionnel, ce n'est pas déléguer une corvée : c'est s'offrir un cadre, une régularité et un résultat mesurable. Voici six bénéfices concrets.</p>
+<h2>1. Du temps recentré sur votre métier</h2>
+<p>Chaque heure passée à organiser, contrôler ou rattraper le nettoyage est une heure volée à votre cœur d'activité. L'externalisation vous rend ce temps.</p>
+<h2>2. Une qualité constante et contrôlée</h2>
+<p>Plan de propreté, protocoles écrits, contrôle qualité après passage : la régularité ne dépend plus de la disponibilité d'un salarié, mais d'un engagement de service.</p>
+<h2>3. Des coûts maîtrisés et lisibles</h2>
+<p>Plus de gestion de matériel, de produits, de remplacements ni de turnover : un budget clair, chiffré en FCFA, sans mauvaise surprise.</p>
+<h2>4. Un matériel professionnel</h2>
+<p>Aspiration industrielle, injection-extraction, monobrosse, haute pression : un équipement que peu d'entreprises rentabiliseraient en interne.</p>
+<h2>5. Une image qui inspire confiance</h2>
+<p>Des espaces impeccables valorisent votre marque auprès des clients, des partenaires et des collaborateurs — dès le premier regard.</p>
+<h2>6. La conformité et la traçabilité</h2>
+<p>Personnel formé et encadré, protocoles documentés, suivi des passages : autant de garanties utiles, notamment pour les institutions et les établissements recevant du public.</p>
+<blockquote>Externaliser, ce n'est pas dépenser plus : c'est payer le juste prix d'un résultat fiable et reproductible.</blockquote>
+<div class="nx-article-keys">
+  <h3>À retenir</h3>
+  <ul>
+    <li>Le « système D » coûte en temps, en qualité et en sérénité.</li>
+    <li>Un prestataire structuré apporte régularité, matériel pro et budget lisible.</li>
+    <li>Personnel encadré et traçabilité = conformité, utile pour les institutions.</li>
+  </ul>
+</div>
+""",
+ "proximite-technologie-nexus": """
+<p class="nx-article-lead">Entre votre besoin et l'intervention, chaque étape de trop fait perdre du temps. NEXUS DKS GROUP a fait un choix clair : rapprocher la relation client grâce à des outils simples, et piloter ses opérations par des systèmes informatisés.</p>
+<p>La propreté est un métier de terrain. Mais la qualité du service se joue aussi — et de plus en plus — dans la fluidité de la relation : la facilité à demander un devis, à suivre une intervention, à obtenir une réponse. C'est là que la technologie, bien employée, fait la différence.</p>
+<h2>Le contact de proximité, augmenté par la technologie</h2>
+<p>Réduire la distance entre le client et l'équipe, c'est réduire le temps d'intervention. Nos canaux de contact directs (WhatsApp, configurateurs de demande) permettent de :</p>
+<ul>
+  <li><strong>Pré-qualifier la demande</strong> en quelques secondes — surface, fréquence, contraintes — pour un devis plus juste et plus rapide.</li>
+  <li><strong>Supprimer les allers-retours</strong> : la bonne information est transmise du premier coup.</li>
+  <li><strong>Répondre au plus près du besoin</strong>, sur le canal que le client utilise déjà au quotidien.</li>
+  <li><strong>Tracer chaque échange</strong> pour un suivi clair et une relation de confiance.</li>
+</ul>
+<blockquote>Moins d'étapes entre le besoin et l'action, c'est plus de réactivité pour le client — et plus d'efficacité pour nos équipes.</blockquote>
+<h2>En interne : un pilotage informatisé</h2>
+<p>La même exigence s'applique en coulisses. NEXUS DKS GROUP s'appuie sur des systèmes de gestion informatisés pour suivre et traiter ses processus, mais aussi pour <strong>encadrer et accompagner son personnel et sa cheville ouvrière</strong> : planification des interventions, traçabilité des passages, contrôle qualité, suivi des équipes et de leur formation. La technologie ne remplace pas l'humain : elle le soutient et le valorise.</p>
+<h2>Déjà en place sur ce site</h2>
+<p>Ce site n'est pas une vitrine figée, c'est un outil de service. Plusieurs fonctionnalités sont déjà actives :</p>
+<ul>
+  <li>Des <strong>configurateurs de demande</strong> qui génèrent un message pré-rempli en un clic.</li>
+  <li>Un <strong>devis express</strong> et une <strong>candidature en ligne</strong> via WhatsApp.</li>
+  <li>Une expérience <strong>pensée pour le mobile</strong>, rapide et accessible.</li>
+</ul>
+<h2>Et ce n'est qu'un début</h2>
+<p>D'autres innovations suivront sur ce site pour rapprocher encore davantage NEXUS de ses clients et fluidifier le traitement des demandes — toujours dans la même logique : moins de friction, plus de proximité.</p>
+<h2>Un partenaire technologique : Tech &amp; Web</h2>
+<p>Cette feuille de route digitale est conçue et déployée avec notre partenaire et prestataire technologique <strong>Tech &amp; Web</strong> — conception de sites, applications métier et solutions numériques sur mesure. C'est cette alliance entre expertise terrain et savoir-faire technologique qui permet à NEXUS DKS GROUP d'innover au service de sa clientèle.</p>
+<p><a href="https://tech-and-web.com" target="_blank" rel="noopener" title="Tech &amp; Web — conception de sites web, applications et solutions digitales sur mesure">Découvrir Tech &amp; Web, notre partenaire technologique &rarr;</a></p>
+<div class="nx-article-keys">
+  <h3>À retenir</h3>
+  <ul>
+    <li>Le contact de proximité (WhatsApp, configurateurs) réduit le temps d'intervention.</li>
+    <li>En interne, des systèmes informatisés pilotent les process et encadrent les équipes.</li>
+    <li>D'autres innovations suivront, avec notre partenaire technologique Tech &amp; Web.</li>
+  </ul>
+</div>
 """,
 }
 
@@ -1030,7 +1176,19 @@ def build_articles():
         # injecter les icônes check dans les <li> de l'article
         article = article.replace("<li>", "<li>" + ico("check"))
         rel = '<section class="section section-soft"><div class="container"><div class="section-header reveal"><div class="section-heading"><span class="nx-eyebrow">À lire aussi</span><h2 class="section-title">Articles connexes</h2></div></div><div class="nx-grid cols-2">%s</div></div></section>' % related
-        body = banner + article + rel
+        # données structurées (SEO + chatbots) : BlogPosting
+        ld_obj = {
+            "@context": "https://schema.org", "@type": "BlogPosting",
+            "headline": ttl, "description": exc,
+            "image": SITE["domain"] + "/" + img,
+            "author": {"@type": "Organization", "name": "NEXUS DKS GROUP"},
+            "publisher": {"@type": "Organization", "name": "NEXUS DKS GROUP",
+                          "logo": {"@type": "ImageObject", "url": SITE["domain"] + "/img/brand/nexus-logo.png"}},
+            "mainEntityOfPage": SITE["domain"] + "/blog/" + slug + ".html",
+            "articleSection": catg, "inLanguage": "fr-BJ",
+        }
+        ld = '<script type="application/ld+json">' + json.dumps(ld_obj, ensure_ascii=False) + '</script>\n'
+        body = ld + banner + article + rel
         title = "%s | Blog NEXUS DKS GROUP" % ttl
         desc = exc[:155]
         ld_path = "blog/%s.html" % slug

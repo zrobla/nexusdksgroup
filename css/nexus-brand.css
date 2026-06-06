@@ -1009,6 +1009,10 @@ h1, h2, h3, h4, h5,
 .nx-article ul li .nx-svg { width: 19px; height: 19px; color: var(--lime-deep); margin-top: 4px; flex: 0 0 auto; }
 .nx-article blockquote { margin: 26px 0; padding: 18px 24px; border-left: 4px solid var(--lime); background: var(--paper-2); border-radius: 0 12px 12px 0; font-size: 1.1rem; color: var(--ink); font-style: italic; }
 .nx-article-lead { font-size: 1.2rem !important; color: var(--ink-soft) !important; font-weight: 500; }
+/* encadré « À retenir » en fin d'article */
+.nx-article-keys { margin: 38px 0 8px; padding: 24px 26px; background: var(--paper-2); border-left: 4px solid var(--lime); border-radius: 0 14px 14px 0; }
+.nx-article-keys h3 { margin: 0 0 12px; color: var(--indigo); font-size: 1.2rem; }
+.nx-article-keys ul { margin: 0; }
 
 /* --------------------------------------------------------------- Formulaire */
 .form-shell { background: #fff; border: 1px solid var(--line); border-radius: var(--r-lg); box-shadow: var(--shadow); }
@@ -1486,12 +1490,17 @@ h1, h2, h3, h4, h5,
     .nav-link { font-size: 1.08rem; }
     .nav-dropdown-link { font-size: 1rem; }
     /* corps des articles : lecture confortable */
-    .nx-article p { font-size: 1.26rem; line-height: 1.75; }
-    .nx-article-lead { font-size: 1.5rem !important; line-height: 1.6; }
-    .nx-article ul li { font-size: 1.22rem; line-height: 1.55; }
-    .nx-article h2 { font-size: 2.1rem; }
-    .nx-article h3 { font-size: 1.55rem; }
-    .nx-article blockquote { font-size: 1.35rem; }
+    .nx-article p { font-size: 1.42rem; line-height: 1.8; color: var(--ink); }
+    /* chapô : plus grand, contrasté et semi-gras (était gris clair, peu lisible) */
+    .nx-article-lead { font-size: 1.7rem !important; line-height: 1.55; color: var(--ink) !important; font-weight: 600; }
+    /* listes : texte foncé pour le contraste (était gris clair) */
+    .nx-article ul li { font-size: 1.38rem; line-height: 1.6; color: var(--ink); }
+    .nx-article ul li .nx-svg { width: 22px; height: 22px; }
+    .nx-article h2 { font-size: 2.1rem; color: var(--navy); }
+    .nx-article h3 { font-size: 1.5rem; color: var(--indigo); }
+    .nx-article blockquote { font-size: 1.4rem; color: var(--ink); }
+    .nx-article-keys h3 { font-size: 1.35rem; }
+    .nx-article-keys ul li { font-size: 1.2rem; }
     /* signature + aside des articles */
     .nx-article-sign strong { font-size: 1.18rem; }
     .nx-article-sign span { font-size: 1.05rem; }
