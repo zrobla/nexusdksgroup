@@ -7,6 +7,7 @@ propres (distinctes de JERU). Contenu rehaussé : technique (50%) + émotionnel
 (25%) + commercial (25%). Régénère toutes les pages : python3 build_nexus.py
 """
 import os
+from urllib.parse import quote
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 
@@ -63,6 +64,7 @@ _I = {
  "refresh": '<path d="M3 12a9 9 0 0 1 15-6.7L21 8M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16M3 21v-5h5"/>',
  "down": '<path d="m6 9 6 6 6-6"/>',
  "scale": '<path d="M12 3v18M5 7h14M7 7l-3 7a3 3 0 0 0 6 0L7 7zM17 7l-3 7a3 3 0 0 0 6 0l-3-7z"/>',
+ "link": '<path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/>',
 }
 def ico(name, cls=""):
     c = "nx-svg" + ((" " + cls) if cls else "")
@@ -985,12 +987,38 @@ def build_articles():
     <h1 style="font-size:clamp(2rem,3.6vw,3.1rem);max-width:24ch">%s</h1>
   </div>
 </section>""" % (img, catg, catg, rt, ttl)
-        article = """<section class="section"><div class="container"><div class="nx-article reveal">%s
-<div style="margin-top:36px;padding-top:24px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between">
-  <a class="btn-secondary" href="../blog.html">%s Tous les articles</a>
-  <a class="btn-lime" href="../contact.html">%s Demander un devis</a>
-</div>
-</div></div></section>""" % (ARTICLE_BODY[slug].replace("<svg", "<svg"), ico("arrow"), ico("send"))
+        url = SITE["domain"] + "/blog/" + slug + ".html"
+        wa_share = "https://wa.me/?text=" + quote(ttl + " — " + url)
+        article = """<section class="section"><div class="container">
+  <div class="nx-article-layout">
+    <article class="nx-article reveal">%s
+      <div class="nx-article-sign">
+        <span class="nx-avatar">N</span>
+        <div><strong>Équipe NEXUS DKS GROUP</strong><span>Experts de l'entretien professionnel — Cotonou, Bénin</span></div>
+      </div>
+      <div class="nx-article-nav">
+        <a class="btn-secondary" href="../blog.html">%s Tous les articles</a>
+        <a class="btn-lime" href="../contact.html">%s Demander un devis</a>
+      </div>
+    </article>
+    <aside class="nx-article-aside">
+      <div class="nx-aside-card reveal">
+        <span class="nx-aside-cat">%s</span>
+        <div class="nx-aside-meta">%s Lecture %s</div>
+        <div class="nx-aside-share">
+          <span>Partager</span>
+          <a class="nx-share-btn" href="%s" target="_blank" rel="noopener noreferrer" aria-label="Partager sur WhatsApp">%s</a>
+          <button type="button" class="nx-share-btn" data-copy="%s" aria-label="Copier le lien de l'article">%s</button>
+        </div>
+      </div>
+      <div class="nx-aside-cta reveal d1">
+        <h3>Un besoin d'entretien ?</h3>
+        <p>Diagnostic sur site et devis clair en FCFA sous 24&nbsp;h.</p>
+        <a class="btn-lime" href="../contact.html">%s Demander un devis</a>
+      </div>
+    </aside>
+  </div>
+</div></section>""" % (ARTICLE_BODY[slug], ico("arrow"), ico("send"), catg, ico("clock"), rt, wa_share, ico("message"), url, ico("link"), ico("send"))
         # injecter les icônes check dans les <li> de l'article
         article = article.replace("<li>", "<li>" + ico("check"))
         rel = '<section class="section section-soft"><div class="container"><div class="section-header reveal"><div class="section-heading"><span class="nx-eyebrow">À lire aussi</span><h2 class="section-title">Articles connexes</h2></div></div><div class="nx-grid cols-2">%s</div></div></section>' % related

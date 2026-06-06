@@ -851,6 +851,18 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+    // ---- Articles : copier le lien ----
+    document.querySelectorAll("[data-copy]").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+            var txt = btn.getAttribute("data-copy");
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(txt);
+            }
+            btn.classList.add("is-copied");
+            window.setTimeout(function () { btn.classList.remove("is-copied"); }, 1600);
+        });
+    });
+
     // ---- Articles : barre de progression de lecture ----
     var readBar = document.querySelector("[data-read-bar]");
     if (readBar) {

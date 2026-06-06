@@ -1301,6 +1301,66 @@ h1, h2, h3, h4, h5,
 .nx-read-progress span { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--indigo), var(--lime)); }
 .svc-hero-article { padding-bottom: 54px; }
 
+/* Mise en page éditoriale premium des articles */
+.nx-article-layout { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 50px; align-items: start; }
+.nx-article-layout .nx-article { max-width: 760px; margin: 0; }
+/* lettrine sur le premier paragraphe de corps */
+.nx-article-lead + p::first-letter {
+    float: left; font-family: "Bricolage Grotesque", sans-serif;
+    font-size: 3.6rem; line-height: 0.78; font-weight: 800;
+    color: var(--indigo); margin: 6px 12px 0 0;
+}
+/* accent sur les sous-titres */
+.nx-article h2::before {
+    content: ""; display: block; width: 46px; height: 4px;
+    background: var(--lime); border-radius: 2px; margin-bottom: 14px;
+}
+/* signature auteur */
+.nx-article-sign {
+    display: flex; align-items: center; gap: 14px;
+    margin-top: 42px; padding: 18px 20px;
+    background: var(--paper-2); border-radius: var(--r-md);
+}
+.nx-article-sign .nx-avatar { background: var(--navy); color: var(--lime-bright); flex: 0 0 auto; }
+.nx-article-sign strong { display: block; color: var(--ink); }
+.nx-article-sign span { color: var(--ink-soft); font-size: 0.92rem; }
+/* navigation bas d'article */
+.nx-article-nav { margin-top: 24px; display: flex; flex-wrap: wrap; gap: 14px; align-items: center; justify-content: space-between; }
+/* colonne latérale collante */
+.nx-article-aside { position: sticky; top: 96px; display: grid; gap: 18px; }
+.nx-aside-card { background: #fff; border: 1px solid var(--line); border-radius: var(--r-lg); padding: 22px; box-shadow: var(--shadow-sm); }
+.nx-aside-cat {
+    display: inline-block; font-family: "Bricolage Grotesque", sans-serif;
+    font-weight: 700; font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--lime-deep); background: rgba(156, 198, 61, 0.16);
+    padding: 6px 14px; border-radius: 999px;
+}
+.nx-aside-meta { display: flex; align-items: center; gap: 8px; margin-top: 14px; color: var(--ink-soft); font-weight: 600; font-size: 0.95rem; }
+.nx-aside-meta .nx-svg { width: 18px; height: 18px; color: var(--lime-deep); }
+.nx-aside-share { display: flex; align-items: center; gap: 10px; margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--line); }
+.nx-aside-share > span { font-weight: 700; color: var(--ink); font-size: 0.9rem; margin-right: auto; }
+.nx-share-btn {
+    position: relative; width: 42px; height: 42px; border-radius: 11px;
+    display: inline-flex; align-items: center; justify-content: center;
+    background: var(--paper-2); color: var(--indigo); border: none; cursor: pointer;
+    transition: background 0.2s var(--ease), color 0.2s var(--ease), transform 0.2s var(--ease);
+}
+.nx-share-btn:hover { background: var(--lime); color: var(--navy); transform: translateY(-2px); }
+.nx-share-btn .nx-svg { width: 20px; height: 20px; }
+.nx-share-btn.is-copied { background: var(--lime); color: var(--navy); }
+.nx-share-btn.is-copied::after {
+    content: "Lien copié"; position: absolute; bottom: calc(100% + 8px); right: 0;
+    background: var(--navy); color: #fff; font-size: 0.74rem; font-weight: 700;
+    padding: 5px 9px; border-radius: 7px; white-space: nowrap;
+}
+.nx-aside-cta { background: var(--navy); color: #fff; border-radius: var(--r-lg); padding: 24px; }
+.nx-aside-cta h3 { margin: 0 0 8px; color: #fff; font-size: 1.2rem; }
+.nx-aside-cta p { margin: 0 0 16px; color: rgba(255, 255, 255, 0.78); font-size: 0.95rem; }
+@media (max-width: 991px) {
+    .nx-article-layout { grid-template-columns: 1fr; gap: 30px; }
+    .nx-article-aside { position: static; }
+}
+
 /* === Desktop : tous les textes secondaires agrandis pour une lecture sans effort (mobile inchangé) === */
 @media (min-width: 992px) {
     /* listes à coches (Pourquoi nous, services, audience, offre, engagement…) */
