@@ -828,4 +828,40 @@ document.addEventListener("DOMContentLoaded", function () {
             window.open("https://wa.me/" + wa + "?text=" + encodeURIComponent(lines.join("\n")), "_blank", "noopener");
         });
     });
+
+    // ---- Blog : filtre par catégorie ----
+    var blogGrid = document.querySelector("[data-blog-grid]");
+    if (blogGrid) {
+        var chips = document.querySelectorAll(".nx-blog-filter [data-filter]");
+        var blogCards = blogGrid.querySelectorAll(".nx-blog-card");
+        var emptyMsg = document.querySelector(".nx-blog-empty");
+        chips.forEach(function (chip) {
+            chip.addEventListener("click", function () {
+                var f = chip.getAttribute("data-filter");
+                chips.forEach(function (c) { c.classList.remove("is-active"); });
+                chip.classList.add("is-active");
+                var visible = 0;
+                blogCards.forEach(function (card) {
+                    var show = (f === "all" || card.getAttribute("data-cat") === f);
+                    card.style.display = show ? "" : "none";
+                    if (show) { visible++; }
+                });
+                if (emptyMsg) { emptyMsg.hidden = visible > 0; }
+            });
+        });
+    }
+
+    // ---- Articles : barre de progression de lecture ----
+    var readBar = document.querySelector("[data-read-bar]");
+    if (readBar) {
+        var updateRead = function () {
+            var h = document.documentElement;
+            var max = h.scrollHeight - h.clientHeight;
+            var top = window.pageYOffset || h.scrollTop || 0;
+            readBar.style.width = (max > 0 ? (top / max) * 100 : 0) + "%";
+        };
+        window.addEventListener("scroll", updateRead, { passive: true });
+        window.addEventListener("resize", updateRead);
+        updateRead();
+    }
 });

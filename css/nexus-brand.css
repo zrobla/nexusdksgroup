@@ -1283,6 +1283,24 @@ h1, h2, h3, h4, h5,
     .svc-hero { padding-top: calc(var(--header-height) + 44px); }
 }
 
+/* ===================================================== BLOG / ARTICLES ===== */
+/* Filtre par catégorie */
+.nx-blog-filter { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 36px; }
+.nx-chip {
+    font-family: "Bricolage Grotesque", sans-serif; font-weight: 700; font-size: 0.92rem;
+    padding: 9px 18px; border-radius: 999px; cursor: pointer;
+    background: #fff; color: var(--ink-soft); border: 1px solid var(--line);
+    transition: background 0.2s var(--ease), color 0.2s var(--ease), border-color 0.2s var(--ease);
+}
+.nx-chip:hover { border-color: var(--indigo); color: var(--indigo); }
+.nx-chip.is-active { background: var(--navy); color: #fff; border-color: var(--navy); }
+.nx-blog-empty { text-align: center; color: var(--ink-soft); margin-top: 24px; }
+
+/* Barre de progression de lecture (pages articles) */
+.nx-read-progress { position: fixed; top: 0; left: 0; right: 0; height: 4px; z-index: 200; background: transparent; pointer-events: none; }
+.nx-read-progress span { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--indigo), var(--lime)); }
+.svc-hero-article { padding-bottom: 54px; }
+
 /* === Desktop : tous les textes secondaires agrandis pour une lecture sans effort (mobile inchangé) === */
 @media (min-width: 992px) {
     /* listes à coches (Pourquoi nous, services, audience, offre, engagement…) */

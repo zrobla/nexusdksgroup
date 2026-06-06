@@ -875,23 +875,38 @@ def build_about():
 
 # ============================================================ BLOG (index)
 def build_blog():
+    # catégories uniques (filtre)
+    cats = []
+    for a in ARTICLES:
+        if a[1] not in cats:
+            cats.append(a[1])
+    filters = '<button type="button" class="nx-chip is-active" data-filter="all">Tous</button>'
+    filters += "".join('<button type="button" class="nx-chip" data-filter="%s">%s</button>' % (c, c) for c in cats)
+
     bc = ""
     for i, (slug, catg, ttl, exc, img, rt) in enumerate(ARTICLES):
-        bc += """<article class="nx-blog-card reveal%s">
+        bc += """<article class="nx-blog-card reveal%s" data-cat="%s">
   <a class="nx-blog-media" href="blog/%s.html"><span class="nx-blog-cat">%s</span><img src="%s" alt="%s" loading="lazy"></a>
   <div class="nx-blog-body"><div class="nx-blog-meta">Lecture %s</div><h3>%s</h3><p>%s</p><a class="nx-blog-link" href="blog/%s.html">Lire l'article %s</a></div>
 </article>
-""" % (" d%d" % (i % 3) if i % 3 else "", slug, catg, img, ttl, rt, ttl, exc, slug, ico("arrow"))
-    banner = """<section class="page-banner" style="--banner-image:url('img/services/bandeau-accessoires.jpg')">
-  <div class="container"><div class="banner-shell reveal">
+""" % (" d%d" % (i % 3) if i % 3 else "", catg, slug, catg, img, ttl, rt, ttl, exc, slug, ico("arrow"))
+
+    hero = """<section class="svc-hero">
+  <img class="svc-hero-bg" src="img/services/bandeau-accessoires.jpg" alt="" aria-hidden="true">
+  <div class="container">
     <span class="nx-eyebrow">Le blog</span>
     <h1>Le journal de la propreté professionnelle</h1>
     <p class="lead">Hygiène, techniques, organisation et bonnes pratiques : des contenus utiles pour les clients, les professionnels et les partenaires du secteur de l'entretien.</p>
-  </div></div>
-  <span class="nx-banner-rule"></span>
+  </div>
 </section>"""
-    grid = '<section class="section"><div class="container"><div class="nx-grid cols-3">%s</div></div></section>' % bc
-    body = banner + grid + cta(title="Un sujet d'entretien à approfondir ?", text="Nos experts répondent à vos questions et conçoivent la solution adaptée à vos espaces.")
+    grid = """<section class="section">
+  <div class="container">
+    <div class="nx-blog-filter reveal" role="tablist" aria-label="Filtrer les articles par thème">%s</div>
+    <div class="nx-grid cols-3" data-blog-grid>%s</div>
+    <p class="nx-blog-empty" hidden>Aucun article dans cette catégorie pour le moment.</p>
+  </div>
+</section>""" % (filters, bc)
+    body = hero + grid + cta(title="Un sujet d'entretien à approfondir ?", text="Nos experts répondent à vos questions et conçoivent la solution adaptée à vos espaces.")
     title = "Blog entretien & propreté | NEXUS DKS GROUP"
     desc = "Articles d'experts sur l'entretien professionnel : bionettoyage, fin de chantier, traitement des textiles, hygiène des espaces. NEXUS DKS GROUP, Cotonou."
     write("blog.html", head(title, desc, "blog.html", "page-blog") + header("blog") + body + footer())
@@ -961,13 +976,15 @@ def build_articles():
         for j in range(1, 3):
             r = ARTICLES[(idx + j) % n]
             related += '<article class="nx-blog-card reveal"><a class="nx-blog-media" href="%s.html"><span class="nx-blog-cat">%s</span><img src="../%s" alt="%s" loading="lazy"></a><div class="nx-blog-body"><h3>%s</h3><a class="nx-blog-link" href="%s.html">Lire %s</a></div></article>\n' % (r[0], r[1], r[4], r[2], r[2], r[0], ico("arrow"))
-        banner = """<section class="page-banner" style="--banner-image:url('../%s')">
-  <div class="container"><div class="banner-shell reveal" style="max-width:820px">
+        banner = """<div class="nx-read-progress" aria-hidden="true"><span data-read-bar></span></div>
+<section class="svc-hero svc-hero-article">
+  <img class="svc-hero-bg" src="../%s" alt="" aria-hidden="true">
+  <div class="container">
+    <nav class="svc-crumb" aria-label="Fil d'Ariane"><a href="../index.html">Accueil</a><span>/</span><a href="../blog.html">Blog</a><span>/</span><b>%s</b></nav>
     <span class="nx-eyebrow">%s · Lecture %s</span>
-    <h1 style="font-size:clamp(2rem,3.6vw,3.1rem)">%s</h1>
-  </div></div>
-  <span class="nx-banner-rule"></span>
-</section>""" % (img, catg, rt, ttl)
+    <h1 style="font-size:clamp(2rem,3.6vw,3.1rem);max-width:24ch">%s</h1>
+  </div>
+</section>""" % (img, catg, catg, rt, ttl)
         article = """<section class="section"><div class="container"><div class="nx-article reveal">%s
 <div style="margin-top:36px;padding-top:24px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between">
   <a class="btn-secondary" href="../blog.html">%s Tous les articles</a>
