@@ -315,13 +315,13 @@ def cta(prefix="", title="Confiez-nous vos espaces dès aujourd'hui",
   </div>
 </section>""" % (title, text, prefix, ico("send"), SITE["wa"], ico("message"))
 
-def contact_section(prefix=""):
+def contact_section(prefix="", title="Parlons de vos espaces"):
     opts = "".join('<option>%s</option>' % l for _, l, *_ in CATS)
     return """<section id="contact" class="section section-dark">
   <div class="container">
     <div class="section-header reveal"><div class="section-heading">
       <span class="nx-eyebrow">Contact &amp; devis</span>
-      <h2 class="section-title">Parlons de vos espaces</h2>
+      <h2 class="section-title">__TITLE__</h2>
       <p class="section-copy">Un devis, un rappel, une visite de diagnostic ? Renseignez le formulaire ou joignez-nous directement. Réponse rapide, proposition claire en FCFA.</p>
     </div></div>
     <div class="contact-layout">
@@ -356,7 +356,7 @@ def contact_section(prefix=""):
       </aside>
     </div>
   </div>
-</section>""".replace("__OPTS__", opts).replace("__SEND__", ico("send"))\
+</section>""".replace("__OPTS__", opts).replace("__TITLE__", title).replace("__SEND__", ico("send"))\
    .replace("__I_PH__", ico("phone")).replace("__I_ML__", ico("mail")).replace("__I_PIN__", ico("pin")).replace("__I_MSG__", ico("message"))\
    .replace("__T1H__", SITE["tel1_href"]).replace("__T1D__", SITE["tel1_disp"]).replace("__T2H__", SITE["tel2_href"]).replace("__T2D__", SITE["tel2_disp"])\
    .replace("__WA__", SITE["wa"]).replace("__EMAIL__", SITE["email"]).replace("__ADDR__", SITE["addr"])
@@ -634,7 +634,7 @@ def build_home():
   </div>
 </section>""" % (bc, ico("arrow"))
 
-    body = hero + pitch + prestations + audience + testi + equip + blog + cta() + contact_section()
+    body = hero + pitch + prestations + audience + testi + equip + blog + contact_section(title="Confiez-nous vos espaces dès aujourd'hui")
     title = "NEXUS DKS GROUP — Entretien professionnel à Cotonou (Bénin)"
     desc = "Entretien professionnel à Cotonou : bureaux, commerces, résidences, fin de chantier, restaurants, textiles. Équipes encadrées, matériel pro, devis en FCFA sous 24 h."
     write("index.html", head(title, desc, "index.html", "page-home") + header("home") + body + footer())
