@@ -1393,9 +1393,9 @@ h1, h2, h3, h4, h5,
     .nx-blog-meta { font-size: 1.05rem; }
     /* barre de chiffres : libellés */
     .nx-statbar-item span { font-size: 1.05rem; }
-    /* bannières de pages (lead) */
-    .lead, .page-banner .lead { font-size: 1.42rem; line-height: 1.55; }
-    .svc-hero .lead { font-size: 1.42rem; }
+    /* bannières de pages : texte descriptif agrandi (~ ×2), style d'origine */
+    .lead, .page-banner .lead { font-size: 2.2rem; line-height: 1.4; }
+    .svc-hero .lead { font-size: 2.2rem; line-height: 1.4; }
     .svc-crumb { font-size: 1rem; }
     /* corps des articles : lecture confortable */
     .nx-article p { font-size: 1.26rem; line-height: 1.75; }
