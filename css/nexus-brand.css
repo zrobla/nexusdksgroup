@@ -1074,6 +1074,10 @@ h1, h2, h3, h4, h5,
 }
 @media (max-width: 600px) {
     .nx-grid.cols-2, .nx-grid.cols-3, .nx-grid.cols-4, .nx-method, .nx-formulas, .nx-stats { grid-template-columns: 1fr; }
+    /* le surlignage du slogan peut se couper sur mobile (sinon il force un débordement) */
+    .nx-mark { white-space: normal; }
+    /* « Notre conviction… » démarre à la ligne suivante en mobile */
+    .nx-conv { display: block; margin-top: 0.5em; }
     .nx-statbar { grid-template-columns: repeat(2, 1fr); }
     .nx-statbar-item:nth-child(odd) { border-left: none; }
     .nx-statbar-item:nth-child(n+3) { border-top: 1px solid var(--line); }
