@@ -1282,3 +1282,17 @@ h1, h2, h3, h4, h5,
     .nx-config { padding: 22px; }
     .svc-hero { padding-top: calc(var(--header-height) + 44px); }
 }
+
+/* === Desktop : textes secondaires agrandis pour la lisibilité (mobile inchangé) === */
+@media (min-width: 992px) {
+    .nx-list li { font-size: 1.06rem; }
+    .nx-card p { font-size: 1.05rem; }
+    .nx-feature h3 { font-size: 1.16rem; }
+    .nx-feature p { font-size: 1.02rem; }
+    .nx-list-rich strong { font-size: 1.06rem; }
+    .nx-list-rich em { font-size: 0.96rem; }
+    .nx-blog-body p { font-size: 1.05rem; }
+    .nx-blog-body h3 { font-size: 1.3rem; }
+    .nx-blog-meta { font-size: 0.86rem; }
+    .nx-marquee-cap > span:last-child { font-size: 1.02rem; }
+}
