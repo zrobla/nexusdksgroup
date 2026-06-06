@@ -660,6 +660,15 @@ h1, h2, h3, h4, h5,
 .nx-marquee-cap { display: flex; align-items: center; gap: 11px; padding: 14px 16px; }
 .nx-marquee-cap .nx-ico-sm { flex: 0 0 36px; width: 36px; height: 36px; }
 .nx-marquee-cap > span:last-child { font-weight: 700; color: var(--ink); font-size: 0.95rem; line-height: 1.25; }
+
+/* Marquee CSS (témoignages / blog) — actif en mobile uniquement ; grille en desktop */
+@media (min-width: 601px) { .nx-mrail .is-clone { display: none; } }
+@keyframes nxMarquee { to { transform: translateX(-50%); } }
+/* Mouvement réduit : pas d'auto-défilement, balayage manuel possible */
+@media (prefers-reduced-motion: reduce) {
+    .nx-mrail { animation: none !important; }
+    .nx-mrail-wrap { overflow-x: auto; }
+}
 .nx-figure {
     position: relative;
     border-radius: var(--r-lg);
@@ -1095,6 +1104,17 @@ h1, h2, h3, h4, h5,
     .nx-hero-arrow { width: 44px; height: 44px; }
     .nx-hero-dot { width: 10px; height: 10px; }
     .nx-hero-dot.is-active { width: 26px; }
+
+    /* Témoignages & blog en carrousel auto (mobile) */
+    .nx-mrail-wrap { overflow: hidden; padding: 10px 0; margin-top: 24px; }
+    .nx-grid.cols-3.nx-mrail {
+        display: flex; flex-wrap: nowrap; width: max-content; gap: 16px;
+        animation: nxMarquee 34s linear infinite;
+    }
+    .nx-mrail.nx-mrail-rev { animation-direction: reverse; }
+    .nx-mrail:hover, .nx-mrail:focus-within { animation-play-state: paused; }
+    .nx-mrail > * { flex: 0 0 82%; min-height: 100%; }
+    .nx-mrail .reveal { opacity: 1; transform: none; }
 }
 
 /* ===================================================== PAGES SERVICES ===== */

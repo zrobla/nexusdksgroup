@@ -601,27 +601,34 @@ def build_home():
         ("Remise en état de fin de chantier parfaite : nous avons livré l'appartement le jour même, sans la moindre reprise.", "Maître d'ouvrage", "Programme résidentiel, Calavi", "MA"),
         ("Nos canapés et moquettes ont retrouvé une seconde vie. Service professionnel, résultat bluffant.", "Cliente particulière", "Résidence, Cotonou", "AK"),
     ]
-    qc = ""
-    for i, (txt, who, role, ini) in enumerate(quotes):
-        qc += '<article class="nx-quote reveal%s"><p>« %s »</p><div class="nx-quote-by"><span class="nx-avatar">%s</span><div><strong>%s</strong><br><span>%s</span></div></div></article>\n' % (" d%d" % (i % 3) if i % 3 else "", txt, ini, who, role)
+    def quote_card(txt, who, role, ini, clone=False):
+        cls = "nx-quote is-clone" if clone else "nx-quote reveal"
+        hid = ' aria-hidden="true"' if clone else ""
+        return '<article class="%s"%s><p>« %s »</p><div class="nx-quote-by"><span class="nx-avatar">%s</span><div><strong>%s</strong><br><span>%s</span></div></div></article>\n' % (cls, hid, txt, ini, who, role)
+    qc = "".join(quote_card(t, w, r, i) for (t, w, r, i) in quotes)
+    qc_clone = "".join(quote_card(t, w, r, i, clone=True) for (t, w, r, i) in quotes)
     testi = """<section class="section section-soft nx-tuck-t">
   <div class="container">
     <div class="section-header reveal"><div class="section-heading">
       <span class="nx-eyebrow">Ils nous font confiance</span>
       <h2 class="section-title">La satisfaction, notre meilleure référence</h2>
     </div></div>
-    <div class="nx-grid cols-3">%s</div>
+    <div class="nx-mrail-wrap"><div class="nx-grid cols-3 nx-mrail nx-mrail-rev">%s%s</div></div>
   </div>
-</section>""" % qc
+</section>""" % (qc, qc_clone)
 
     # blog teaser
-    bc = ""
-    for i, (slug, catg, ttl, exc, img, rt) in enumerate(ARTICLES):
-        bc += """<article class="nx-blog-card reveal%s">
+    def blog_card(art, clone=False):
+        slug, catg, ttl, exc, img, rt = art
+        cls = "nx-blog-card is-clone" if clone else "nx-blog-card reveal"
+        hid = ' aria-hidden="true"' if clone else ""
+        return """<article class="%s"%s>
   <a class="nx-blog-media" href="blog/%s.html"><span class="nx-blog-cat">%s</span><img src="%s" alt="%s" loading="lazy"></a>
   <div class="nx-blog-body"><div class="nx-blog-meta">Lecture %s</div><h3>%s</h3><p>%s</p><a class="nx-blog-link" href="blog/%s.html">Lire l'article %s</a></div>
 </article>
-""" % (" d%d" % (i % 3) if i % 3 else "", slug, catg, img, ttl, rt, ttl, exc, slug, ico("arrow"))
+""" % (cls, hid, slug, catg, img, ttl, rt, ttl, exc, slug, ico("arrow"))
+    bc = "".join(blog_card(a) for a in ARTICLES)
+    bc_clone = "".join(blog_card(a, clone=True) for a in ARTICLES)
     blog = """<section class="section section-soft">
   <div class="container">
     <div class="section-header reveal"><div class="section-heading">
@@ -629,10 +636,10 @@ def build_home():
       <h2 class="section-title">Conseils &amp; expertise du secteur de l'entretien</h2>
       <p class="section-copy">Des analyses utiles pour les clients, les professionnels et les partenaires : hygiène, techniques, organisation.</p>
     </div></div>
-    <div class="nx-grid cols-3">%s</div>
+    <div class="nx-mrail-wrap"><div class="nx-grid cols-3 nx-mrail">%s%s</div></div>
     <div style="text-align:center;margin-top:34px"><a class="btn-main" href="blog.html">Tous les articles %s</a></div>
   </div>
-</section>""" % (bc, ico("arrow"))
+</section>""" % (bc, bc_clone, ico("arrow"))
 
     body = hero + pitch + prestations + audience + testi + equip + blog + contact_section(title="Confiez-nous vos espaces dès aujourd'hui")
     title = "NEXUS DKS GROUP — Entretien professionnel à Cotonou (Bénin)"
