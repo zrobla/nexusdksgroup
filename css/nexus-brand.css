@@ -1071,6 +1071,10 @@ h1, h2, h3, h4, h5,
     .nx-hero::after { display: none; }
     .nx-hero-figure { min-height: 360px; margin-top: 20px; }
     .nx-hero-chip.tl { left: 0; } .nx-hero-chip.br { right: 0; }
+    /* slide 1 empilé : boutons replacés juste sous l'image */
+    .nx-hero-grid > div:first-child { display: contents; }
+    .nx-hero-grid > .nx-hero-figure { order: 1; margin-top: 14px; }
+    .nx-hero-grid .nx-hero-cta { order: 2; margin-top: 22px; }
 }
 @media (max-width: 600px) {
     .nx-grid.cols-2, .nx-grid.cols-3, .nx-grid.cols-4, .nx-method, .nx-formulas, .nx-stats { grid-template-columns: 1fr; }
