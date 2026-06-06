@@ -977,11 +977,20 @@ h1, h2, h3, h4, h5,
     font-family: "Bricolage Grotesque", sans-serif; font-weight: 700; font-size: 0.74rem;
     letter-spacing: 0.04em; padding: 5px 12px; border-radius: 8px;
 }
-.nx-blog-body { padding: 24px 24px 26px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
-.nx-blog-meta { font-size: 0.8rem; color: var(--ink-faint); font-weight: 600; letter-spacing: 0.02em; }
-.nx-blog-body h3 { margin: 0; font-size: 1.18rem; font-weight: 800; color: var(--ink); line-height: 1.3; }
-.nx-blog-body p { margin: 0; color: var(--ink-soft); font-size: 0.96rem; }
-.nx-blog-link { margin-top: auto; display: inline-flex; align-items: center; gap: 8px; color: var(--indigo); font-family: "Bricolage Grotesque", sans-serif; font-weight: 700; font-size: 0.92rem; }
+.nx-blog-body { padding: 24px 24px 26px; display: flex; flex-direction: column; gap: 12px; flex: 1; background: var(--navy); }
+.nx-blog-meta { font-size: 0.8rem; color: var(--lime); font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
+.nx-blog-body h3 { margin: 0; font-size: 1.18rem; font-weight: 800; color: var(--lime-bright); line-height: 1.3; }
+.nx-blog-body p { margin: 0; color: #cfe6a0; font-size: 0.96rem; }
+.nx-blog-link {
+    margin-top: auto; align-self: flex-start;
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--lime); color: var(--navy);
+    padding: 9px 16px; border-radius: 10px;
+    font-family: "Bricolage Grotesque", sans-serif; font-weight: 700; font-size: 0.9rem;
+    box-shadow: 0 8px 18px rgba(156, 198, 61, 0.25);
+    transition: background 0.2s var(--ease), transform 0.2s var(--ease);
+}
+.nx-blog-link:hover { background: var(--lime-bright); transform: translateY(-2px); }
 .nx-blog-link .nx-svg { width: 18px; height: 18px; transition: transform 0.2s var(--ease); }
 .nx-blog-card:hover .nx-blog-link .nx-svg { transform: translateX(4px); }
 
