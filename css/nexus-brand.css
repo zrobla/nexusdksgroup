@@ -1499,3 +1499,18 @@ h1, h2, h3, h4, h5,
     .nx-article p { color: var(--ink); }
     .nx-card p, .nx-feature p, .nx-list li, .nx-aud > p, .nx-quote p { font-weight: 500; }
 }
+
+/* === Sécurité GPU mobile : ces effets (backdrop-filter, gros flous/scales animés en continu)
+   font planter le compositeur de certains GPU mobiles faibles → écran brouillé / triangle d'alerte.
+   On les désactive sous 991px ; le rendu reste équivalent grâce à des fonds opaques. === */
+@media (max-width: 991px) {
+    .site-header,
+    .nx-kpi,
+    .nx-hero-immersive,
+    .form-shell { -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
+    .site-header { background: rgba(7, 11, 78, 0.97); }
+    .svc-hero-bg,
+    .nx-hero-immersive-bg,
+    .contact-hero-card { animation: none !important; }
+    .nx-hero-immersive-bg { will-change: auto; transform: none; }
+}
