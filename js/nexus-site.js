@@ -789,6 +789,14 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
+    // État visuel des cases (remplace le sélecteur CSS :has(), trop lourd sur certains GPU mobiles).
+    document.querySelectorAll("[data-check]").forEach(function (c) {
+        var label = c.closest(".nx-check");
+        var sync = function () { if (label) { label.classList.toggle("is-checked", c.checked); } };
+        c.addEventListener("change", sync);
+        sync();
+    });
+
     // Checklist de réception : barre de progression.
     document.querySelectorAll("[data-checklist]").forEach(function (tool) {
         var checks = tool.querySelectorAll("[data-check]");

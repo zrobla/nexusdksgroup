@@ -1263,7 +1263,7 @@ h1, h2, h3, h4, h5,
 }
 .nx-check:hover { background: rgba(255, 255, 255, 0.09); }
 .nx-check input { accent-color: var(--lime); width: 17px; height: 17px; flex: 0 0 auto; }
-.nx-check:has(input:checked) { background: rgba(156, 198, 61, 0.16); border-color: rgba(156, 198, 61, 0.45); }
+.nx-check.is-checked { background: rgba(156, 198, 61, 0.16); border-color: rgba(156, 198, 61, 0.45); }
 
 /* Configurateur */
 .svc-config-wrap { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 28px; align-items: start; }
@@ -1513,4 +1513,10 @@ h1, h2, h3, h4, h5,
     .nx-hero-immersive-bg,
     .contact-hero-card { animation: none !important; }
     .nx-hero-immersive-bg { will-change: auto; transform: none; }
+    /* ombres à grand flou allégées (repaint GPU coûteux lors des interactions) */
+    .svc-tool,
+    .nx-config,
+    .svc-presta-media,
+    .nx-aside-card,
+    .contact-hero-card { box-shadow: 0 10px 24px rgba(8, 17, 60, 0.16) !important; }
 }

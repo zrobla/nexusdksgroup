@@ -25,7 +25,7 @@ SITE = {
 }
 
 # Version des assets (cache-busting) — à incrémenter à chaque modif CSS/JS.
-ASSETV = "20260606n"
+ASSETV = "20260606o"
 
 # ---------------------------------------------------------------- Icônes SVG
 _I = {
