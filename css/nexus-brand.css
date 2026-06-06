@@ -1283,19 +1283,36 @@ h1, h2, h3, h4, h5,
     .svc-hero { padding-top: calc(var(--header-height) + 44px); }
 }
 
-/* === Desktop : textes secondaires agrandis pour la lisibilité (mobile inchangé) === */
+/* === Desktop : tous les textes secondaires agrandis pour une lecture sans effort (mobile inchangé) === */
 @media (min-width: 992px) {
-    .nx-list li { font-size: 1.18rem; line-height: 1.55; }
-    /* liste « Pourquoi nous » : nettement agrandie (texte trop fin sur grand écran) */
-    .nx-why-inline .nx-list li { font-size: 1.4rem; line-height: 1.55; gap: 12px; }
-    .nx-why-inline .nx-list li .nx-svg { width: 22px; height: 22px; margin-top: 5px; }
-    .nx-card p { font-size: 1.05rem; }
-    .nx-feature h3 { font-size: 1.16rem; }
-    .nx-feature p { font-size: 1.02rem; }
-    .nx-list-rich strong { font-size: 1.06rem; }
-    .nx-list-rich em { font-size: 0.96rem; }
-    .nx-blog-body p { font-size: 1.05rem; }
-    .nx-blog-body h3 { font-size: 1.3rem; }
-    .nx-blog-meta { font-size: 0.86rem; }
-    .nx-marquee-cap > span:last-child { font-size: 1.02rem; }
+    /* listes à coches (Pourquoi nous, services, audience, offre, engagement…) */
+    .nx-list li { font-size: 1.22rem; line-height: 1.55; }
+    .nx-list li .nx-svg { width: 21px; height: 21px; margin-top: 4px; }
+    .nx-why-inline .nx-list li { font-size: 1.3rem; gap: 12px; }
+    /* déclinaisons enrichies (pages services) */
+    .nx-list-rich strong { font-size: 1.18rem; }
+    .nx-list-rich em { font-size: 1.04rem; }
+    /* cartes (services accueil, valeurs, engagement, apports…) */
+    .nx-card p { font-size: 1.16rem; line-height: 1.6; }
+    .nx-card h3 { font-size: 1.32rem; }
+    /* cartes de services (photo immersive) */
+    .nx-card-photo-body p { font-size: 1.1rem; line-height: 1.55; }
+    /* points d'expertise (pages services) */
+    .nx-feature h3 { font-size: 1.26rem; }
+    .nx-feature p { font-size: 1.14rem; line-height: 1.55; }
+    /* cibles B2C/B2B */
+    .nx-aud > p { font-size: 1.22rem; }
+    /* témoignages */
+    .nx-quote p { font-size: 1.22rem; line-height: 1.6; }
+    /* méthode */
+    .nx-step p { font-size: 1.12rem; }
+    /* équipements (nos-services & marquee) */
+    .nx-marquee-cap > span:last-child { font-size: 1.14rem; }
+    .nx-equip-cap { font-size: 1.1rem; }
+    /* blog */
+    .nx-blog-body p { font-size: 1.16rem; line-height: 1.55; }
+    .nx-blog-body h3 { font-size: 1.4rem; }
+    .nx-blog-meta { font-size: 0.95rem; }
+    /* barre de chiffres : libellés */
+    .nx-statbar-item span { font-size: 0.96rem; }
 }
