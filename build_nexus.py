@@ -91,7 +91,7 @@ CATS = [
    "Nettoyage approfondi des vitrages, sols et menuiseries",
    "Réception « prête à occuper » avant remise des clés"]),
  ("residences", "Résidences & Appartements", "home",
-  "Votre intérieur soigné comme il le mérite — la sérénité d'un foyer impeccable, sans y penser.",
+  "Votre intérieur soigné comme il le mérite — la sérénité d'un refuge impeccable, sans y penser.",
   ["Nettoyage complet ou grand ménage de remise à neuf",
    "Entretien ponctuel ou récurrent selon votre rythme de vie",
    "Sols, sanitaires, cuisine, vitrerie intérieure",
@@ -138,6 +138,7 @@ METHOD = [
 VALUES = [
  ("Professionnalisme", "briefcase"), ("Rigueur", "target"), ("Discipline", "shield"),
  ("Respect du client", "users"), ("Sens du détail", "sparkle"),
+ ("Formation continue", "refresh"), ("Contrôle interne", "clipboard"),
 ]
 
 # Autres activités du groupe (page Notre Groupe uniquement)
@@ -393,7 +394,8 @@ def section_engage():
         <h2 class="section-title">Objectif : <span class="nx-mark">0 défaut, 100% de satisfaction</span></h2>
         <p class="section-copy">La qualité est au cœur de notre service. Nous ne livrons pas un passage, nous livrons une exigence — vérifiée, suivie et améliorée en continu.</p>
         <ul class="nx-list" style="margin-top:18px">
-          <li>__CK__<span>Contrôle qualité systématique après chaque intervention</span></li>
+          <li>__CK__<span>Personnel formé en continu aux protocoles métier</span></li>
+          <li>__CK__<span>Politique de contrôle interne des travaux après exécution</span></li>
           <li>__CK__<span>Suivi de la satisfaction client et traçabilité des passages</span></li>
           <li>__CK__<span>Démarche d'amélioration continue</span></li>
         </ul>
@@ -496,10 +498,10 @@ def build_home():
 </section>""".replace("__SEND__", ico("send")).replace("__CK__", ico("check")).replace("__I_SPARK__", ico("sparkle")).replace("__I_SHIELD__", ico("shield")).replace("__I_BLDG__", ico("building")).replace("__I_USERS__", ico("users")).replace("__I_TARGET__", ico("target")).replace("__I_DROP__", ico("droplet")).replace("__I_SPRAY__", ico("spray")).replace("__I_DISC__", ico("disc")).replace("__ARR__", ico("arrow"))
 
     STATS = [
-        ("briefcase", "is-lime", "6", "domaines de prestations"),
+        ("briefcase", "is-lime", "6+", "axes d'interventions"),
         ("target",    "is-navy", "0&nbsp;défaut", "objectif qualité"),
         ("clock",     "is-gold", "24&nbsp;h", "votre devis en FCFA"),
-        ("users",     "is-lime", "100%", "équipes encadrées"),
+        ("users",     "is-lime", "50+", "employés formés &amp; encadrés"),
     ]
     statbar = "".join('<div class="nx-statbar-item"><span class="nx-ico %s nx-ico-sm">%s</span><div><strong>%s</strong><span>%s</span></div></div>' % (cls, ico(name), num, lab) for name, cls, num, lab in STATS)
     pitch = """<section class="section compact">
@@ -1079,9 +1081,9 @@ SERVICES_DETAIL = {
  },
  "residences": {
   "eyebrow": "Particuliers · B2C · Confort",
-  "accroche": "Votre intérieur soigné comme il le mérite — la sérénité d'un foyer impeccable, sans y penser.",
+  "accroche": "Votre intérieur soigné comme il le mérite — la sérénité d'un refuge impeccable, sans y penser.",
   "intro": [
-   "Du <strong>grand ménage de remise à neuf</strong> à l'entretien récurrent, nous adaptons la prestation au rythme de votre foyer. Chaque intervention suit une logique <strong>du plus propre au plus sale</strong> et <strong>du haut vers le bas</strong> pour ne jamais re-salir une zone déjà traitée.",
+   "Du <strong>grand ménage de remise à neuf</strong> à l'entretien récurrent, nous adaptons la prestation au rythme de votre refuge. Chaque intervention suit une logique <strong>du plus propre au plus sale</strong> et <strong>du haut vers le bas</strong> pour ne jamais re-salir une zone déjà traitée.",
    "Cuisine dégraissée, sanitaires détartrés et désinfectés, sols adaptés à chaque revêtement (carrelage, parquet, marbre), vitrerie intérieure : un protocole complet, des produits adaptés aux matériaux et une discrétion totale.",
   ],
   "points": [
@@ -1205,7 +1207,7 @@ SVC_TECH = {
  ],
  "residences": [
   "Remise à neuf en profondeur, du haut vers le bas, sans re-salissure.",
-  "Passages planifiés (hebdo, bi-mensuel, mensuel) au rythme du foyer.",
+  "Passages planifiés (hebdo, bi-mensuel, mensuel) au rythme du refuge.",
   "Produits adaptés à chaque support : parquet, marbre, inox, faïence.",
   "Prise de rendez-vous rapide par téléphone ou WhatsApp.",
  ],

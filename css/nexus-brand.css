@@ -1064,6 +1064,8 @@ h1, h2, h3, h4, h5,
     .nav-cta { margin: 8px 0 0; justify-content: center; }
     .nx-hero-grid, .nx-split, .nx-split.reverse, .nx-audience, .showcase-grid { grid-template-columns: 1fr; }
     .nx-why-inline .nx-figure { min-height: 0; aspect-ratio: 4 / 3; }
+    /* en pile mobile : texte en flux normal (le centrage flex est réservé au desktop) */
+    .nx-why-inline > div:last-child { display: block; min-width: 0; }
     .nx-grid.cols-3, .nx-grid.cols-4, .nx-method, .nx-formulas { grid-template-columns: repeat(2, 1fr); }
     .nx-stats { grid-template-columns: repeat(2, 1fr); }
     .nx-hero::after { display: none; }
