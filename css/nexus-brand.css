@@ -1415,4 +1415,11 @@ h1, h2, h3, h4, h5,
     /* filtre du blog */
     .nx-chip { font-size: 1.04rem; }
     .nx-blog-empty { font-size: 1.12rem; }
+    /* lisibilité : un peu plus de graisse + contraste sur les textes descriptifs (« trop fins ») */
+    .section-copy, .section-header p { font-weight: 600; color: var(--ink); }
+    .section-dark .section-copy, .section-dark .section-header p { color: rgba(255, 255, 255, 0.88); }
+    .lead, .page-banner .lead, .svc-hero .lead { font-weight: 600; }
+    .page-banner .lead, .svc-hero .lead { color: rgba(255, 255, 255, 0.94); }
+    .nx-article p { color: var(--ink); }
+    .nx-card p, .nx-feature p, .nx-list li, .nx-aud > p, .nx-quote p { font-weight: 500; }
 }

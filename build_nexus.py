@@ -24,6 +24,9 @@ SITE = {
     "year": "2026",
 }
 
+# Version des assets (cache-busting) — à incrémenter à chaque modif CSS/JS.
+ASSETV = "20260606b"
+
 # ---------------------------------------------------------------- Icônes SVG
 _I = {
  "check": '<path d="M20 6 9 17l-5-5"/>',
@@ -201,15 +204,15 @@ def head(title, desc, path, page_class, prefix=""):
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="__DOMAIN__/img/brand/nexus-og-card.jpg">
 <link href="__P__vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-<link href="__P__css/nexus-premium.css" rel="stylesheet">
-<link href="__P__css/nexus-brand.css" rel="stylesheet">
+<link href="__P__css/nexus-premium.css?v=__V__" rel="stylesheet">
+<link href="__P__css/nexus-brand.css?v=__V__" rel="stylesheet">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":["Organization","ProfessionalService"],"name":"NEXUS DKS GROUP","alternateName":"NEXUS DKS GROUP - ENTRETIEN","url":"__DOMAIN__/","logo":"__DOMAIN__/img/brand/nexus-logo.png","image":"__DOMAIN__/img/brand/nexus-og-card.jpg","email":"__EMAIL__","telephone":"__TEL__","slogan":"Nous ne faisons pas que nettoyer, nous valorisons vos espaces.","description":"Entreprise de droit béninois spécialisée dans les services d'entretien professionnel, basée à Cotonou et intervenant à Cotonou, ses environs et dans tout le Bénin : entreprises, commerces, résidences et chantiers.","address":{"@type":"PostalAddress","streetAddress":"C/34 Guinkomey, 03 BP 3903","addressLocality":"Cotonou","addressCountry":"BJ"},"areaServed":"Bénin"}
 </script>
 </head>
 """.replace("__TITLE__", title).replace("__DESC__", desc).replace("__CANON__", canonical)\
    .replace("__DOMAIN__", SITE["domain"]).replace("__EMAIL__", SITE["email"])\
-   .replace("__TEL__", "+" + SITE["tel1_href"].lstrip("+")).replace("__P__", prefix)
+   .replace("__TEL__", "+" + SITE["tel1_href"].lstrip("+")).replace("__V__", ASSETV).replace("__P__", prefix)
 
 def header(active, prefix=""):
     cat_items = ""
@@ -294,8 +297,8 @@ __CATS__          <a href="__P__entretien-proprete.html">Offre &amp; formules</a
 </footer>
 <a class="whatsapp-float" href="https://wa.me/__WA__" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">__S_WA__</a>
 <button class="scroll-top-btn" aria-label="Retour en haut" type="button"><svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"></polyline></svg></button>
-<script src="__P__js/nexus-site.js" defer></script>
-</body></html>""".replace("__P__", prefix).replace("__WA__", SITE["wa"]).replace("__CATS__", cat_links)\
+<script src="__P__js/nexus-site.js?v=__V__" defer></script>
+</body></html>""".replace("__V__", ASSETV).replace("__P__", prefix).replace("__WA__", SITE["wa"]).replace("__CATS__", cat_links)\
    .replace("__S_WA__", SOCIAL["whatsapp"]).replace("__S_FB__", SOCIAL["facebook"]).replace("__S_IG__", SOCIAL["instagram"]).replace("__S_LI__", SOCIAL["linkedin"])\
    .replace("__T1H__", SITE["tel1_href"]).replace("__T1D__", SITE["tel1_disp"]).replace("__T2H__", SITE["tel2_href"]).replace("__T2D__", SITE["tel2_disp"])\
    .replace("__EMAIL__", SITE["email"]).replace("__ADDR__", SITE["addr"]).replace("__YEAR__", SITE["year"])\
