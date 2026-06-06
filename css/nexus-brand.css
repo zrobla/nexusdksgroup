@@ -20,7 +20,7 @@
     --azure: #1fa9e6;
     --gold: #c2922f;
     /* accent « étoile filante » du logo (arc doré au-dessus de NEXUS) */
-    --gold-arc: linear-gradient(90deg, #d8b86a, #b8923f 55%, #9c7a36);
+    --gold-arc: linear-gradient(90deg, #c4a24f, #a47e30 55%, #856526);
     --ink: #161a33;
     --ink-soft: #555d80;
     --ink-faint: #8a90ac;
