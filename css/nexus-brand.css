@@ -19,6 +19,8 @@
     --lime-deep: #5f7d18;
     --azure: #1fa9e6;
     --gold: #c2922f;
+    /* accent « étoile filante » du logo (arc doré au-dessus de NEXUS) */
+    --gold-arc: linear-gradient(90deg, #d8b86a, #b8923f 55%, #9c7a36);
     --ink: #161a33;
     --ink-soft: #555d80;
     --ink-faint: #8a90ac;
@@ -144,7 +146,7 @@ h1, h2, h3, h4, h5,
     position: absolute;
     left: 0; right: 0; bottom: -1px;
     height: 3px;
-    background: var(--lime);
+    background: var(--gold-arc);
 }
 .site-logo-full {
     display: block;
@@ -932,7 +934,7 @@ h1, h2, h3, h4, h5,
 .banner-shell h1 { color: #fff; }
 .page-banner .lead { color: rgba(255, 255, 255, 0.82); }
 /* ruban lime fin en bas de bannière */
-.page-banner .nx-banner-rule { position: absolute; left: 0; right: 0; bottom: 0; height: 4px; background: var(--lime); z-index: 2; }
+.page-banner .nx-banner-rule { position: absolute; left: 0; right: 0; bottom: 0; height: 4px; background: var(--gold-arc); z-index: 2; }
 
 /* ------------------------------------------------------------- Bande CTA */
 .nx-cta {
@@ -1015,7 +1017,7 @@ h1, h2, h3, h4, h5,
     position: relative;
 }
 .site-footer::before {
-    content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--lime);
+    content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--gold-arc);
 }
 .site-footer h4 { font-family: "Bricolage Grotesque", sans-serif; color: #fff; }
 .site-footer a:hover { color: var(--lime-bright); }
@@ -1113,7 +1115,7 @@ h1, h2, h3, h4, h5,
     }
     .nx-mrail.nx-mrail-rev { animation-direction: reverse; }
     .nx-mrail:hover, .nx-mrail:focus-within { animation-play-state: paused; }
-    .nx-mrail > * { flex: 0 0 82%; min-height: 100%; }
+    .nx-mrail > * { flex: 0 0 80vw; max-width: 80vw; }
     .nx-mrail .reveal { opacity: 1; transform: none; }
 }
 
