@@ -26,7 +26,7 @@ SITE = {
 }
 
 # Version des assets (cache-busting) — à incrémenter à chaque modif CSS/JS.
-ASSETV = "20260606t"
+ASSETV = "20260606u"
 
 # ---------------------------------------------------------------- Icônes SVG
 _I = {
@@ -190,7 +190,7 @@ ARTICLES = [
 ]
 
 # ---------------------------------------------------------------- Chrome
-def head(title, desc, path, page_class, prefix=""):
+def head(title, desc, path, page_class, prefix="", og_type="website"):
     canonical = SITE["domain"] + "/" + (path if path != "index.html" else "")
     return """<!doctype html>
 <html lang="fr">
@@ -212,7 +212,7 @@ def head(title, desc, path, page_class, prefix=""):
 <link rel="apple-touch-icon" sizes="180x180" href="__P__apple-touch-icon.png">
 <link rel="manifest" href="__P__site.webmanifest">
 <meta property="og:site_name" content="NEXUS DKS GROUP">
-<meta property="og:type" content="website">
+<meta property="og:type" content="__OGT__">
 <meta property="og:locale" content="fr_BJ">
 <meta property="og:title" content="__TITLE__">
 <meta property="og:description" content="__DESC__">
@@ -229,7 +229,7 @@ def head(title, desc, path, page_class, prefix=""):
 </head>
 """.replace("__TITLE__", title).replace("__DESC__", desc).replace("__CANON__", canonical)\
    .replace("__DOMAIN__", SITE["domain"]).replace("__EMAIL__", SITE["email"])\
-   .replace("__TEL__", "+" + SITE["tel1_href"].lstrip("+")).replace("__V__", ASSETV).replace("__P__", prefix)
+   .replace("__TEL__", "+" + SITE["tel1_href"].lstrip("+")).replace("__OGT__", og_type).replace("__V__", ASSETV).replace("__P__", prefix)
 
 def header(active, prefix=""):
     cat_items = ""
@@ -470,7 +470,7 @@ def build_home():
           <img class="nx-hero-immersive-bg" src="img/services/hero-entreprises.jpg" alt="" aria-hidden="true">
           <div class="nx-hero-immersive-copy">
             <span class="nx-eyebrow">Entreprises · Institutions · Partenaires</span>
-            <h1>Des espaces sains, des équipes <span class="accent">performantes</span>.</h1>
+            <p class="nx-hero-title">Des espaces sains, des équipes <span class="accent">performantes</span>.</p>
             <p class="lead">Bureaux, sièges sociaux et établissements recevant du public : nos protocoles de bionettoyage et nos contrats d'entretien récurrent protègent la santé de vos collaborateurs — et l'image de votre marque.</p>
             <div class="nx-hero-cta">
               <a class="btn-lime" href="contact.html">__SEND__ Devis entreprise</a>
@@ -491,7 +491,7 @@ def build_home():
           <img class="nx-hero-immersive-bg" src="img/services/hero-bionettoyage.jpg" alt="" aria-hidden="true">
           <div class="nx-hero-immersive-copy">
             <span class="nx-eyebrow">Expertise technique · Chantiers</span>
-            <h1>La <span class="accent">technicité</span> du propre, du détail à la finition.</h1>
+            <p class="nx-hero-title">La <span class="accent">technicité</span> du propre, du détail à la finition.</p>
             <p class="lead">Bionettoyage, injection-extraction, haute pression, nettoyage fin de chantier : des gestes encadrés et un matériel de niveau professionnel, pour des résultats que l'on voit… et que l'on mesure.</p>
             <div class="nx-hero-cta">
               <a class="btn-lime" href="nos-services.html">__ARR__ Nos équipements</a>
@@ -667,7 +667,12 @@ def build_home():
   </div>
 </section>""" % (bc, bc_clone, ico("arrow"))
 
-    body = hero + pitch + prestations + audience + testi + equip + blog + contact_section(title="Confiez-nous vos espaces dès aujourd'hui")
+    website_ld = '<script type="application/ld+json">' + json.dumps({
+        "@context": "https://schema.org", "@type": "WebSite",
+        "name": "NEXUS DKS GROUP", "url": SITE["domain"] + "/", "inLanguage": "fr-BJ",
+        "publisher": {"@type": "Organization", "name": "NEXUS DKS GROUP"},
+    }, ensure_ascii=False) + '</script>\n'
+    body = website_ld + hero + pitch + prestations + audience + testi + equip + blog + contact_section(title="Confiez-nous vos espaces dès aujourd'hui")
     title = "NEXUS DKS GROUP — Entretien professionnel à Cotonou (Bénin)"
     desc = "Entreprise de droit béninois d'entretien professionnel à Cotonou, ses environs et dans tout le Bénin : bureaux, commerces, résidences, chantiers. Devis FCFA sous 24 h."
     write("index.html", head(title, desc, "index.html", "page-home") + header("home") + body + footer())
@@ -1187,12 +1192,21 @@ def build_articles():
             "mainEntityOfPage": SITE["domain"] + "/blog/" + slug + ".html",
             "articleSection": catg, "inLanguage": "fr-BJ",
         }
+        crumbs = {
+            "@context": "https://schema.org", "@type": "BreadcrumbList",
+            "itemListElement": [
+                {"@type": "ListItem", "position": 1, "name": "Accueil", "item": SITE["domain"] + "/"},
+                {"@type": "ListItem", "position": 2, "name": "Blog", "item": SITE["domain"] + "/blog.html"},
+                {"@type": "ListItem", "position": 3, "name": ttl, "item": SITE["domain"] + "/blog/" + slug + ".html"},
+            ],
+        }
         ld = '<script type="application/ld+json">' + json.dumps(ld_obj, ensure_ascii=False) + '</script>\n'
+        ld += '<script type="application/ld+json">' + json.dumps(crumbs, ensure_ascii=False) + '</script>\n'
         body = ld + banner + article + rel
         title = "%s | Blog NEXUS DKS GROUP" % ttl
         desc = exc[:155]
         ld_path = "blog/%s.html" % slug
-        write("blog/%s.html" % slug, head(title, desc, ld_path, "page-article", prefix="../") + header("blog", prefix="../") + body + footer(prefix="../"))
+        write("blog/%s.html" % slug, head(title, desc, ld_path, "page-article", prefix="../", og_type="article") + header("blog", prefix="../") + body + footer(prefix="../"))
 
 
 # ============================================================ CONTACT
@@ -1320,6 +1334,45 @@ def build_carrieres():
     title = "Carrières & recrutement | NEXUS DKS GROUP — Cotonou (Bénin)"
     desc = "Rejoignez NEXUS DKS GROUP, entreprise de droit béninois d'entretien professionnel à Cotonou : agents, chefs d'équipe, techniciens, superviseurs. Postulez par WhatsApp."
     write("carrieres.html", head(title, desc, "carrieres.html", "page-carrieres") + header("") + body + footer())
+
+
+# ============================================================ LLMS.TXT (indexation IA)
+def build_llms():
+    d = SITE["domain"]
+    L = []
+    L.append("# NEXUS DKS GROUP — Entretien professionnel")
+    L.append("")
+    L.append("> Entreprise de droit béninois spécialisée dans les services d'entretien professionnel, "
+             "basée à Cotonou et intervenant à Cotonou, ses environs et dans tout le Bénin. "
+             "Slogan : « Nous ne faisons pas que nettoyer, nous valorisons vos espaces. »")
+    L.append("")
+    L.append("NEXUS DKS GROUP — ENTRETIEN sert entreprises, institutions, commerces, résidences et chantiers. "
+             "Méthodologie : formation continue des équipes, encadrement, matériel professionnel et contrôle "
+             "interne des travaux après exécution. Contact privilégié par WhatsApp ; devis en FCFA sous 24 h.")
+    L.append("")
+    L.append("## Services")
+    for slug, label, icon, desc, bullets in CATS:
+        L.append("- [%s](%s/services/%s.html) : %s" % (label, d, slug, desc))
+    L.append("")
+    L.append("## Pages clés")
+    for path, name in [("", "Accueil"), ("nos-services.html", "Nos services"),
+                       ("entretien-proprete.html", "Offre & formules"), ("about.html", "Notre Groupe"),
+                       ("carrieres.html", "Carrières"), ("contact.html", "Contact & devis")]:
+        L.append("- [%s](%s/%s)" % (name, d, path))
+    L.append("")
+    L.append("## Blog")
+    for slug, catg, ttl, exc, img, rt in ARTICLES:
+        L.append("- [%s](%s/blog/%s.html) : %s" % (ttl, d, slug, exc))
+    L.append("")
+    L.append("## Contact")
+    L.append("- Téléphone / WhatsApp : %s · %s" % (SITE["tel1_disp"], SITE["tel2_disp"]))
+    L.append("- Email : %s" % SITE["email"])
+    L.append("- Adresse : %s" % SITE["addr"])
+    L.append("")
+    L.append("## Partenaire technologique")
+    L.append("- Conception et solutions digitales : Tech & Web (https://tech-and-web.com)")
+    L.append("")
+    write("llms.txt", "\n".join(L) + "\n")
 
 
 # ============================================================ 404
@@ -1685,7 +1738,16 @@ def build_service_pages():
   </div>
 </section>""" % (tg, others)
 
-        body = hero + expertise + presta + config + target \
+        svc_crumbs = {
+            "@context": "https://schema.org", "@type": "BreadcrumbList",
+            "itemListElement": [
+                {"@type": "ListItem", "position": 1, "name": "Accueil", "item": SITE["domain"] + "/"},
+                {"@type": "ListItem", "position": 2, "name": "Services", "item": SITE["domain"] + "/nos-services.html"},
+                {"@type": "ListItem", "position": 3, "name": label, "item": SITE["domain"] + "/services/" + slug + ".html"},
+            ],
+        }
+        svc_ld = '<script type="application/ld+json">' + json.dumps(svc_crumbs, ensure_ascii=False) + '</script>\n'
+        body = svc_ld + hero + expertise + presta + config + target \
             + cta(prefix="../", title="Un projet d'entretien %s ?" % label.lower(),
                   text="Décrivez votre besoin : diagnostic, protocole sur mesure et devis clair en FCFA sous 24&nbsp;heures.")
         title = "%s — Entretien professionnel | NEXUS DKS GROUP Cotonou" % label
@@ -1704,5 +1766,6 @@ if __name__ == "__main__":
     build_articles()
     build_contact()
     build_carrieres()
+    build_llms()
     build_404()
     print("\n✅ Site NEXUS DKS GROUP — ENTRETIEN régénéré.")

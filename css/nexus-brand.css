@@ -736,14 +736,14 @@ h1, h2, h3, h4, h5,
 .nx-hero > .container { position: relative; z-index: 2; }
 .nx-hero-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 40px; align-items: center; }
 .nx-hero .nx-eyebrow { color: var(--lime-bright); }
-.nx-hero h1 {
+.nx-hero :is(h1, .nx-hero-title) {
     font-size: clamp(2.5rem, 5vw, 4.3rem);
     font-weight: 800;
     line-height: 1.04;
     margin: 0 0 20px;
     color: #fff;
 }
-.nx-hero h1 .accent { color: var(--lime-bright); }
+.nx-hero :is(h1, .nx-hero-title) .accent { color: var(--lime-bright); }
 .nx-hero .lead { font-size: 1.15rem; color: rgba(255, 255, 255, 0.8); max-width: 560px; margin: 0 0 28px; }
 .nx-hero-cta { display: flex; flex-wrap: wrap; gap: 14px; }
 .nx-hero-note { margin-top: 26px; display: flex; flex-wrap: wrap; gap: 18px; color: rgba(255, 255, 255, 0.72); font-size: 0.95rem; font-weight: 600; }
@@ -791,7 +791,7 @@ h1, h2, h3, h4, h5,
 
 /* Entrée échelonnée premium des contenus à chaque activation */
 .nx-hero-slide .nx-eyebrow,
-.nx-hero-slide h1,
+.nx-hero-slide :is(h1, .nx-hero-title),
 .nx-hero-slide .lead,
 .nx-hero-slide .nx-hero-cta,
 .nx-hero-slide .nx-hero-note,
@@ -802,7 +802,7 @@ h1, h2, h3, h4, h5,
     transition: opacity 0.75s var(--ease), transform 0.75s var(--ease);
 }
 .nx-hero-slide.is-active .nx-eyebrow      { opacity: 1; transform: none; transition-delay: 0.18s; }
-.nx-hero-slide.is-active h1               { opacity: 1; transform: none; transition-delay: 0.28s; }
+.nx-hero-slide.is-active :is(h1, .nx-hero-title)               { opacity: 1; transform: none; transition-delay: 0.28s; }
 .nx-hero-slide.is-active .lead            { opacity: 1; transform: none; transition-delay: 0.38s; }
 .nx-hero-slide.is-active .nx-hero-cta     { opacity: 1; transform: none; transition-delay: 0.48s; }
 .nx-hero-slide.is-active .nx-hero-note    { opacity: 1; transform: none; transition-delay: 0.58s; }
@@ -915,7 +915,7 @@ h1, h2, h3, h4, h5,
     .nx-hero-slide { transition: opacity 0.2s linear, visibility 0s linear 0.2s; }
     .nx-hero-slide.is-active { transition: opacity 0.2s linear; }
     .nx-hero-slide .nx-eyebrow,
-    .nx-hero-slide h1,
+    .nx-hero-slide :is(h1, .nx-hero-title),
     .nx-hero-slide .lead,
     .nx-hero-slide .nx-hero-cta,
     .nx-hero-slide .nx-hero-note,
@@ -1133,7 +1133,7 @@ h1, h2, h3, h4, h5,
     /* === Hero slider — expérience mobile soignée === */
     .nx-hero { padding-top: calc(var(--header-height) + 28px); padding-bottom: 52px; }
     .nx-hero-grid { gap: 22px; }
-    .nx-hero h1 { font-size: clamp(1.95rem, 8.5vw, 2.6rem); line-height: 1.08; margin-bottom: 14px; }
+    .nx-hero :is(h1, .nx-hero-title) { font-size: clamp(1.95rem, 8.5vw, 2.6rem); line-height: 1.08; margin-bottom: 14px; }
     .nx-hero .lead { font-size: 1rem; margin-bottom: 22px; }
     .nx-hero-cta { gap: 10px; }
     .nx-hero-cta > a { flex: 1 1 100%; justify-content: center; }       /* boutons pleine largeur, tap facile */
