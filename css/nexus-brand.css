@@ -1393,4 +1393,26 @@ h1, h2, h3, h4, h5,
     .nx-blog-meta { font-size: 1.05rem; }
     /* barre de chiffres : libellés */
     .nx-statbar-item span { font-size: 1.05rem; }
+    /* bannières de pages (lead) */
+    .lead, .page-banner .lead { font-size: 1.42rem; line-height: 1.55; }
+    .svc-hero .lead { font-size: 1.42rem; }
+    .svc-crumb { font-size: 1rem; }
+    /* corps des articles : lecture confortable */
+    .nx-article p { font-size: 1.26rem; line-height: 1.75; }
+    .nx-article-lead { font-size: 1.5rem !important; line-height: 1.6; }
+    .nx-article ul li { font-size: 1.22rem; line-height: 1.55; }
+    .nx-article h2 { font-size: 2.1rem; }
+    .nx-article h3 { font-size: 1.55rem; }
+    .nx-article blockquote { font-size: 1.35rem; }
+    /* signature + aside des articles */
+    .nx-article-sign strong { font-size: 1.18rem; }
+    .nx-article-sign span { font-size: 1.05rem; }
+    .nx-aside-cat { font-size: 0.92rem; }
+    .nx-aside-meta { font-size: 1.08rem; }
+    .nx-aside-share > span { font-size: 1.02rem; }
+    .nx-aside-cta h3 { font-size: 1.35rem; }
+    .nx-aside-cta p { font-size: 1.08rem; }
+    /* filtre du blog */
+    .nx-chip { font-size: 1.04rem; }
+    .nx-blog-empty { font-size: 1.12rem; }
 }
