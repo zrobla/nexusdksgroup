@@ -979,7 +979,7 @@ h1, h2, h3, h4, h5,
 }
 .nx-blog-body { padding: 24px 24px 26px; display: flex; flex-direction: column; gap: 12px; flex: 1; background: var(--navy); }
 .nx-blog-meta { font-size: 0.8rem; color: var(--lime); font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
-.nx-blog-body h3 { margin: 0; font-size: 1.18rem; font-weight: 800; color: var(--lime-bright); line-height: 1.3; }
+.nx-blog-body h3 { margin: 0; font-size: 1.18rem; font-weight: 800; color: #fff; line-height: 1.3; }
 .nx-blog-body p { margin: 0; color: #cfe6a0; font-size: 0.96rem; }
 .nx-blog-link {
     margin-top: auto; align-self: flex-start;
