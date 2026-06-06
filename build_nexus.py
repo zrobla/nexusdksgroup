@@ -1250,7 +1250,7 @@ def build_service_pages():
 </section>""" % (img, label, D["eyebrow"], label, D["accroche"], ico("send"), SITE["wa"], ico("message"))
 
         pts = "".join('<article class="nx-feature reveal%s"><span class="nx-ico is-lime">%s</span><div><h3>%s</h3><p>%s</p></div></article>' % (" d%d" % (k % 3) if k % 3 else "", ico(ic), t, d) for k, (ic, t, d) in enumerate(D["points"]))
-        intro = "".join("<p>%s</p>" % p for p in D["intro"])
+        intro = "".join('<p class="section-copy">%s</p>' % p for p in D["intro"])
         expertise = """<section class="section">
   <div class="container">
     <div class="svc-split">
