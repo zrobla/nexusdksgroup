@@ -28,7 +28,7 @@ SITE = {
 }
 
 # Version des assets (cache-busting) — à incrémenter à chaque modif CSS/JS.
-ASSETV = "20260614o"
+ASSETV = "20260614p"
 
 # ---------------------------------------------------------------- Icônes SVG
 _I = {
@@ -640,6 +640,12 @@ def build_home():
               <div class="nx-kpi"><span class="nx-ico is-lime">__I_LEAF__</span><div><strong>Palmier à huile</strong><small>transformation locale</small></div></div>
               <div class="nx-kpi"><span class="nx-ico is-navy">__I_WIND__</span><div><strong>Flotte propre</strong><small>chaîne du froid sécurisée</small></div></div>
             </div>
+          </div>
+          <!-- Vitrine produits COQ BARON (desktop) : entrée cascade puis alignement -->
+          <div class="nx-agro-flock">
+            <figure class="nx-agro-card"><img src="img/poles/agro-coq-baron-produit.jpg" alt="Volaille COQ BARON — poulet fermier conditionné, prêt à cuire" loading="lazy" decoding="async" width="720" height="540"></figure>
+            <figure class="nx-agro-card"><img src="img/poles/agro-poulet-frais.jpg" alt="Poulet frais issu du pôle agro-pastoral NEXUS DKS GROUP" loading="lazy" decoding="async" width="720" height="540"></figure>
+            <figure class="nx-agro-card"><img src="img/poles/agro-poulet-fume.jpg" alt="Poulet fumé, produit du terroir signé COQ BARON" loading="lazy" decoding="async" width="720" height="540"></figure>
           </div>
         </div>
       </article>
