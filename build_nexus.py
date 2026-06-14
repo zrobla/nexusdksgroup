@@ -28,7 +28,7 @@ SITE = {
 }
 
 # Version des assets (cache-busting) — à incrémenter à chaque modif CSS/JS.
-ASSETV = "20260614g"
+ASSETV = "20260614j"
 
 # ---------------------------------------------------------------- Icônes SVG
 _I = {
@@ -75,6 +75,12 @@ _I = {
  "rocket": '<path d="M5 15c-1.5 1-2 4-2 4s3-.5 4-2a2.8 2.8 0 0 0-2-2z"/><path d="M9 15l-3-3c1-5 5-9 11-9 0 6-4 10-9 11z"/><circle cx="14.5" cy="9.5" r="1.5"/>',
  "heart": '<path d="M12 20S4 14.5 4 9a4 4 0 0 1 8-1 4 4 0 0 1 8 1c0 5.5-8 11-8 11z"/>',
  "graduation": '<path d="M2 9l10-4 10 4-10 4z"/><path d="M6 11v4c0 1.5 2.7 3 6 3s6-1.5 6-3v-4"/>',
+ "grid": '<rect x="3" y="3" width="7.5" height="7.5" rx="1.4"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="1.4"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="1.4"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="1.4"/>',
+ "rooster": '<path d="M8 5.6c.4-.7 1.1-.7 1.4 0 .3-.7 1.1-.7 1.4 0 .3-.6 1.1-.5 1.2.3"/><path d="M9.4 7.2a2.2 2.2 0 0 0-2.1 2.6l-1.9.7 2 .9"/><path d="M7.9 9.4c-.2.6-.5 1-.9 1.2"/><path d="M9.2 8.9c-2.3.5-4 2.6-4 5.1 0 3 2.4 5 5.6 5 3.4 0 5.7-2.3 5.7-5.5"/><path d="M16.1 13.6c1.9-.3 3.6-1.8 4.2-3.9-1.8.2-3.2.7-4.2 1.6.4-1.3 0-2.7-.9-3.6"/><path d="M9.8 18.8V21M13.4 18.8V21"/>',
+ "palm": '<path d="M12 21v-9.4"/><path d="M12 11.6C10.4 9.1 7.4 8.1 5 9.2c1-2.6 4-3.4 6.6-1.8"/><path d="M12 11.6c1.6-2.5 4.6-3.5 7-2.4-1-2.6-4-3.4-6.6-1.8"/><path d="M12 10.4c-.6-2.4.5-5 2.7-6-2.4-.6-4.6.8-5.2 3.1"/><path d="M9 21h6"/>',
+ "truck": '<path d="M2.5 7h11v9h-11z"/><path d="M13.5 10h3.3l2.7 3v3h-6z"/><circle cx="7" cy="18.3" r="1.7"/><circle cx="17" cy="18.3" r="1.7"/>',
+ "gem": '<path d="M5 4h14l2.5 4.5L12 21 2.5 8.5z"/><path d="M2.7 8.5h18.6"/><path d="M8.6 4 6.2 8.5 12 21l5.8-12.5L15.4 4"/>',
+ "key": '<circle cx="6" cy="12" r="3.5"/><path d="M9.5 12H20"/><path d="M16 12v3.2M20 12v3.2"/>',
 }
 def ico(name, cls=""):
     c = "nx-svg" + ((" " + cls) if cls else "")
@@ -590,26 +596,27 @@ def section_engage():
 # ============================================================ ACCUEIL
 def build_home():
     hero = """<section class="nx-hero nx-hero-slider" aria-roledescription="carrousel" aria-label="NEXUS DKS GROUP — présentation">
-  <div class="container">
-    <div class="nx-hero-track">
+  <div class="nx-hero-track">
 
       <!-- Diapo 1 : le groupe / synergie (h1) -->
       <article class="nx-hero-slide is-active" data-hero-slide aria-hidden="false">
-        <div class="nx-hero-immersive">
-          <img class="nx-hero-immersive-bg" src="img/poles/btp-1.jpg" alt="" aria-hidden="true">
-          <div class="nx-hero-immersive-copy">
-            <span class="nx-eyebrow">NEXUS DKS GROUP — Cotonou, Bénin</span>
-            <h1 class="nx-hero-title">Un groupe, <span class="accent">plusieurs solutions</span> pour entreprendre au Bénin.</h1>
-            <p class="lead">BTP, entretien, immobilier, agro-pastoral, restauration, événementiel et conseil : sept pôles complémentaires, une même exigence de qualité — au service des entreprises, des institutions et des particuliers.</p>
-            <div class="nx-hero-cta">
-              <a class="btn-lime" href="nos-poles.html">__ARR__ Découvrir nos pôles</a>
-              <a class="btn-secondary" href="contact.html">__SEND__ Nous contacter</a>
+        <div class="nx-hero-immersive is-groupe">
+          <img class="nx-hero-immersive-bg" src="img/poles/btp-1.jpg" alt="" aria-hidden="true" fetchpriority="high" decoding="async" width="1500" height="844">
+          <div class="container nx-hero-inner">
+            <div class="nx-hero-immersive-copy">
+              <span class="nx-eyebrow">NEXUS DKS GROUP · Groupe multiservices — Cotonou, Bénin</span>
+              <h1 class="nx-hero-title">Un seul partenaire pour <span class="accent">bâtir, produire et entreprendre</span> au Bénin.</h1>
+              <p class="lead">Sept pôles d'excellence — BTP, immobilier, agro-pastoral, entretien, restauration, événementiel et conseil — réunis sous une même direction. La force d'un groupe intégré, la simplicité d'un interlocuteur unique.</p>
+              <div class="nx-hero-cta">
+                <a class="btn-lime" href="nos-poles.html">Découvrir le groupe __ARR__</a>
+                <a class="btn-secondary" href="contact.html">__SEND__ Demander un devis</a>
+              </div>
             </div>
-          </div>
-          <div class="nx-hero-kpis">
-            <div class="nx-kpi"><span class="nx-ico is-lime">__I_BRIEF__</span><div><strong>7 pôles</strong><small>un seul interlocuteur</small></div></div>
-            <div class="nx-kpi"><span class="nx-ico is-gold">__I_STAR__</span><div><strong>COQ BARON</strong><small>notre marque de volailles</small></div></div>
-            <div class="nx-kpi"><span class="nx-ico is-navy">__I_CLOCK__</span><div><strong>24&nbsp;h</strong><small>votre devis en FCFA</small></div></div>
+            <div class="nx-hero-kpis">
+              <div class="nx-kpi"><span class="nx-ico is-lime">__I_BRIEF__</span><div><strong>7 pôles</strong><small>un seul interlocuteur</small></div></div>
+              <div class="nx-kpi"><span class="nx-ico is-gold">__I_STAR__</span><div><strong>COQ BARON</strong><small>notre marque maison</small></div></div>
+              <div class="nx-kpi"><span class="nx-ico is-navy">__I_CLOCK__</span><div><strong>Devis 24&nbsp;h</strong><small>chiffré en FCFA</small></div></div>
+            </div>
           </div>
         </div>
       </article>
@@ -617,20 +624,22 @@ def build_home():
       <!-- Diapo 2 : agro-pastoral / COQ BARON — immersif -->
       <article class="nx-hero-slide" data-hero-slide aria-hidden="true">
         <div class="nx-hero-immersive is-entreprises">
-          <img class="nx-hero-immersive-bg" src="img/poles/agro-pastoral-2.jpg" alt="" aria-hidden="true">
-          <div class="nx-hero-immersive-copy">
-            <span class="nx-eyebrow">Agro-pastoral · De la Terre à la Table</span>
-            <p class="nx-hero-title">Du terroir de Sakété à votre table, la griffe <span class="accent">COQ BARON</span>.</p>
-            <p class="lead">Ferme de palmiers à huile, élevage de volailles COQ BARON, cuniculture et bétail, transport intégré : un circuit maîtrisé de bout en bout, pour des produits d'une fraîcheur et d'une traçabilité absolues.</p>
-            <div class="nx-hero-cta">
-              <a class="btn-lime" href="poles/agro-pastoral.html">__ARR__ Le pôle agro-pastoral</a>
-              <a class="btn-secondary" href="poles/restauration-tourisme.html">Restauration & tourisme</a>
+          <img class="nx-hero-immersive-bg" src="img/poles/agro-pastoral-2.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async" width="1500" height="1124">
+          <div class="container nx-hero-inner">
+            <div class="nx-hero-immersive-copy">
+              <span class="nx-eyebrow">Pôle Agro-pastoral · De la Terre à la Table</span>
+              <p class="nx-hero-title">De nos terres de Sakété à votre table, la signature <span class="accent">COQ BARON</span>.</p>
+              <p class="lead">Palmeraies, élevage de volailles COQ BARON, cuniculture et bétail, transport intégré : un circuit maîtrisé de bout en bout, pour une fraîcheur et une traçabilité sans compromis.</p>
+              <div class="nx-hero-cta">
+                <a class="btn-lime" href="poles/agro-pastoral.html">Le pôle agro-pastoral __ARR__</a>
+                <a class="btn-secondary" href="poles/restauration-tourisme.html">Restauration &amp; tourisme</a>
+              </div>
             </div>
-          </div>
-          <div class="nx-hero-kpis">
-            <div class="nx-kpi"><span class="nx-ico is-gold">__I_STAR__</span><div><strong>COQ BARON</strong><small>marque exclusive</small></div></div>
-            <div class="nx-kpi"><span class="nx-ico is-lime">__I_LEAF__</span><div><strong>Palmier à huile</strong><small>transformation locale</small></div></div>
-            <div class="nx-kpi"><span class="nx-ico is-navy">__I_WIND__</span><div><strong>Flotte propre</strong><small>chaîne du froid sécurisée</small></div></div>
+            <div class="nx-hero-kpis">
+              <div class="nx-kpi"><span class="nx-ico is-gold">__I_STAR__</span><div><strong>COQ BARON</strong><small>marque exclusive</small></div></div>
+              <div class="nx-kpi"><span class="nx-ico is-lime">__I_LEAF__</span><div><strong>Palmier à huile</strong><small>transformation locale</small></div></div>
+              <div class="nx-kpi"><span class="nx-ico is-navy">__I_WIND__</span><div><strong>Flotte propre</strong><small>chaîne du froid sécurisée</small></div></div>
+            </div>
           </div>
         </div>
       </article>
@@ -638,46 +647,56 @@ def build_home():
       <!-- Diapo 3 : BTP & immobilier — immersif premium -->
       <article class="nx-hero-slide" data-hero-slide aria-hidden="true">
         <div class="nx-hero-immersive is-expertise">
-          <img class="nx-hero-immersive-bg" src="img/poles/immobilier-1.jpg" alt="" aria-hidden="true">
-          <div class="nx-hero-immersive-copy">
-            <span class="nx-eyebrow">BTP & Immobilier · Bâtir durable</span>
-            <p class="nx-hero-title">Concevoir, <span class="accent">bâtir</span> et valoriser votre patrimoine.</p>
-            <p class="lead">Du gros œuvre aux finitions, de la promotion à la gestion immobilière : des ouvrages durables et innovants, portés par la synergie de nos pôles et l'excellence de notre partenaire DIAMOND DÉCORATION.</p>
-            <div class="nx-hero-cta">
-              <a class="btn-lime" href="poles/btp.html">__ARR__ Le pôle BTP</a>
-              <a class="btn-secondary" href="poles/immobilier.html">Le pôle immobilier</a>
+          <img class="nx-hero-immersive-bg" src="img/poles/immobilier-1.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async" width="1500" height="995">
+          <div class="container nx-hero-inner">
+            <div class="nx-hero-immersive-copy">
+              <span class="nx-eyebrow">Pôles BTP &amp; Immobilier · Bâtir, valoriser, transmettre</span>
+              <p class="nx-hero-title">Concevoir, <span class="accent">bâtir</span> et valoriser votre patrimoine.</p>
+              <p class="lead">Du gros œuvre aux finitions d'exception, de la promotion à la gestion locative : des réalisations durables, portées par la synergie de nos métiers et le savoir-faire de notre partenaire DIAMOND DÉCORATION.</p>
+              <div class="nx-hero-cta">
+                <a class="btn-lime" href="poles/btp.html">Le pôle BTP __ARR__</a>
+                <a class="btn-secondary" href="poles/immobilier.html">Le pôle immobilier</a>
+              </div>
             </div>
-          </div>
-          <div class="nx-hero-kpis">
-            <div class="nx-kpi"><span class="nx-ico is-lime">__I_HARD__</span><div><strong>Gros œuvre</strong><small>du terrassement à la finition</small></div></div>
-            <div class="nx-kpi"><span class="nx-ico is-gold">__I_HOME__</span><div><strong>Second œuvre</strong><small>finitions DIAMOND DÉCORATION</small></div></div>
-            <div class="nx-kpi"><span class="nx-ico is-navy">__I_BLDG__</span><div><strong>Promotion</strong><small>recherche foncière → clés</small></div></div>
+            <div class="nx-hero-kpis">
+              <div class="nx-kpi"><span class="nx-ico is-lime">__I_HARD__</span><div><strong>Gros œuvre</strong><small>du terrassement à la finition</small></div></div>
+              <div class="nx-kpi"><span class="nx-ico is-gold">__I_HOME__</span><div><strong>Finitions</strong><small>signées DIAMOND DÉCORATION</small></div></div>
+              <div class="nx-kpi"><span class="nx-ico is-navy">__I_BLDG__</span><div><strong>Promotion</strong><small>du foncier aux clés</small></div></div>
+            </div>
           </div>
         </div>
       </article>
 
     </div>
 
-    <div class="nx-hero-controls">
-      <button type="button" class="nx-hero-arrow is-prev" data-hero-prev aria-label="Diapositive précédente">__ARR__</button>
-      <div class="nx-hero-dots" role="tablist" aria-label="Choisir une diapositive">
-        <button type="button" class="nx-hero-dot is-active" data-hero-dot aria-label="Diapositive 1 : le groupe"></button>
-        <button type="button" class="nx-hero-dot" data-hero-dot aria-label="Diapositive 2 : agro-pastoral &amp; COQ BARON"></button>
-        <button type="button" class="nx-hero-dot" data-hero-dot aria-label="Diapositive 3 : BTP &amp; immobilier"></button>
+    <div class="container">
+      <div class="nx-hero-controls">
+        <button type="button" class="nx-hero-arrow is-prev" data-hero-prev aria-label="Diapositive précédente">__ARR__</button>
+        <div class="nx-hero-dots" role="tablist" aria-label="Choisir une diapositive">
+          <button type="button" class="nx-hero-dot is-active" data-hero-dot aria-label="Diapositive 1 : le groupe"><i class="nx-hero-dot-fill" data-hero-progress aria-hidden="true"></i></button>
+          <button type="button" class="nx-hero-dot" data-hero-dot aria-label="Diapositive 2 : agro-pastoral &amp; COQ BARON"><i class="nx-hero-dot-fill" data-hero-progress aria-hidden="true"></i></button>
+          <button type="button" class="nx-hero-dot" data-hero-dot aria-label="Diapositive 3 : BTP &amp; immobilier"><i class="nx-hero-dot-fill" data-hero-progress aria-hidden="true"></i></button>
+        </div>
+        <button type="button" class="nx-hero-arrow is-next" data-hero-next aria-label="Diapositive suivante">__ARR__</button>
       </div>
-      <button type="button" class="nx-hero-arrow is-next" data-hero-next aria-label="Diapositive suivante">__ARR__</button>
     </div>
-  </div>
-</section>""".replace("__SEND__", ico("send")).replace("__CK__", ico("check")).replace("__I_BRIEF__", ico("briefcase")).replace("__I_STAR__", ico("star")).replace("__I_CLOCK__", ico("clock")).replace("__I_LEAF__", ico("leaf")).replace("__I_WIND__", ico("wind")).replace("__I_HARD__", ico("hardhat")).replace("__I_HOME__", ico("home")).replace("__I_BLDG__", ico("building")).replace("__ARR__", ico("arrow"))
+</section>""".replace("__SEND__", ico("send")).replace("__CK__", ico("check")).replace("__I_BRIEF__", ico("grid")).replace("__I_STAR__", ico("rooster")).replace("__I_CLOCK__", ico("clock")).replace("__I_LEAF__", ico("palm")).replace("__I_WIND__", ico("truck")).replace("__I_HARD__", ico("hardhat")).replace("__I_HOME__", ico("gem")).replace("__I_BLDG__", ico("key")).replace("__ARR__", ico("arrow"))
 
-    # Repères du groupe — chiffres honnêtes et utiles (aucune donnée inventée).
+    # Repères du groupe — chiffres honnêtes tirés du contenu réel du site (aucune donnée inventée) :
+    # 7 pôles, 6 expertises de conseil, 2 marques (COQ BARON / DIAMOND DÉCORATION), 1 chaîne intégrée,
+    # devis 24 h en FCFA, groupe 100 % béninois. Repères = (icône, valeur, intitulé, complément).
     STATS = [
-        ("briefcase", "7",        "pôles d'activité complémentaires, du BTP au conseil"),
-        ("users",     "1",        "interlocuteur unique pour coordonner tous vos projets"),
-        ("clock",     "24&nbsp;h", "pour recevoir votre devis, chiffré en FCFA et sans engagement"),
-        ("shield",    "100&nbsp;%", "groupe de droit béninois, ancré à Cotonou et ouvert à l'international"),
+        ("link",    "7",         "pôles métiers",   "des activités complémentaires, du BTP au conseil, sous une même direction"),
+        ("scale",   "6",         "expertises conseil", "gestion, finance, management, marketing, communication &amp; intermédiation"),
+        ("badge",   "2",         "marques signature", "COQ BARON (élevage) &amp; DIAMOND DÉCORATION (décoration), nos savoir-faire propres"),
+        ("refresh", "1",         "chaîne intégrée", "« du champ à l'assiette », portée par notre propre flotte logistique"),
+        ("clock",   "24&nbsp;h",  "pour votre devis", "chiffré en FCFA, clair et sans engagement, par un interlocuteur unique"),
+        ("pin",     "100&nbsp;%", "béninois",        "groupe de droit béninois, ancré à Cotonou et ouvert à l'international"),
     ]
-    statbar = "".join('<div class="nx-stat"><span class="nx-ico is-lime nx-ico-sm">%s</span><strong>%s</strong><span>%s</span></div>' % (ico(name), num, lab) for name, num, lab in STATS)
+    statbar = "".join(
+        '<div class="nx-repere"><span class="nx-repere-ico nx-ico is-lime">%s</span>'
+        '<div class="nx-repere-body"><strong>%s</strong><b>%s</b><span>%s</span></div></div>'
+        % (ico(name), num, head, lab) for name, num, head, lab in STATS)
 
     # Créa « écosystème » : logo au centre, les 7 pôles disposés sur un anneau (trigonométrie).
     _hub_short = {"btp": "BTP", "entretien": "Entretien", "immobilier": "Immobilier",
@@ -703,9 +722,10 @@ def build_home():
     <div class="section-header reveal"><div class="section-heading">
       <span class="nx-eyebrow">Présentation</span>
       <h2 class="section-title">Un seul groupe, <span class="nx-mark">plusieurs solutions.</span></h2>
-      <p class="section-copy">NEXUS DKS GROUP est un groupe multiservices de droit béninois, basé à Cotonou. <span class="nx-conv">De la construction à l'agro-industrie, de l'immobilier au conseil, nous mettons la complémentarité de nos pôles au service de vos projets — avec un interlocuteur unique et une exigence de qualité constante.</span></p>
+      <p class="section-copy nx-lead-xl">NEXUS DKS GROUP est un <strong>groupe multiservices de droit béninois</strong>, né à Cotonou d'une conviction simple&nbsp;: réunir sous une même bannière les métiers qui font avancer une entreprise, un patrimoine et un territoire.</p>
+      <p class="section-copy">Du BTP à l'agro-industrie, de l'immobilier au conseil, nos <strong>sept pôles</strong> avancent ensemble et se renforcent&nbsp;: la <strong>puissance d'un groupe intégré</strong>, la <strong>sérénité d'un interlocuteur unique</strong> — du premier échange à la livraison. Une même exigence de qualité, partout, au service des entreprises, des institutions et des particuliers.</p>
     </div></div>
-    <div class="nx-stats reveal">__STATBAR__</div>
+    <div class="nx-reperes reveal">__STATBAR__</div>
     <div class="nx-split nx-why-inline">
       __HUB__
       <div class="reveal d1">

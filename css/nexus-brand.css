@@ -11,19 +11,19 @@
 :root {
     /* Bleus de structure / arrière-plans = re-teintés sur le BLEU DU LOGO (famille azur),
        assez profonds pour le texte blanc (WCAG AA). Remplacent l'ancien indigo/bleu roi. */
-    --indigo: #0e6298;
-    --indigo-600: #0b537f;
-    --indigo-700: #094264;
-    --navy: #0a4a72;
-    --navy-900: #073650;
+    --indigo: #0b6fc4;
+    --indigo-600: #0a5fac;
+    --indigo-700: #084e91;
+    --navy: #0a539a;
+    --navy-900: #073f73;
     /* Bleu d'identité = BLEU exact du logo (lettres NEXUS). Les tokens gardent
        l'ancien nom --lime* (pour ne pas renommer ~90 sélecteurs) : ils portent le
        bleu logo et servent à TOUS les accents bleus (puces, eyebrows, tags, dots…). */
-    --lime: #10a0e9;
-    --lime-bright: #43b4f2;
-    --lime-deep: #0d6fb0;
-    --azure: #10a0e9;
-    --azure-deep: #0d6fb0;
+    --lime: #0aa8ff;
+    --lime-bright: #3cbcff;
+    --lime-deep: #0a78d4;
+    --azure: #0aa8ff;
+    --azure-deep: #0a78d4;
     /* Accent OR = la COURBE au-dessus du logo. Réservé aux boutons/CTA et aux
        liserets/filets (cf. charte : « or ciblé »). */
     --gold: #c2a357;
@@ -574,16 +574,63 @@ h1, h2, h3, h4, h5,
 .nx-formula .nx-list { flex: 1; margin: 18px 0 22px; }
 .nx-formula .btn-main, .nx-formula .btn-lime { width: 100%; }
 
-/* ------------------------------------------------------------- Bandeau stat */
-.nx-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: var(--r-lg); overflow: hidden; }
-.nx-stat { background: #fff; padding: 28px 22px; text-align: left; }
-.nx-stat .nx-ico { margin-bottom: 16px; }
-.nx-stat strong { display: block; font-family: "Bricolage Grotesque", sans-serif; font-size: 2.6rem; font-weight: 800; color: var(--indigo); line-height: 1; letter-spacing: -0.02em; }
-.nx-stat span { display: block; margin-top: 10px; color: var(--ink-soft); font-size: 0.98rem; line-height: 1.45; }
-.section-dark .nx-stats { background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.12); }
-.section-dark .nx-stat { background: var(--navy-900); }
-.section-dark .nx-stat strong { color: var(--lime-bright); }
-.section-dark .nx-stat span { color: rgba(255, 255, 255, 0.7); }
+/* -------------------------------------------------- Repères du groupe (preuves) */
+.nx-reperes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.nx-repere {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    padding: 24px 22px 22px;
+    overflow: hidden;
+    transition: transform .28s ease, box-shadow .28s ease, border-color .28s ease;
+}
+/* liseré accent or → bleu, révélé au survol */
+.nx-repere::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--gold), var(--lime));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform .35s ease;
+}
+.nx-repere:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 44px -24px rgba(10, 74, 114, 0.42);
+    border-color: rgba(16, 160, 233, 0.38);
+}
+.nx-repere:hover::before { transform: scaleX(1); }
+.nx-repere .nx-repere-ico { flex: 0 0 48px; width: 48px; height: 48px; border-radius: 13px; margin-top: 2px; }
+.nx-repere .nx-repere-ico svg { width: 24px; height: 24px; }
+.nx-repere-body { min-width: 0; }
+.nx-repere-body strong {
+    display: block;
+    font-family: "Bricolage Grotesque", sans-serif;
+    font-size: 2.5rem;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--indigo);
+    background: linear-gradient(120deg, var(--navy), var(--lime-deep));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.nx-repere-body b {
+    display: block;
+    margin-top: 6px;
+    font-family: "Bricolage Grotesque", sans-serif;
+    font-size: 1.02rem;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+}
+.nx-repere-body span { display: block; margin-top: 7px; color: var(--ink-soft); font-size: 0.9rem; line-height: 1.45; }
 
 /* ------------------------------------------------------------------- Citation */
 .nx-quote {
@@ -725,37 +772,35 @@ h1, h2, h3, h4, h5,
     background: var(--navy);
     color: #fff;
     overflow: hidden;
-    padding: calc(var(--header-height) + 72px) 0 84px;
+    padding: 0;
 }
-.nx-hero::before {
-    content: "";
-    position: absolute; inset: 0;
-    background: radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px) 0 0 / 30px 30px;
-    pointer-events: none;
-}
-/* lame lime diagonale signature */
-.nx-hero::after {
-    content: "";
-    position: absolute;
-    top: -10%; right: -6%;
-    width: 42%; height: 130%;
-    background: var(--indigo);
-    transform: skewX(-11deg);
-    z-index: 0;
-    opacity: 0.55;
-}
-.nx-hero > .container { position: relative; z-index: 2; }
+.nx-hero > .container { position: absolute; left: 0; right: 0; bottom: 26px; z-index: 4; }
 .nx-hero-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 40px; align-items: center; }
-.nx-hero .nx-eyebrow { color: var(--lime-bright); }
+.nx-hero .nx-eyebrow { color: var(--lime-bright); font-size: 0.94rem; letter-spacing: 0.14em; }
 .nx-hero :is(h1, .nx-hero-title) {
-    font-size: clamp(2.5rem, 5vw, 4.3rem);
+    font-size: clamp(2.7rem, 5.2vw, 4.7rem);
     font-weight: 800;
     line-height: 1.04;
-    margin: 0 0 20px;
+    margin: 16px 0 22px;
     color: #fff;
+    max-width: 17ch;
+    text-shadow: 0 2px 34px rgba(3, 16, 32, 0.5);
 }
-.nx-hero :is(h1, .nx-hero-title) .accent { color: var(--lime-bright); }
-.nx-hero .lead { font-size: 1.15rem; color: rgba(255, 255, 255, 0.8); max-width: 560px; margin: 0 0 28px; }
+.nx-hero :is(h1, .nx-hero-title) .accent {
+    background: linear-gradient(100deg, var(--lime-bright), #9bdcff);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: var(--lime-bright);
+}
+.nx-hero .lead {
+    font-size: clamp(1.2rem, 1.55vw, 1.55rem);
+    line-height: 1.55;
+    color: rgba(255, 255, 255, 0.92);
+    max-width: 640px;
+    margin: 0 0 34px;
+    text-shadow: 0 1px 16px rgba(3, 16, 32, 0.4);
+}
+.nx-hero-cta .btn-lime, .nx-hero-cta .btn-secondary { font-size: 1.04rem; padding: 15px 28px; }
 .nx-hero-cta { display: flex; flex-wrap: wrap; gap: 14px; }
 .nx-hero-note { margin-top: 26px; display: flex; flex-wrap: wrap; gap: 18px; color: rgba(255, 255, 255, 0.72); font-size: 0.95rem; font-weight: 600; }
 .nx-hero-note span { display: inline-flex; align-items: center; gap: 8px; }
@@ -820,85 +865,90 @@ h1, h2, h3, h4, h5,
 .nx-hero-slide.is-active .nx-hero-figure  { opacity: 1; transform: none; transition-delay: 0.34s; }
 .nx-hero-slide.is-active .nx-hero-kpis    { opacity: 1; transform: none; transition-delay: 0.52s; }
 
-/* Mouvement de fond des diapos immersives */
+/* Mouvement de fond cinématographique des diapos (effet Ken Burns, distinct par diapo) */
 .nx-hero-immersive-bg { transform: scale(1.06); will-change: transform; }
-/* Diapo 2 — balayage diagonal vivant (évoque le geste de raclette) */
-.nx-hero-slide.is-active .is-entreprises .nx-hero-immersive-bg { animation: nxSweep 12s ease-out forwards; }
+/* Diapo 1 — zoom d'ouverture posé (sensation d'arrivée) */
+.nx-hero-slide.is-active .is-groupe .nx-hero-immersive-bg { animation: nxKenIn 13s ease-out forwards; }
+/* Diapo 2 — balayage diagonal vivant (évoque le grand large agricole) */
+.nx-hero-slide.is-active .is-entreprises .nx-hero-immersive-bg { animation: nxSweep 13s ease-out forwards; }
 /* Diapo 3 — zoom doux */
-.nx-hero-slide.is-active .is-expertise .nx-hero-immersive-bg { animation: nxKen 15s ease-out forwards; }
-@keyframes nxKen { from { transform: scale(1.05); } to { transform: scale(1.16); } }
+.nx-hero-slide.is-active .is-expertise .nx-hero-immersive-bg { animation: nxKen 14s ease-out forwards; }
+@keyframes nxKenIn { from { transform: scale(1.14) translate3d(-1.5%, 1.4%, 0); } to { transform: scale(1.02) translate3d(0, 0, 0); } }
+@keyframes nxKen { from { transform: scale(1.05); } to { transform: scale(1.17); } }
 @keyframes nxSweep {
     0%   { transform: scale(1.08) translate3d(2.5%, 1.2%, 0); }
     55%  { transform: scale(1.14) translate3d(-1.8%, -0.6%, 0); }
     100% { transform: scale(1.2) translate3d(-3.2%, -2.6%, 0); }
 }
 
-/* Diapos 2 &amp; 3 : layout immersif (image plein cadre + copie + KPI) */
+/* Diapos plein cadre : photo bord à bord + voile cinématographique + contenu */
 .nx-hero-immersive {
     position: relative;
-    height: 100%;
-    min-height: 460px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 30px;
-    border-radius: var(--r-lg);
+    min-height: clamp(600px, 84vh, 800px);
+    padding: calc(var(--header-height) + 60px) 0 76px;
     overflow: hidden;
-    padding: 48px clamp(24px, 4vw, 56px);
 }
 .nx-hero-immersive-bg {
     position: absolute; inset: 0;
     width: 100%; height: 100%;
     object-fit: cover;
-    object-position: center right;
+    object-position: center;
     z-index: 0;
 }
+/* voile : très lisible à gauche (texte), photo révélée à droite + vignette basse + halo bleu vif */
 .nx-hero-immersive::before {
     content: "";
-    position: absolute; inset: 0;
-    background: linear-gradient(100deg, rgba(5, 34, 54, 0.95), rgba(10, 74, 114, 0.62) 55%, rgba(14, 98, 152, 0.34));
-    z-index: 1;
+    position: absolute; inset: 0; z-index: 1;
+    background:
+        linear-gradient(90deg, rgba(5, 30, 56, 0.90) 0%, rgba(7, 47, 86, 0.66) 38%, rgba(9, 63, 112, 0.28) 68%, rgba(10, 83, 154, 0.06) 100%),
+        linear-gradient(0deg, rgba(4, 24, 46, 0.58) 0%, transparent 44%),
+        radial-gradient(70% 80% at 8% 78%, rgba(10, 168, 255, 0.22), transparent 60%);
 }
-.nx-hero-immersive > .nx-hero-immersive-copy,
-.nx-hero-immersive > .nx-hero-kpis { position: relative; z-index: 2; }
-.nx-hero-immersive-copy { max-width: 640px; }
-.nx-hero-kpis { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+/* le contenu (conteneur centré) passe au-dessus du voile */
+.nx-hero-inner {
+    position: relative; z-index: 2;
+    display: flex; flex-direction: column; gap: 38px;
+}
+.nx-hero-immersive-copy { max-width: 700px; }
+.nx-hero-kpis { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; max-width: 760px; }
 .nx-kpi {
-    display: flex; align-items: center; gap: 12px;
-    background: rgba(255, 255, 255, 0.08);
-    -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
-    border: 1px solid rgba(255, 255, 255, 0.14);
+    display: flex; align-items: center; gap: 15px;
+    background: linear-gradient(140deg, #0c79d8, #0a4f8f);
+    border: 1px solid rgba(255, 255, 255, 0.22);
     border-radius: var(--r-md);
-    padding: 12px 14px;
-    color: #fff; font-weight: 700; font-size: 0.92rem;
+    padding: 17px 19px;
+    color: #fff; font-weight: 800; font-size: 1.2rem;
+    box-shadow: 0 18px 38px -20px rgba(2, 14, 30, 0.8);
 }
-.nx-kpi small { display: block; color: rgba(255, 255, 255, 0.66); font-weight: 600; font-size: 0.76rem; }
-.nx-kpi .nx-ico { width: 42px; height: 42px; flex: 0 0 42px; }
+.nx-kpi strong { font-weight: 800; letter-spacing: -0.01em; }
+.nx-kpi small { display: block; color: rgba(255, 255, 255, 0.9); font-weight: 600; font-size: 0.95rem; margin-top: 4px; }
+.nx-kpi .nx-ico { width: 50px; height: 50px; flex: 0 0 50px; background: rgba(255, 255, 255, 0.20); color: #fff; }
+.nx-kpi .nx-ico svg { width: 26px; height: 26px; }
 
-/* Diapo 3 : variante immersive « expertise » — cadrage & voile distincts + signature lime */
+/* Diapo 3 : variante « expertise » — cadrage & voile distincts + signature or */
 .nx-hero-immersive.is-expertise .nx-hero-immersive-bg { object-position: center left; }
 .nx-hero-immersive.is-expertise::before {
     background:
-        linear-gradient(105deg, rgba(10, 74, 114, 0.92), rgba(9, 66, 100, 0.6) 52%, rgba(16, 160, 233, 0.18)),
-        radial-gradient(120% 90% at 12% 0%, rgba(16, 160, 233, 0.16), transparent 60%);
+        linear-gradient(95deg, rgba(8, 63, 112, 0.90), rgba(9, 66, 100, 0.56) 50%, rgba(10, 168, 255, 0.12) 82%, transparent),
+        linear-gradient(0deg, rgba(4, 24, 46, 0.55), transparent 44%),
+        radial-gradient(80% 90% at 10% 0%, rgba(10, 168, 255, 0.18), transparent 60%);
 }
-/* filet signature en bas de la diapo = or de la courbe */
+/* filet signature or en bas de la diapo */
 .nx-hero-immersive.is-expertise::after {
     content: "";
     position: absolute; left: 0; right: 0; bottom: 0;
-    height: 4px; background: var(--gold);
+    height: 4px; background: linear-gradient(90deg, var(--gold), var(--gold-bright));
     z-index: 2;
-}
-.nx-hero-immersive.is-expertise .nx-kpi {
-    background: rgba(255, 255, 255, 0.06);
-    border-left: 3px solid var(--lime);
 }
 
 /* Contrôles (flèches + puces) */
 .nx-hero-controls {
     position: relative; z-index: 3;
     display: flex; align-items: center; justify-content: center;
-    gap: 18px; margin-top: 34px;
+    gap: 18px; margin: 0;
 }
 .nx-hero-arrow {
     width: 46px; height: 46px; border-radius: 50%;
@@ -912,15 +962,27 @@ h1, h2, h3, h4, h5,
 .nx-hero-arrow:hover { background: var(--lime); border-color: var(--lime); color: var(--navy); transform: translateY(-2px); }
 .nx-hero-arrow .nx-svg { width: 20px; height: 20px; }
 .nx-hero-arrow.is-prev .nx-svg { transform: rotate(180deg); }
-.nx-hero-dots { display: inline-flex; gap: 10px; }
+.nx-hero-dots { display: inline-flex; gap: 12px; align-items: center; }
 .nx-hero-dot {
-    width: 11px; height: 11px; padding: 0;
-    border: none; border-radius: 50%; cursor: pointer;
-    background: rgba(255, 255, 255, 0.28);
-    transition: background 0.25s var(--ease), width 0.25s var(--ease), border-radius 0.25s var(--ease);
+    position: relative;
+    width: 42px; height: 6px; padding: 0;
+    border: none; border-radius: 6px; cursor: pointer;
+    background: rgba(255, 255, 255, 0.30);
+    overflow: hidden;
+    transition: background 0.25s var(--ease);
 }
-.nx-hero-dot:hover { background: rgba(255, 255, 255, 0.5); }
-.nx-hero-dot.is-active { background: var(--lime-bright); width: 30px; border-radius: 7px; }
+.nx-hero-dot:hover { background: rgba(255, 255, 255, 0.48); }
+.nx-hero-dot.is-active { background: rgba(255, 255, 255, 0.32); }
+/* jauge de progression : se remplit sur la durée de l'autoplay, redémarre à chaque diapo */
+.nx-hero-dot-fill {
+    position: absolute; inset: 0;
+    width: 0; border-radius: 6px;
+    background: linear-gradient(90deg, var(--lime-bright), #9bdcff);
+}
+.nx-hero-dot.is-active .nx-hero-dot-fill { animation: nxDotFill 6.5s linear forwards; }
+.nx-hero:hover .nx-hero-dot.is-active .nx-hero-dot-fill,
+.nx-hero:focus-within .nx-hero-dot.is-active .nx-hero-dot-fill { animation-play-state: paused; }
+@keyframes nxDotFill { from { width: 0; } to { width: 100%; } }
 
 @media (prefers-reduced-motion: reduce) {
     .nx-hero-slide { transition: opacity 0.2s linear, visibility 0s linear 0.2s; }
@@ -934,6 +996,7 @@ h1, h2, h3, h4, h5,
     .nx-hero-slide .nx-hero-kpis { opacity: 1; transform: none; transition: none; }
     .nx-hero-immersive-bg { transform: none; }
     .nx-hero-slide.is-active .nx-hero-immersive-bg { animation: none; }
+    .nx-hero-dot.is-active .nx-hero-dot-fill { animation: none; width: 100%; }
 }
 
 /* ----------------------------------------------------------- Bannière page */
@@ -1122,7 +1185,16 @@ h1, h2, h3, h4, h5,
     /* en pile mobile : texte en flux normal (le centrage flex est réservé au desktop) */
     .nx-why-inline > div:last-child { display: block; min-width: 0; }
     .nx-grid.cols-3, .nx-grid.cols-4, .nx-method, .nx-formulas { grid-template-columns: repeat(2, 1fr); }
-    .nx-stats { grid-template-columns: repeat(2, 1fr); }
+    .nx-reperes { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    /* sécurité GPU mobile (cf. CLAUDE.md §3) : pas de lift ni grosse ombre sous 991px */
+    .nx-repere { padding: 18px 16px 16px; gap: 13px; transition: none; }
+    .nx-repere:hover { transform: none; box-shadow: none; border-color: var(--line); }
+    .nx-repere::before { display: none; }
+    .nx-repere .nx-repere-ico { flex: 0 0 42px; width: 42px; height: 42px; }
+    .nx-repere .nx-repere-ico svg { width: 21px; height: 21px; }
+    .nx-repere-body strong { font-size: 2rem; }
+    .nx-repere-body b { font-size: 0.96rem; }
+    .nx-repere-body span { font-size: 0.84rem; }
     .nx-hero::after { display: none; }
     .nx-hero-figure { min-height: 360px; margin-top: 20px; }
     .nx-hero-chip.tl { left: 0; } .nx-hero-chip.br { right: 0; }
@@ -1132,7 +1204,7 @@ h1, h2, h3, h4, h5,
     .nx-hero-grid .nx-hero-cta { order: 2; margin-top: 22px; }
 }
 @media (max-width: 600px) {
-    .nx-grid.cols-2, .nx-grid.cols-3, .nx-grid.cols-4, .nx-method, .nx-formulas, .nx-stats { grid-template-columns: 1fr; }
+    .nx-grid.cols-2, .nx-grid.cols-3, .nx-grid.cols-4, .nx-method, .nx-formulas { grid-template-columns: 1fr; }
     /* le surlignage du slogan peut se couper sur mobile (sinon il force un débordement) */
     .nx-mark { white-space: normal; }
     /* « Notre conviction… » démarre à la ligne suivante en mobile */
@@ -1147,33 +1219,29 @@ h1, h2, h3, h4, h5,
     .nx-statbar-item > div { min-width: 0; }
     .nx-cta { padding: 36px 26px; }
     .site-logo-full { height: 44px; }
-    /* === Hero slider — expérience mobile soignée === */
-    .nx-hero { padding-top: calc(var(--header-height) + 28px); padding-bottom: 52px; }
+    /* === Hero slider — expérience mobile plein cadre === */
+    .nx-hero { padding: 0; }
+    .nx-hero > .container { position: static; }    /* contrôles en flux, sous l'image */
     .nx-hero-grid { gap: 22px; }
-    .nx-hero :is(h1, .nx-hero-title) { font-size: clamp(1.95rem, 8.5vw, 2.6rem); line-height: 1.08; margin-bottom: 14px; }
-    .nx-hero .lead { font-size: 1rem; margin-bottom: 22px; }
+    .nx-hero :is(h1, .nx-hero-title) { font-size: clamp(2.05rem, 8.6vw, 2.8rem); line-height: 1.08; margin-bottom: 14px; max-width: none; }
+    .nx-hero .lead { font-size: 1.08rem; line-height: 1.5; margin-bottom: 24px; }
     .nx-hero-cta { gap: 10px; }
     .nx-hero-cta > a { flex: 1 1 100%; justify-content: center; }       /* boutons pleine largeur, tap facile */
+    .nx-hero-cta .btn-lime, .nx-hero-cta .btn-secondary { font-size: 1rem; padding: 14px 22px; }
     .nx-hero-note { gap: 10px 16px; font-size: 0.84rem; margin-top: 20px; }
-    /* slide 1 : agent + cartouches maîtrisés (zéro débordement) */
-    .nx-hero-figure { min-height: 290px; margin-top: 6px; }
-    .nx-hero-figure img { max-height: 320px; }
-    .nx-hero-chip { padding: 8px 11px; font-size: 0.76rem; gap: 8px; border-radius: 12px; }
-    .nx-hero-chip .nx-ico { width: 30px; height: 30px; }
-    .nx-hero-chip small { font-size: 0.68rem; }
-    .nx-hero-chip.tl { top: 2%; left: 0; }
-    .nx-hero-chip.br { bottom: 4%; right: 0; }
-    /* slides immersives : compactes, texte aligné en haut → défilé vertical cohérent */
-    .nx-hero-immersive { min-height: 0; justify-content: flex-start; gap: 18px; padding: 30px 20px; border-radius: var(--r-md); }
+    /* slides immersives : image plein cadre, contenu centré, compact */
+    .nx-hero-immersive { min-height: clamp(540px, 88vh, 680px); justify-content: center; padding: calc(var(--header-height) + 30px) 0 34px; }
     .nx-hero-immersive-copy { max-width: 100%; }
-    .nx-hero-kpis { grid-template-columns: 1fr; gap: 9px; }
-    .nx-kpi { padding: 10px 13px; font-size: 0.88rem; }
-    .nx-kpi .nx-ico { width: 38px; height: 38px; flex-basis: 38px; }
-    /* contrôles tactiles plus généreux */
-    .nx-hero-controls { gap: 16px; margin-top: 22px; }
+    .nx-hero-inner { gap: 26px; }
+    .nx-hero-kpis { grid-template-columns: 1fr; gap: 10px; max-width: 100%; }
+    /* sécurité GPU mobile (CLAUDE.md §3) : pas de backdrop-filter, fond opaque, sans grosse ombre */
+    .nx-kpi { padding: 13px 15px; font-size: 1.08rem; background: linear-gradient(140deg, #0c79d8, #0a4f8f); -webkit-backdrop-filter: none; backdrop-filter: none; box-shadow: none; }
+    .nx-kpi small { font-size: 0.9rem; }
+    .nx-kpi .nx-ico { width: 44px; height: 44px; flex-basis: 44px; }
+    /* contrôles tactiles, sur bandeau navy sous l'image */
+    .nx-hero-controls { gap: 14px; margin: 0; padding: 18px 0 6px; }
     .nx-hero-arrow { width: 44px; height: 44px; }
-    .nx-hero-dot { width: 10px; height: 10px; }
-    .nx-hero-dot.is-active { width: 26px; }
+    .nx-hero-dot { width: 30px; height: 6px; }
 
     /* Témoignages & blog en carrousel auto (mobile) */
     .nx-mrail-wrap { overflow: hidden; padding: 10px 0; margin-top: 24px; }
@@ -1577,9 +1645,20 @@ body { font-size: 18px; line-height: 1.72; }
 .section-copy, .section-header p { font-size: 1.07rem; }
 .nx-list li { font-size: 1.04rem; }
 .nx-eyebrow { font-size: 0.84rem; }
-.nx-kpi { font-size: 0.98rem; }
-.nx-kpi small { font-size: 0.82rem; }
+.nx-kpi { font-size: 1.2rem; }
+.nx-kpi small { font-size: 0.95rem; }
 .svc-crumb { font-size: 0.9rem; }
+/* Présentation : chapô éditorial, taille doublée vs un paragraphe courant */
+.nx-lead-xl, .section-header .nx-lead-xl {
+    font-size: clamp(1.45rem, 2.5vw, 2rem);
+    line-height: 1.42;
+    font-weight: 500;
+    color: var(--ink);
+    max-width: 62ch;
+    margin-left: auto; margin-right: auto;
+    margin-bottom: 0.7em;
+}
+.nx-lead-xl strong { color: var(--indigo); font-weight: 700; }
 @media (min-width: 992px) {
     body { font-size: 18px; }
     .lead { font-size: 1.28rem; }
