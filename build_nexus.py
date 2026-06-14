@@ -28,7 +28,7 @@ SITE = {
 }
 
 # Version des assets (cache-busting) — à incrémenter à chaque modif CSS/JS.
-ASSETV = "20260614j"
+ASSETV = "20260614o"
 
 # ---------------------------------------------------------------- Icônes SVG
 _I = {
@@ -758,6 +758,31 @@ def build_home():
   <a class="nx-card-photo-cover" href="%s" aria-label="Découvrir le pôle : %s"></a>
 </article>
 """ % (d, p["slug"], p["card_img"], p["label"], p["tagline"], ico("arrow"), p["href"], p["label"])
+
+    # Carte vitrine animée : occupe les 2 cellules libres de la dernière rangée (desktop, grille à 3 colonnes
+    # + 7 cartes). Diaporama glissé premium des univers du groupe — en écho aux cartes pôles ci-dessus.
+    _showcase_imgs = [
+        ("img/poles/btp-2.jpg", "BTP &amp; Travaux publics"),
+        ("img/poles/immobilier-1.jpg", "Immobilier"),
+        ("img/poles/agro-pastoral-2.jpg", "Agro-pastoral"),
+        ("img/poles/restauration-tourisme-1.jpg", "Restauration &amp; tourisme"),
+        ("img/poles/evenementiel-commerce-3.jpg", "Événementiel &amp; commerce"),
+        ("img/poles/conseil-strategie-1.jpg", "Conseil &amp; stratégie"),
+    ]
+    # eager : ces images défilent en fondu, aucune ne doit rester blanche le temps du chargement
+    _slide_tpl = '<div class="nx-showcase-slide"><img src="%s" alt="" loading="eager" decoding="async" fetchpriority="low"><span class="nx-showcase-tag">%s</span></div>'
+    _slides = "".join(_slide_tpl % (src, lab) for src, lab in _showcase_imgs)
+    showcase = """<article class="nx-showcase reveal" aria-label="NEXUS DKS GROUP en images">
+  <div class="nx-showcase-track">%s</div>
+  <div class="nx-showcase-body">
+    <span class="nx-showcase-eyebrow">NEXUS en mouvement</span>
+    <h3>Tous nos univers, <span>en images</span></h3>
+    <a class="nx-card-photo-link" href="nos-poles.html">Découvrir nos pôles %s</a>
+  </div>
+  <a class="nx-card-photo-cover" href="nos-poles.html" aria-label="Découvrir tous nos pôles"></a>
+</article>""" % (_slides, ico("arrow"))
+    cards += showcase
+
     prestations = """<section id="poles" class="section section-soft">
   <div class="container">
     <div class="section-header reveal"><div class="section-heading">

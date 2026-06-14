@@ -382,6 +382,73 @@ h1, h2, h3, h4, h5,
     .nx-card-photo-link { opacity: 1; transform: none; }
 }
 
+/* ---- Carte vitrine animée : comble les 2 cellules libres de la grille pôles (desktop).
+       Même hauteur que les cartes pôles (min-height 360 + étirement grille).
+       Diaporama en FONDU CINÉMATOGRAPHIQUE des univers du groupe ---- */
+.nx-showcase {
+    position: relative;
+    grid-column: span 2;
+    min-height: 360px;
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    isolation: isolate;
+    box-shadow: var(--shadow-sm);
+}
+/* diapos empilées : chacune couvre toute la carte (hauteur + largeur), fondu enchaîné */
+.nx-showcase-track { position: absolute; inset: 0; z-index: 0; }
+.nx-showcase-slide {
+    position: absolute; inset: 0;
+    opacity: 0;
+    animation: nxShow 30s ease-in-out infinite;
+}
+.nx-showcase-slide img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+.nx-showcase-slide:nth-child(1) { animation-delay: 0s; }
+.nx-showcase-slide:nth-child(2) { animation-delay: -5s; }
+.nx-showcase-slide:nth-child(3) { animation-delay: -10s; }
+.nx-showcase-slide:nth-child(4) { animation-delay: -15s; }
+.nx-showcase-slide:nth-child(5) { animation-delay: -20s; }
+.nx-showcase-slide:nth-child(6) { animation-delay: -25s; }
+@keyframes nxShow {
+    0%     { opacity: 0; }
+    3%     { opacity: 1; }
+    16.67% { opacity: 1; }
+    19.67% { opacity: 0; }
+    100%   { opacity: 0; }
+}
+/* voile léger — uniquement en bas pour le cartouche ; le reste laisse voir la photo */
+.nx-showcase::after {
+    content: "";
+    position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    background: linear-gradient(to top, rgba(6, 38, 70, 0.88) 0%, rgba(7, 47, 86, 0.40) 26%, rgba(8, 60, 108, 0.06) 50%, transparent 66%);
+}
+/* étiquette de l'univers, fond avec son image */
+.nx-showcase-tag {
+    position: absolute; top: 16px; left: 16px; z-index: 2;
+    background: rgba(255, 255, 255, 0.94); color: var(--indigo);
+    font-family: "Bricolage Grotesque", sans-serif; font-weight: 700; font-size: 0.82rem;
+    padding: 7px 13px; border-radius: 999px;
+    box-shadow: 0 6px 16px rgba(2, 14, 30, 0.28);
+}
+.nx-showcase-body {
+    position: absolute; left: 0; right: 0; bottom: 0; z-index: 2;
+    padding: 28px 28px 26px; color: #fff;
+}
+.nx-showcase-eyebrow {
+    display: inline-block; color: var(--lime-bright);
+    font-weight: 700; font-size: 0.82rem; letter-spacing: 0.14em; text-transform: uppercase;
+    margin-bottom: 8px;
+}
+.nx-showcase-body h3 { margin: 0; color: #fff; font-family: "Bricolage Grotesque", sans-serif; font-size: 1.7rem; font-weight: 800; line-height: 1.1; }
+.nx-showcase-body h3 span { color: var(--lime-bright); }
+.nx-showcase-body .nx-card-photo-link { opacity: 1; transform: none; margin-top: 12px; }
+.nx-showcase:hover .nx-showcase-slide, .nx-showcase:focus-within .nx-showcase-slide { animation-play-state: paused; }
+@media (max-width: 991px) { .nx-showcase { grid-column: auto; } }
+@media (max-width: 600px) { .nx-showcase-body h3 { font-size: 1.42rem; } }
+@media (prefers-reduced-motion: reduce) {
+    .nx-showcase-slide { animation: none; opacity: 0; }
+    .nx-showcase-slide:first-child { opacity: 1; }
+}
+
 .nx-list { list-style: none; margin: 6px 0 0; padding: 0; display: grid; gap: 10px; }
 .nx-list li { display: flex; align-items: flex-start; gap: 10px; color: var(--ink-soft); font-size: 0.97rem; }
 .nx-list li .nx-svg { width: 18px; height: 18px; color: var(--lime-deep); margin-top: 3px; flex: 0 0 auto; }
@@ -1230,7 +1297,9 @@ h1, h2, h3, h4, h5,
     .nx-hero-cta .btn-lime, .nx-hero-cta .btn-secondary { font-size: 1rem; padding: 14px 22px; }
     .nx-hero-note { gap: 10px 16px; font-size: 0.84rem; margin-top: 20px; }
     /* slides immersives : image plein cadre, contenu centré, compact */
-    .nx-hero-immersive { min-height: clamp(540px, 88vh, 680px); justify-content: center; padding: calc(var(--header-height) + 30px) 0 34px; }
+    /* svh (hauteur viewport stable) : évite le redimensionnement saccadé quand la barre
+       d'adresse mobile se masque/réapparaît au scroll ; repli en vh si svh non supporté */
+    .nx-hero-immersive { min-height: clamp(540px, 88vh, 680px); min-height: clamp(540px, 86svh, 680px); justify-content: center; padding: calc(var(--header-height) + 30px) 0 34px; }
     .nx-hero-immersive-copy { max-width: 100%; }
     .nx-hero-inner { gap: 26px; }
     .nx-hero-kpis { grid-template-columns: 1fr; gap: 10px; max-width: 100%; }
@@ -1623,6 +1692,26 @@ h1, h2, h3, h4, h5,
     .contact-hero-card { animation: none !important; }
     .nx-hub-node-inner { will-change: auto; }
     .nx-hero-immersive-bg { will-change: auto; transform: none; }
+    /* le texte titre en dégradé "background-clip:text" scintille sur GPU mobiles faibles
+       pendant le fondu des diapos → couleur pleine, pas de clip */
+    .nx-hero :is(h1, .nx-hero-title) .accent {
+        background: none;
+        -webkit-text-fill-color: var(--lime-bright);
+        color: var(--lime-bright);
+    }
+    /* grosses ombres de texte floues = repaint coûteux pendant la transition → allégées */
+    .nx-hero :is(h1, .nx-hero-title) { text-shadow: 0 1px 8px rgba(3, 16, 32, 0.45); }
+    .nx-hero .lead { text-shadow: none; }
+    /* voile hero réduit à UN seul dégradé (au lieu de 3 empilés) pour alléger le compositing */
+    .nx-hero-immersive::before {
+        background: linear-gradient(90deg, rgba(5, 30, 56, 0.88) 0%, rgba(7, 47, 86, 0.54) 52%, rgba(9, 63, 112, 0.30) 100%);
+    }
+    .nx-hero-immersive.is-expertise::before {
+        background: linear-gradient(90deg, rgba(8, 63, 112, 0.88) 0%, rgba(9, 66, 100, 0.52) 52%, rgba(10, 168, 255, 0.16) 100%);
+    }
+    /* fondu des diapos plus court : moins de temps en double compositing */
+    .nx-hero-slide { transition: opacity 0.5s linear, visibility 0s linear 0.5s; }
+    .nx-hero-slide.is-active { transition: opacity 0.5s linear; }
     /* ombres à grand flou allégées (repaint GPU coûteux lors des interactions) */
     .svc-tool,
     .nx-config,
@@ -1783,10 +1872,10 @@ body { font-size: 18px; line-height: 1.72; }
 }
 .nx-hub-ico {
     width: 58px; height: 58px; border-radius: 50%;
-    background: var(--azure); border: 2px solid #fff; color: #fff;
-    box-shadow: 0 8px 18px rgba(16, 160, 233, 0.30);
+    background: #fff; border: 1.5px solid rgba(11, 111, 196, 0.18); color: var(--indigo);
+    box-shadow: 0 8px 18px rgba(10, 74, 114, 0.16);
     display: grid; place-items: center;
-    transition: transform 0.25s var(--ease), background 0.25s var(--ease), box-shadow 0.25s var(--ease);
+    transition: transform 0.25s var(--ease), background 0.25s var(--ease), color 0.25s var(--ease), border-color 0.25s var(--ease), box-shadow 0.25s var(--ease);
 }
 .nx-hub-ico .nx-svg { width: 27px; height: 27px; }
 .nx-hub-label {
@@ -1794,7 +1883,7 @@ body { font-size: 18px; line-height: 1.72; }
     font-size: 0.78rem; color: var(--ink); line-height: 1.12; letter-spacing: -0.01em;
 }
 .nx-hub-node:hover .nx-hub-ico, .nx-hub-node:focus-visible .nx-hub-ico {
-    background: var(--azure-deep);
+    background: var(--indigo); color: #fff; border-color: var(--indigo);
     transform: translateY(-3px) scale(1.08);
     box-shadow: 0 14px 28px rgba(14, 98, 152, 0.4);
 }
