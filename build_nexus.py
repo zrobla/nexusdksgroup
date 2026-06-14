@@ -1,13 +1,15 @@
 # -*- coding: utf-8 -*-
 """
-Générateur du site NEXUS DKS GROUP — ENTRETIEN (TECH & WEB).
-Site statique FR centré sur les services d'entretien professionnel.
-Design "éditorial clean-tech" : indigo + navy + lime (aplats), icônes & cartes
-propres (distinctes de JERU). Contenu rehaussé : technique (50%) + émotionnel
-(25%) + commercial (25%). Régénère toutes les pages : python3 build_nexus.py
+Générateur du site corporate NEXUS DKS GROUP (TECH & WEB).
+Site statique FR de groupe multiservices (Cotonou, Bénin) : BTP, Entretien,
+Immobilier, Agro-pastoral & COQ BARON, Restauration & Tourisme, Événementiel &
+Commerce, Conseil & Stratégie. Design "éditorial clean-tech corporate" : azur +
+or + navy (charte logo, aplats), icônes & cartes propres (distinctes de JERU).
+Régénère toutes les pages : python3 build_nexus.py
 """
 import os
 import json
+import math
 from urllib.parse import quote
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -26,7 +28,7 @@ SITE = {
 }
 
 # Version des assets (cache-busting) — à incrémenter à chaque modif CSS/JS.
-ASSETV = "20260606u"
+ASSETV = "20260614g"
 
 # ---------------------------------------------------------------- Icônes SVG
 _I = {
@@ -151,14 +153,163 @@ VALUES = [
  ("Formation continue", "refresh"), ("Contrôle interne", "clipboard"),
 ]
 
-# Autres activités du groupe (page Notre Groupe uniquement)
-OTHER = [
- ("BTP & Travaux Publics", "tower", "Bâtiment, gros œuvre, second œuvre et travaux publics, pilotés du terrassement à la finition."),
- ("Rénovation & Immobilier", "home", "Rénovation, promotion et gestion immobilière, mise à disposition et valorisation de biens."),
- ("Commerce & Import-Export", "cart", "Commerce général, négoce, import-export et approvisionnement sécurisé."),
- ("Agro, Élevage & Alimentation", "leaf", "Exploitation agricole, élevage, poissonnerie, restauration et tourisme."),
- ("Événementiel & Logistique", "calendar", "Ingénierie événementielle, logistique, transport et gestion de manifestations."),
- ("Conseil & Business", "scale", "Conseil en gestion, finance, marketing, intermédiation et création de marque de mode."),
+# ---------------------------------------------------------------- Pôles du groupe
+# Architecture corporate : chaque pôle a une page dédiée (poles/<slug>.html), sauf
+# « entretien » qui pointe vers ses pages riches existantes (external=True).
+# Contenu fidèle aux textes fournis par le client (registre corporate, sans invention).
+POLES = [
+ {
+  "slug": "btp", "label": "BTP & Travaux Publics", "icon": "hardhat",
+  "tagline": "Bâtir solide, livrer durable",
+  "img": "img/services/btp.jpg", "card_img": "img/services/btp.jpg",
+  "href": "poles/btp.html",
+  "intro": "Bâtiment, gros œuvre, second œuvre et travaux publics : NEXUS DKS GROUP conçoit et réalise des ouvrages durables, du terrassement à la finition. En synergie avec notre pôle Immobilier et grâce à un partenariat d'excellence, nous maîtrisons chaque maillon de la construction.",
+  "axes": [
+   ("hardhat", "Bâtiment & gros œuvre", "Construction de programmes résidentiels, tertiaires et commerciaux : fondations, structure et gros œuvre menés selon les normes les plus exigeantes."),
+   ("home", "Second œuvre & finitions", "Cloisons, revêtements, menuiseries et finitions soignées. Notre volet de rénovation et de second œuvre est réalisé en partenariat exclusif avec DIAMOND DÉCORATION, qui apporte son approche esthétique et son sens du détail."),
+   ("tower", "Travaux publics", "Voiries, aménagements et ouvrages d'infrastructure, pilotés avec la même rigueur technique et le même respect des délais."),
+   ("link", "Synergie promotion immobilière", "Intégrés à notre pôle Immobilier, nous garantissons des ouvrages cohérents et innovants, de la recherche foncière à la livraison des clés."),
+  ],
+  "partner": ("DIAMOND DÉCORATION", "Une synergie d'excellence avec DIAMOND DÉCORATION", "Pour des finitions d'une qualité irréprochable, notre volet de rénovation et de second œuvre est réalisé en partenariat exclusif avec DIAMOND DÉCORATION. Cette alliance associe la puissance technique de NEXUS DKS GROUP à l'approche esthétique et au sens du détail de notre partenaire — transformant vos espaces en mariant durabilité et design."),
+ },
+ {
+  "slug": "entretien", "label": "Entretien & Propreté", "icon": "broom",
+  "tagline": "Nous valorisons vos espaces",
+  "img": "img/services/entretien.jpg", "card_img": "img/services/entretien.jpg",
+  "href": "nos-services.html", "external": True,
+  "intro": "Nettoyage et entretien de locaux, bionettoyage, entretien d'espaces verts : des environnements sains, valorisants et durables pour les entreprises, commerces, résidences et chantiers. Notre pôle de services, détaillé sur ses propres pages.",
+  "axes": [],
+ },
+ {
+  "slug": "immobilier", "label": "Immobilier", "icon": "home",
+  "tagline": "Créer, valoriser et gérer votre patrimoine",
+  "img": "img/services/immobilier.jpg", "card_img": "img/services/immobilier.jpg",
+  "href": "poles/immobilier.html",
+  "intro": "Parce que l'immobilier est au cœur du développement économique et de la sécurité financière, NEXUS DKS GROUP couvre l'ensemble du cycle de vie des actifs immobiliers — de l'idée initiale à la gestion quotidienne.",
+  "axes": [
+   ("building", "Promotion immobilière", "Nous imaginons, concevons et réalisons des programmes d'excellence (résidentiels, tertiaires, commerciaux) : recherche foncière, études de faisabilité, suivi de construction et livraison des clés. En synergie avec notre pôle BTP, des ouvrages durables, innovants et respectueux des normes environnementales."),
+   ("shield", "Gestion immobilière", "Gestion administrative, juridique, technique et financière de vos biens : recherche de locataires solvables, perception des loyers, entretien technique et gestion des copropriétés. La tranquillité d'esprit et la sécurisation de vos revenus locatifs."),
+   ("badge", "Mise à disposition de biens", "Un catalogue diversifié et flexible : bureaux modernes, locaux commerciaux stratégiquement situés, logements confortables — en location courte, moyenne ou longue durée, prêts à l'emploi."),
+  ],
+ },
+ {
+  "slug": "agro-pastoral", "label": "Agro-pastoral & Logistique", "icon": "leaf",
+  "tagline": "De la Terre à la Table",
+  "img": "img/services/agro.jpg", "card_img": "img/services/agro.jpg",
+  "href": "poles/agro-pastoral.html",
+  "intro": "Acteur engagé dans le développement durable et la sécurité alimentaire, NEXUS DKS GROUP déploie une infrastructure agro-pastorale de premier plan au cœur du Bénin, à Sakété (département du Plateau) : production, transformation locale et acheminement de produits de haute qualité, en alliant méthodes traditionnelles et techniques modernes.",
+  "axes": [
+   ("leaf", "Exploitation agricole — palmier à huile", "À Sakété, terre d'excellence pour l'oléiculture, nous gérons une vaste ferme de palmiers à huile. Nous maîtrisons l'intégralité du cycle de valeur — production et transformation des régimes de palme sur place — pour garantir des huiles et dérivés d'une pureté totale, répondant aux exigences du marché local et régional."),
+   ("star", "Élevage de précision — la griffe COQ BARON", "Aviculture sous notre marque exclusive COQ BARON : des volailles reconnues pour la qualité supérieure de leur chair, leur croissance naturelle et leur traçabilité rigoureuse. Notre expertise s'étend à la cuniculture (lapins) et à l'élevage de bétail — des viandes tendres, saines et riches en valeurs nutritionnelles."),
+   ("wind", "Transport de marchandises", "Notre propre flotte de transport sécurise l'approvisionnement de nos intrants et la livraison rapide de nos productions vers les centres de distribution, les marchés urbains et nos clients professionnels — sans rupture de la chaîne du froid ni de l'approvisionnement."),
+  ],
+  "circuit": ("La force d'un circuit intégré unique", "En associant la fertilité des terres de Sakété, le savoir-faire de transformation, le prestige de la marque COQ BARON et la puissance de notre réseau de transport, NEXUS DKS GROUP s'impose comme un partenaire agro-industriel incontournable. Nous maîtrisons chaque maillon de la chaîne pour offrir le meilleur de notre terroir."),
+ },
+ {
+  "slug": "restauration-tourisme", "label": "Restauration & Tourisme", "icon": "utensils",
+  "tagline": "Une synergie au service de l'expérience client",
+  "img": "img/services/svc-restaurants.jpg", "card_img": "img/services/svc-restaurants.jpg",
+  "href": "poles/restauration-tourisme.html",
+  "intro": "Restauration et tourisme portés par la transversalité unique du groupe : du champ à l'assiette, des espaces d'exception et une logistique maîtrisée, au service d'une expérience client mémorable.",
+  "axes": [
+   ("leaf", "Du champ à l'assiette", "Notre pôle Restauration s'approvisionne directement auprès de notre ferme de Sakété, garantissant des produits d'une fraîcheur absolue — notamment les volailles de notre marque exclusive COQ BARON."),
+   ("sofa", "Aménagement d'exception", "Pour la décoration de nos espaces de restauration, de nos structures touristiques ou de vos stands VIP, nous mobilisons le savoir-faire de notre partenaire DIAMOND DÉCORATION."),
+   ("wind", "Logistique maîtrisée", "Grâce à notre propre flotte de transport de marchandises, nous assurons l'acheminement sécurisé de tous les équipements et denrées nécessaires à vos événements et établissements."),
+  ],
+ },
+ {
+  "slug": "evenementiel-commerce", "label": "Événementiel & Commerce Général", "icon": "calendar",
+  "tagline": "Créer l'impact, faciliter les échanges",
+  "img": "img/services/svc-espaces.jpg", "card_img": "img/services/svc-espaces.jpg",
+  "href": "poles/evenementiel-commerce.html",
+  "intro": "Concevoir un moment fort pour marquer les esprits, ou fluidifier le commerce de biens : NEXUS DKS GROUP déploie des solutions d'envergure clé en main, alliant l'excellence créative de l'ingénierie événementielle à l'efficacité opérationnelle du commerce global.",
+  "axes": [
+   ("calendar", "Manifestations professionnelles", "Séminaires, congrès, lancements de produits, foires commerciales, salons professionnels et dîners de gala d'entreprise — conçus, planifiés et réalisés de bout en bout."),
+   ("film", "Manifestations culturelles & artistiques", "Festivals, concerts, expositions, spectacles et célébrations communautaires ou institutionnelles, gérés avec exigence."),
+   ("disc", "Logistique événementielle globale", "Gestion technique complète : sonorisation, mise en lumière, scénographie, accueil, sécurité, aménagement des espaces et régie générale du jour J."),
+   ("cart", "Commerce général — hub de négoce", "Achat, vente, import-export et distribution de marchandises de diverses natures. Nous nous appuyons sur la puissance logistique du groupe pour sourcer des produits de qualité, sécuriser les chaînes d'approvisionnement et répondre avec réactivité aux marchés nationaux et internationaux."),
+  ],
+ },
+ {
+  "slug": "conseil-strategie", "label": "Conseil & Stratégie", "icon": "scale",
+  "tagline": "Propulseur de performance durable",
+  "img": "img/services/hero-entreprises.jpg", "card_img": "img/services/hero-entreprises.jpg",
+  "href": "poles/conseil-strategie.html",
+  "intro": "Un cabinet d'experts multidisciplinaires dédié à l'accompagnement des dirigeants, des entreprises et des porteurs de projets. Notre mission : transformer vos défis en opportunités de croissance, à travers six piliers de compétences fondamentaux.",
+  "axes": [
+   ("target", "Conseil en gestion", "Optimisation de l'efficacité opérationnelle : outils de pilotage sur mesure, cartographie des risques, amélioration des processus internes et réduction des coûts superflus. Vos objectifs traduits en plans d'actions concrets et mesurables."),
+   ("scale", "Conseil en finance", "Structuration des capitaux et pilotage de la rentabilité : business plans rigoureux, analyse des flux de trésorerie, optimisation budgétaire et aide à la recherche de financements. Sécuriser vos investissements et renforcer la valeur de votre entité."),
+   ("users", "Conseil en management", "Valoriser le capital humain et diriger le changement : modes de gouvernance adaptés, restructuration de départements et conduite du changement lors des transitions majeures."),
+   ("rocket", "Conseil en marketing", "Stratégies centrées sur la valeur et la différenciation : études de marché approfondies, positionnement de marque, segmentation des cibles et stratégies d'acquisition et de fidélisation (B2B et B2C)."),
+   ("message", "Conseil en communication", "Stratégies globales et cohérentes — communication institutionnelle, relations publiques, communication de crise et présence digitale — pour des messages clairs, percutants et alignés sur vos valeurs."),
+   ("link", "Intermédiation commerciale", "Catalyseur de partenariats : nous créons des ponts stratégiques entre les acteurs du marché, facilitons les négociations complexes, identifions des partenaires de confiance et ouvrons de nouveaux canaux de distribution nationaux ou internationaux."),
+  ],
+ },
+]
+POLEMAP = {p["slug"]: p for p in POLES}
+
+# ---------------------------------------------------------------- Médias & cibles
+# Visuels premium (photothèque client optimisée) : cover (hero/carte) + galerie (img, légende).
+_POLE_MEDIA = {
+ "btp": {"img": "img/poles/btp-1.jpg",
+         "gallery": [("img/poles/btp-2.jpg", "Gros œuvre &amp; structure"),
+                     ("img/poles/btp-3.jpg", "Des équipes qualifiées sur le terrain")]},
+ "entretien": {"img": "img/poles/entretien-1.jpg",
+               "gallery": [("img/poles/entretien-3.jpg", "Locaux entretenus avec méthode"),
+                           ("img/poles/entretien-4.jpg", "Le souci du détail, partout")]},
+ "immobilier": {"img": "img/poles/immobilier-1.jpg",
+                "gallery": [("img/poles/immobilier-2.jpg", "Des biens d'exception"),
+                            ("img/poles/immobilier-3.jpg", "Résidentiel &amp; tertiaire"),
+                            ("img/poles/immobilier-4.jpg", "Un patrimoine valorisé")]},
+ "agro-pastoral": {"img": "img/poles/agro-pastoral-2.jpg",
+                   "gallery": [("img/poles/agro-pastoral-1.jpg", "Palmier à huile — Sakété"),
+                               ("img/poles/agro-pastoral-3.jpg", "Semence &amp; cycle de production"),
+                               ("img/poles/agro-pastoral-4.jpg", "Filières céréalières")]},
+ "restauration-tourisme": {"img": "img/poles/restauration-tourisme-1.jpg",
+                           "gallery": [("img/poles/restauration-tourisme-2.jpg", "Tourisme &amp; hospitalité"),
+                                       ("img/poles/restauration-tourisme-3.jpg", "L'art de recevoir")]},
+ "evenementiel-commerce": {"img": "img/poles/evenementiel-commerce-1.jpg",
+                           "gallery": [("img/poles/evenementiel-commerce-2.jpg", "Commerce général &amp; négoce"),
+                                       ("img/poles/evenementiel-commerce-3.jpg", "Distribution de marchandises"),
+                                       ("img/poles/evenementiel-commerce-4.jpg", "Scénographie &amp; régie")]},
+ "conseil-strategie": {"img": "img/poles/conseil-strategie-1.jpg",
+                       "gallery": [("img/poles/conseil-strategie-2.jpg", "Pilotage &amp; performance"),
+                                   ("img/poles/conseil-strategie-3.jpg", "Stratégie &amp; croissance")]},
+}
+# Ciblage par audience (ton orienté cibles : B2B, B2C, investisseurs, partenaires).
+_POLE_AUDIENCES = {
+ "btp": [("briefcase", "Promoteurs &amp; investisseurs", "Des ouvrages livrés dans les règles de l'art, qui valorisent durablement votre capital."),
+         ("building", "Entreprises &amp; institutions", "Sièges, locaux tertiaires et commerciaux pensés pour durer et rayonner."),
+         ("home", "Particuliers", "Votre maison bâtie avec exigence — du gros œuvre aux finitions signées DIAMOND DÉCORATION.")],
+ "immobilier": [("scale", "Investisseurs &amp; bailleurs", "Sécurisez et faites fructifier votre patrimoine, sans la charge de la gestion quotidienne."),
+                ("briefcase", "Entreprises", "Bureaux et locaux commerciaux clés en main, idéalement situés."),
+                ("home", "Particuliers &amp; expatriés", "Acheter, louer ou habiter en toute sérénité — courte, moyenne ou longue durée.")],
+ "agro-pastoral": [("cart", "Distributeurs &amp; grossistes", "Un approvisionnement régulier en volailles COQ BARON et produits du terroir."),
+                   ("utensils", "Restaurateurs &amp; collectivités", "Une fraîcheur et une traçabilité absolues, du champ à l'assiette."),
+                   ("link", "Partenaires agro-industriels", "Une filière intégrée, de la production à la transformation locale.")],
+ "restauration-tourisme": [("heart", "Gourmets &amp; familles (B2C)", "Une expérience mémorable, des produits frais issus de notre propre terroir."),
+                           ("briefcase", "Entreprises &amp; événements (B2B)", "Traiteur, stands VIP et réceptions orchestrés de A à Z."),
+                           ("pin", "Voyageurs &amp; institutions", "Des structures touristiques pensées pour l'accueil et le confort.")],
+ "evenementiel-commerce": [("briefcase", "Entreprises &amp; institutions", "Séminaires, lancements et galas conçus pour marquer les esprits."),
+                           ("film", "Organisateurs culturels", "Festivals, concerts et expositions gérés avec exigence."),
+                           ("cart", "Importateurs &amp; distributeurs", "Un hub de négoce et d'import-export connecté aux marchés internationaux.")],
+ "conseil-strategie": [("target", "Dirigeants &amp; PME", "Des décisions éclairées, des plans d'action concrets et mesurables."),
+                       ("rocket", "Porteurs de projets &amp; startups", "Business plans, financements et structuration pour changer d'échelle."),
+                       ("link", "Investisseurs &amp; partenaires", "Due diligence, intermédiation et mise en relation de confiance.")],
+}
+for _p in POLES:
+    _m = _POLE_MEDIA.get(_p["slug"])
+    if _m:
+        _p["img"] = _m["img"]
+        _p["card_img"] = _m["img"]
+        _p["gallery"] = _m["gallery"]
+    _p.setdefault("gallery", [])
+    _p["audiences"] = _POLE_AUDIENCES.get(_p["slug"], [])
+
+# Activités annexes mentionnées (sans page dédiée pour l'instant)
+ANNEXES = [
+ ("Mode & Prêt-à-porter", "sparkle", "Création de marque de vêtements, confection, production et commercialisation de prêt-à-porter et d'accessoires de mode."),
+ ("Poissonnerie & Alimentation", "droplet", "Poissonnerie et alimentation : sélection et distribution de produits frais, en cohérence avec nos filières agro-pastorales."),
 ]
 
 # Articles de blog
@@ -205,7 +356,7 @@ def head(title, desc, path, page_class, prefix="", og_type="website"):
 <meta name="designer" content="Tech &amp; Web — tech-and-web.com">
 <link rel="author" href="https://tech-and-web.com">
 <meta name="format-detection" content="telephone=no">
-<meta name="theme-color" content="#070b4e">
+<meta name="theme-color" content="#ffffff">
 <link rel="canonical" href="__CANON__">
 <link rel="icon" href="__P__favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="__P__favicon-32x32.png">
@@ -224,7 +375,7 @@ def head(title, desc, path, page_class, prefix="", og_type="website"):
 <link href="__P__css/nexus-premium.css?v=__V__" rel="stylesheet">
 <link href="__P__css/nexus-brand.css?v=__V__" rel="stylesheet">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":["Organization","ProfessionalService"],"name":"NEXUS DKS GROUP","alternateName":"NEXUS DKS GROUP - ENTRETIEN","url":"__DOMAIN__/","logo":"__DOMAIN__/img/brand/nexus-logo.png","image":"__DOMAIN__/img/brand/nexus-og-card.jpg","email":"__EMAIL__","telephone":"__TEL__","slogan":"Nous ne faisons pas que nettoyer, nous valorisons vos espaces.","description":"Entreprise de droit béninois spécialisée dans les services d'entretien professionnel, basée à Cotonou et intervenant à Cotonou, ses environs et dans tout le Bénin : entreprises, commerces, résidences et chantiers.","address":{"@type":"PostalAddress","streetAddress":"C/34 Guinkomey, 03 BP 3903","addressLocality":"Cotonou","addressCountry":"BJ"},"areaServed":"Bénin"}
+{"@context":"https://schema.org","@type":"Organization","name":"NEXUS DKS GROUP","url":"__DOMAIN__/","logo":"__DOMAIN__/img/brand/nexus-logo-clean.png","image":"__DOMAIN__/img/brand/nexus-og-card.jpg","email":"__EMAIL__","telephone":"__TEL__","slogan":"Un groupe, plusieurs solutions.","description":"Groupe multiservices de droit béninois basé à Cotonou : BTP & travaux publics, entretien & propreté, immobilier, agro-pastoral (marque de volailles COQ BARON), restauration & tourisme, événementiel & commerce général, conseil & stratégie.","address":{"@type":"PostalAddress","streetAddress":"C/34 Guinkomey, 03 BP 3903","addressLocality":"Cotonou","addressCountry":"BJ"},"areaServed":"Bénin","knowsAbout":["BTP","Entretien professionnel","Immobilier","Agro-pastoral","Restauration","Événementiel","Conseil"],"brand":{"@type":"Brand","name":"COQ BARON"}}
 </script>
 </head>
 """.replace("__TITLE__", title).replace("__DESC__", desc).replace("__CANON__", canonical)\
@@ -233,27 +384,27 @@ def head(title, desc, path, page_class, prefix="", og_type="website"):
 
 def header(active, prefix=""):
     cat_items = ""
-    for slug, label, *_ in CATS:
-        cat_items += '<li role="none"><a class="nav-dropdown-link" href="%sservices/%s.html" role="menuitem">%s</a></li>\n' % (prefix, slug, label)
-    cat_items += '<li role="none"><a class="nav-dropdown-link" href="%sentretien-proprete.html" role="menuitem">Offre &amp; formules &rarr;</a></li>\n' % prefix
+    for p in POLES:
+        cat_items += '<li role="none"><a class="nav-dropdown-link" href="%s%s" role="menuitem">%s</a></li>\n' % (prefix, p["href"], p["label"])
+    cat_items += '<li role="none"><a class="nav-dropdown-link" href="%snos-poles.html" role="menuitem">Tous nos pôles &rarr;</a></li>\n' % prefix
     a = lambda k: " is-active" if active == k else ""
-    serv = " is-active" if active in ("services", "offre") else ""
+    serv = " is-active" if active in ("poles", "services", "offre") else ""
     return """<body class="__PC__">
 <a class="skip-link" href="#main">Aller au contenu</a>
 <header class="site-header">
   <div class="container">
     <div class="header-inner">
       <a class="site-brand" href="__P__index.html" aria-label="NEXUS DKS GROUP — accueil">
-        <img class="site-logo-full" src="__P__img/brand/nexus-logo.png" alt="NEXUS DKS GROUP — Entretien" width="230" height="52">
+        <img class="site-logo-full" src="__P__img/brand/nexus-logo-clean.png" alt="NEXUS DKS GROUP" width="230" height="52">
       </a>
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Ouvrir la navigation"><span></span><span></span><span></span></button>
       <nav class="site-nav" id="site-nav" aria-label="Navigation principale">
         <a class="nav-link__HOME__" href="__P__index.html">Accueil</a>
-        <a class="nav-link__ABOUT__" href="__P__about.html">Notre Groupe</a>
+        <a class="nav-link__ABOUT__" href="__P__about.html">Le Groupe</a>
         <div class="nav-dropdown nav-dropdown-split">
           <div class="nav-dropdown-head">
-            <a class="nav-link nav-link-parent__SERV__" href="__P__nos-services.html">Nos Services</a>
-            <button class="nav-link nav-dropdown-toggle nav-dropdown-toggle-icon" type="button" aria-expanded="false" aria-controls="serv-menu" aria-haspopup="true" aria-label="Afficher les services">__DOWN__</button>
+            <a class="nav-link nav-link-parent__SERV__" href="__P__nos-poles.html">Nos Pôles</a>
+            <button class="nav-link nav-dropdown-toggle nav-dropdown-toggle-icon" type="button" aria-expanded="false" aria-controls="serv-menu" aria-haspopup="true" aria-label="Afficher les pôles">__DOWN__</button>
           </div>
           <ul class="nav-dropdown-menu nav-dropdown-menu-list" id="serv-menu" role="menu">
 __ITEMS__          </ul>
@@ -272,15 +423,15 @@ __ITEMS__          </ul>
    .replace("__DOWN__", ico("down")).replace("__SEND__", ico("send"))
 
 def footer(prefix=""):
-    cat_links = "".join('<a href="%sservices/%s.html">%s</a>\n' % (prefix, s, l) for s, l, *_ in CATS)
+    cat_links = "".join('<a href="%s%s">%s</a>\n' % (prefix, p["href"], p["label"]) for p in POLES)
     return """</main>
 <footer class="site-footer">
   <div class="container">
     <div class="footer-top">
       <div class="footer-brand">
-        <a class="site-brand" href="__P__index.html" aria-label="NEXUS DKS GROUP"><img class="site-logo-full" src="__P__img/brand/nexus-logo.png" alt="NEXUS DKS GROUP" width="250" height="58"></a>
-        <p>Entretien professionnel à Cotonou et ses environs. Nous accompagnons entreprises, commerces, résidences et chantiers vers des espaces propres, sains et valorisés.</p>
-        <p class="nx-script">Nous valorisons vos espaces.</p>
+        <a class="site-brand" href="__P__index.html" aria-label="NEXUS DKS GROUP"><img class="site-logo-full" src="__P__img/brand/nexus-logo-clean.png" alt="NEXUS DKS GROUP" width="250" height="58"></a>
+        <p>Groupe multiservices de droit béninois à Cotonou : BTP, entretien, immobilier, agro-pastoral (marque COQ BARON), restauration & tourisme, événementiel & commerce, conseil & stratégie.</p>
+        <p class="nx-script">Un groupe, plusieurs solutions.</p>
         <div class="footer-social">
           <a href="https://wa.me/__WA__" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">__S_WA__</a>
           <a href="#" aria-label="Facebook">__S_FB__</a>
@@ -289,11 +440,11 @@ def footer(prefix=""):
         </div>
       </div>
       <div class="footer-nav-group">
-        <div class="footer-nav"><h4>Nos services</h4>
-__CATS__          <a href="__P__entretien-proprete.html">Offre &amp; formules</a>
-        </div>
+        <div class="footer-nav"><h4>Nos pôles</h4>
+__CATS__        </div>
         <div class="footer-nav"><h4>Le groupe</h4>
-          <a href="__P__about.html">Notre Groupe</a>
+          <a href="__P__about.html">Le Groupe</a>
+          <a href="__P__nos-poles.html">Nos pôles</a>
           <a href="__P__carrieres.html">Carrières</a>
           <a href="__P__blog.html">Blog</a>
           <a href="__P__contact.html">Contact</a>
@@ -308,7 +459,7 @@ __CATS__          <a href="__P__entretien-proprete.html">Offre &amp; formules</a
       </div>
     </div>
     <div class="footer-bottom">
-      <span>&copy; __YEAR__ NEXUS DKS GROUP — ENTRETIEN · Cotonou, Bénin</span>
+      <span>&copy; __YEAR__ NEXUS DKS GROUP · Cotonou, Bénin</span>
       <a class="site-credit" href="https://tech-and-web.com" target="_blank" rel="noopener noreferrer">Conception : TECH &amp; WEB</a>
     </div>
   </div>
@@ -339,8 +490,8 @@ def cta(prefix="", title="Confiez-nous vos espaces dès aujourd'hui",
   </div>
 </section>""" % (title, text, prefix, ico("send"), SITE["wa"], ico("message"))
 
-def contact_section(prefix="", title="Parlons de vos espaces"):
-    opts = "".join('<option>%s</option>' % l for _, l, *_ in CATS)
+def contact_section(prefix="", title="Parlons de votre projet"):
+    opts = "".join('<option>%s</option>' % p["label"] for p in POLES)
     return """<section id="contact" class="section section-dark">
   <div class="container">
     <div class="section-header reveal"><div class="section-heading">
@@ -357,8 +508,8 @@ def contact_section(prefix="", title="Parlons de vos espaces"):
             <div class="form-group"><label class="form-label" for="phone-number">Téléphone</label><input class="form-control" id="phone-number" name="phone_number" type="text" placeholder="+229"></div>
             <div class="form-group"><label class="form-label" for="email-address">Email</label><input class="form-control" id="email-address" name="email_address" type="email" placeholder="nom@domaine.com"></div>
             <div class="form-group"><label class="form-label" for="client-type">Vous êtes</label><select class="form-control" id="client-type" name="client_type"><option value="">Choisir…</option><option>Particulier (B2C)</option><option>Entreprise / Institution (B2B)</option></select></div>
-            <div class="form-group"><label class="form-label" for="project-type">Type de prestation</label><select class="form-control" id="project-type" name="project_type"><option value="">Choisir un service</option>__OPTS__<option>Autre besoin d'entretien</option></select></div>
-            <div class="form-group full"><label class="form-label" for="project-message">Votre besoin</label><textarea class="form-control" id="project-message" name="project_message" placeholder="Lieu, surface approximative, fréquence souhaitée, échéance…"></textarea></div>
+            <div class="form-group"><label class="form-label" for="project-type">Pôle concerné</label><select class="form-control" id="project-type" name="project_type"><option value="">Choisir un pôle</option>__OPTS__<option>Autre / plusieurs pôles</option></select></div>
+            <div class="form-group full"><label class="form-label" for="project-message">Votre besoin</label><textarea class="form-control" id="project-message" name="project_message" placeholder="Décrivez votre projet : nature, lieu, échéance, budget approximatif…"></textarea></div>
           </div>
           <p class="form-note">Plus votre demande est précise (surface, fréquence, contraintes d'accès), plus votre devis sera juste.</p>
           <div class="nx-cta-row"><button class="btn-lime" type="submit">__SEND__ Envoyer ma demande</button></div>
@@ -442,66 +593,65 @@ def build_home():
   <div class="container">
     <div class="nx-hero-track">
 
-      <!-- Diapo 1 : image de marque / valorisation (tous publics) -->
+      <!-- Diapo 1 : le groupe / synergie (h1) -->
       <article class="nx-hero-slide is-active" data-hero-slide aria-hidden="false">
-        <div class="nx-hero-grid">
-          <div>
-            <span class="nx-eyebrow">NEXUS DKS GROUP — Entretien</span>
-            <h1>L'entretien professionnel au service de votre <span class="accent">image</span>.</h1>
-            <p class="lead">Entreprises, commerces, résidences et chantiers : nous garantissons des espaces propres, sains et valorisés, grâce à des équipes encadrées et un matériel de niveau professionnel.</p>
+        <div class="nx-hero-immersive">
+          <img class="nx-hero-immersive-bg" src="img/poles/btp-1.jpg" alt="" aria-hidden="true">
+          <div class="nx-hero-immersive-copy">
+            <span class="nx-eyebrow">NEXUS DKS GROUP — Cotonou, Bénin</span>
+            <h1 class="nx-hero-title">Un groupe, <span class="accent">plusieurs solutions</span> pour entreprendre au Bénin.</h1>
+            <p class="lead">BTP, entretien, immobilier, agro-pastoral, restauration, événementiel et conseil : sept pôles complémentaires, une même exigence de qualité — au service des entreprises, des institutions et des particuliers.</p>
             <div class="nx-hero-cta">
-              <a class="btn-lime" href="contact.html">__SEND__ Devis gratuit sous 24&nbsp;h</a>
-              <a class="btn-secondary" href="nos-services.html">Découvrir nos services</a>
+              <a class="btn-lime" href="nos-poles.html">__ARR__ Découvrir nos pôles</a>
+              <a class="btn-secondary" href="contact.html">__SEND__ Nous contacter</a>
             </div>
-            <div class="nx-hero-note"><span>__CK__ 0 défaut, 100% satisfaction</span><span>__CK__ Cotonou &amp; environs</span><span>__CK__ B2C &amp; B2B</span></div>
           </div>
-          <div class="nx-hero-figure">
-            <div class="nx-blob"></div>
-            <img src="img/people/agent-homme.png" alt="Agent d'entretien professionnel NEXUS DKS GROUP" width="699" height="1018">
-            <div class="nx-hero-chip tl"><span class="nx-ico is-lime">__I_SPARK__</span><div><strong>Espaces valorisés</strong><small>pas seulement nettoyés</small></div></div>
-            <div class="nx-hero-chip br"><span class="nx-ico is-navy">__I_SHIELD__</span><div><strong>Équipe encadrée</strong><small>matériel professionnel</small></div></div>
+          <div class="nx-hero-kpis">
+            <div class="nx-kpi"><span class="nx-ico is-lime">__I_BRIEF__</span><div><strong>7 pôles</strong><small>un seul interlocuteur</small></div></div>
+            <div class="nx-kpi"><span class="nx-ico is-gold">__I_STAR__</span><div><strong>COQ BARON</strong><small>notre marque de volailles</small></div></div>
+            <div class="nx-kpi"><span class="nx-ico is-navy">__I_CLOCK__</span><div><strong>24&nbsp;h</strong><small>votre devis en FCFA</small></div></div>
           </div>
         </div>
       </article>
 
-      <!-- Diapo 2 : entreprises &amp; institutions (B2B, partenaires) — layout immersif -->
+      <!-- Diapo 2 : agro-pastoral / COQ BARON — immersif -->
       <article class="nx-hero-slide" data-hero-slide aria-hidden="true">
         <div class="nx-hero-immersive is-entreprises">
-          <img class="nx-hero-immersive-bg" src="img/services/hero-entreprises.jpg" alt="" aria-hidden="true">
+          <img class="nx-hero-immersive-bg" src="img/poles/agro-pastoral-2.jpg" alt="" aria-hidden="true">
           <div class="nx-hero-immersive-copy">
-            <span class="nx-eyebrow">Entreprises · Institutions · Partenaires</span>
-            <p class="nx-hero-title">Des espaces sains, des équipes <span class="accent">performantes</span>.</p>
-            <p class="lead">Bureaux, sièges sociaux et établissements recevant du public : nos protocoles de bionettoyage et nos contrats d'entretien récurrent protègent la santé de vos collaborateurs — et l'image de votre marque.</p>
+            <span class="nx-eyebrow">Agro-pastoral · De la Terre à la Table</span>
+            <p class="nx-hero-title">Du terroir de Sakété à votre table, la griffe <span class="accent">COQ BARON</span>.</p>
+            <p class="lead">Ferme de palmiers à huile, élevage de volailles COQ BARON, cuniculture et bétail, transport intégré : un circuit maîtrisé de bout en bout, pour des produits d'une fraîcheur et d'une traçabilité absolues.</p>
             <div class="nx-hero-cta">
-              <a class="btn-lime" href="contact.html">__SEND__ Devis entreprise</a>
-              <a class="btn-secondary" href="entretien-proprete.html">Nos formules pro</a>
+              <a class="btn-lime" href="poles/agro-pastoral.html">__ARR__ Le pôle agro-pastoral</a>
+              <a class="btn-secondary" href="poles/restauration-tourisme.html">Restauration & tourisme</a>
             </div>
           </div>
           <div class="nx-hero-kpis">
-            <div class="nx-kpi"><span class="nx-ico is-lime">__I_BLDG__</span><div><strong>B2B &amp; institutions</strong><small>contrats sur-mesure</small></div></div>
-            <div class="nx-kpi"><span class="nx-ico is-navy">__I_USERS__</span><div><strong>Équipes encadrées</strong><small>agents formés &amp; assurés</small></div></div>
-            <div class="nx-kpi"><span class="nx-ico is-gold">__I_TARGET__</span><div><strong>0 défaut</strong><small>100% satisfaction visée</small></div></div>
+            <div class="nx-kpi"><span class="nx-ico is-gold">__I_STAR__</span><div><strong>COQ BARON</strong><small>marque exclusive</small></div></div>
+            <div class="nx-kpi"><span class="nx-ico is-lime">__I_LEAF__</span><div><strong>Palmier à huile</strong><small>transformation locale</small></div></div>
+            <div class="nx-kpi"><span class="nx-ico is-navy">__I_WIND__</span><div><strong>Flotte propre</strong><small>chaîne du froid sécurisée</small></div></div>
           </div>
         </div>
       </article>
 
-      <!-- Diapo 3 : expertise &amp; bionettoyage (techniciens, pro, chantiers) — immersif premium -->
+      <!-- Diapo 3 : BTP & immobilier — immersif premium -->
       <article class="nx-hero-slide" data-hero-slide aria-hidden="true">
         <div class="nx-hero-immersive is-expertise">
-          <img class="nx-hero-immersive-bg" src="img/services/hero-bionettoyage.jpg" alt="" aria-hidden="true">
+          <img class="nx-hero-immersive-bg" src="img/poles/immobilier-1.jpg" alt="" aria-hidden="true">
           <div class="nx-hero-immersive-copy">
-            <span class="nx-eyebrow">Expertise technique · Chantiers</span>
-            <p class="nx-hero-title">La <span class="accent">technicité</span> du propre, du détail à la finition.</p>
-            <p class="lead">Bionettoyage, injection-extraction, haute pression, nettoyage fin de chantier : des gestes encadrés et un matériel de niveau professionnel, pour des résultats que l'on voit… et que l'on mesure.</p>
+            <span class="nx-eyebrow">BTP & Immobilier · Bâtir durable</span>
+            <p class="nx-hero-title">Concevoir, <span class="accent">bâtir</span> et valoriser votre patrimoine.</p>
+            <p class="lead">Du gros œuvre aux finitions, de la promotion à la gestion immobilière : des ouvrages durables et innovants, portés par la synergie de nos pôles et l'excellence de notre partenaire DIAMOND DÉCORATION.</p>
             <div class="nx-hero-cta">
-              <a class="btn-lime" href="nos-services.html">__ARR__ Nos équipements</a>
-              <a class="btn-secondary" href="entretien-proprete.html">Offre &amp; formules</a>
+              <a class="btn-lime" href="poles/btp.html">__ARR__ Le pôle BTP</a>
+              <a class="btn-secondary" href="poles/immobilier.html">Le pôle immobilier</a>
             </div>
           </div>
           <div class="nx-hero-kpis">
-            <div class="nx-kpi"><span class="nx-ico is-lime">__I_DROP__</span><div><strong>Bionettoyage</strong><small>désinfection des surfaces</small></div></div>
-            <div class="nx-kpi"><span class="nx-ico is-navy">__I_SPRAY__</span><div><strong>Haute pression</strong><small>sols &amp; façades</small></div></div>
-            <div class="nx-kpi"><span class="nx-ico is-gold">__I_SHIELD__</span><div><strong>Gestes encadrés</strong><small>protocoles &amp; EPI</small></div></div>
+            <div class="nx-kpi"><span class="nx-ico is-lime">__I_HARD__</span><div><strong>Gros œuvre</strong><small>du terrassement à la finition</small></div></div>
+            <div class="nx-kpi"><span class="nx-ico is-gold">__I_HOME__</span><div><strong>Second œuvre</strong><small>finitions DIAMOND DÉCORATION</small></div></div>
+            <div class="nx-kpi"><span class="nx-ico is-navy">__I_BLDG__</span><div><strong>Promotion</strong><small>recherche foncière → clés</small></div></div>
           </div>
         </div>
       </article>
@@ -511,120 +661,126 @@ def build_home():
     <div class="nx-hero-controls">
       <button type="button" class="nx-hero-arrow is-prev" data-hero-prev aria-label="Diapositive précédente">__ARR__</button>
       <div class="nx-hero-dots" role="tablist" aria-label="Choisir une diapositive">
-        <button type="button" class="nx-hero-dot is-active" data-hero-dot aria-label="Diapositive 1 : image de marque"></button>
-        <button type="button" class="nx-hero-dot" data-hero-dot aria-label="Diapositive 2 : entreprises &amp; institutions"></button>
-        <button type="button" class="nx-hero-dot" data-hero-dot aria-label="Diapositive 3 : expertise &amp; équipements"></button>
+        <button type="button" class="nx-hero-dot is-active" data-hero-dot aria-label="Diapositive 1 : le groupe"></button>
+        <button type="button" class="nx-hero-dot" data-hero-dot aria-label="Diapositive 2 : agro-pastoral &amp; COQ BARON"></button>
+        <button type="button" class="nx-hero-dot" data-hero-dot aria-label="Diapositive 3 : BTP &amp; immobilier"></button>
       </div>
       <button type="button" class="nx-hero-arrow is-next" data-hero-next aria-label="Diapositive suivante">__ARR__</button>
     </div>
   </div>
-</section>""".replace("__SEND__", ico("send")).replace("__CK__", ico("check")).replace("__I_SPARK__", ico("sparkle")).replace("__I_SHIELD__", ico("shield")).replace("__I_BLDG__", ico("building")).replace("__I_USERS__", ico("users")).replace("__I_TARGET__", ico("target")).replace("__I_DROP__", ico("droplet")).replace("__I_SPRAY__", ico("spray")).replace("__I_DISC__", ico("disc")).replace("__ARR__", ico("arrow"))
+</section>""".replace("__SEND__", ico("send")).replace("__CK__", ico("check")).replace("__I_BRIEF__", ico("briefcase")).replace("__I_STAR__", ico("star")).replace("__I_CLOCK__", ico("clock")).replace("__I_LEAF__", ico("leaf")).replace("__I_WIND__", ico("wind")).replace("__I_HARD__", ico("hardhat")).replace("__I_HOME__", ico("home")).replace("__I_BLDG__", ico("building")).replace("__ARR__", ico("arrow"))
 
+    # Repères du groupe — chiffres honnêtes et utiles (aucune donnée inventée).
     STATS = [
-        ("briefcase", "is-lime", "6+", "axes d'interventions"),
-        ("target",    "is-navy", "0&nbsp;défaut", "objectif qualité"),
-        ("clock",     "is-gold", "24&nbsp;h", "votre devis en FCFA"),
-        ("users",     "is-lime", "50+", "employés formés &amp; encadrés"),
+        ("briefcase", "7",        "pôles d'activité complémentaires, du BTP au conseil"),
+        ("users",     "1",        "interlocuteur unique pour coordonner tous vos projets"),
+        ("clock",     "24&nbsp;h", "pour recevoir votre devis, chiffré en FCFA et sans engagement"),
+        ("shield",    "100&nbsp;%", "groupe de droit béninois, ancré à Cotonou et ouvert à l'international"),
     ]
-    statbar = "".join('<div class="nx-statbar-item"><span class="nx-ico %s nx-ico-sm">%s</span><div><strong>%s</strong><span>%s</span></div></div>' % (cls, ico(name), num, lab) for name, cls, num, lab in STATS)
+    statbar = "".join('<div class="nx-stat"><span class="nx-ico is-lime nx-ico-sm">%s</span><strong>%s</strong><span>%s</span></div>' % (ico(name), num, lab) for name, num, lab in STATS)
+
+    # Créa « écosystème » : logo au centre, les 7 pôles disposés sur un anneau (trigonométrie).
+    _hub_short = {"btp": "BTP", "entretien": "Entretien", "immobilier": "Immobilier",
+                  "agro-pastoral": "Agro-pastoral", "restauration-tourisme": "Restauration",
+                  "evenementiel-commerce": "Événementiel", "conseil-strategie": "Conseil"}
+    _n = len(POLES)
+    _nodes = ""
+    for _i, _p in enumerate(POLES):
+        _a = math.radians(-90 + _i * 360.0 / _n)
+        _x = 50 + 37 * math.cos(_a)
+        _y = 50 + 37 * math.sin(_a)
+        _nodes += '<a class="nx-hub-node" style="left:%.2f%%;top:%.2f%%" href="%s" aria-label="Découvrir le pôle %s"><span class="nx-hub-node-inner"><span class="nx-hub-ico">%s</span><span class="nx-hub-label">%s</span></span></a>\n' % (
+            _x, _y, _p["href"], _p["label"], ico(_p["icon"]), _hub_short.get(_p["slug"], _p["label"]))
+    hub = """<div class="nx-hub reveal">
+  <span class="nx-hub-ring" aria-hidden="true"></span>
+  <span class="nx-hub-orbit" aria-hidden="true"></span>
+  <div class="nx-hub-rotor">%s</div>
+  <span class="nx-hub-core"><img src="img/brand/nexus-logo-clean.png" alt="NEXUS DKS GROUP"></span>
+</div>""" % _nodes
+
     pitch = """<section class="section compact">
   <div class="container">
     <div class="section-header reveal"><div class="section-heading">
       <span class="nx-eyebrow">Présentation</span>
-      <h2 class="section-title">Nous ne faisons pas que nettoyer, <span class="nx-mark">nous valorisons vos espaces.</span></h2>
-      <p class="section-copy">NEXUS DKS GROUP — ENTRETIEN est une entreprise spécialisée dans les services d'entretien professionnel à Cotonou et ses environs. <span class="nx-conv">Notre conviction : faire de l'entretien professionnel une norme, et non un luxe. Un environnement propre, c'est une image renforcée, une santé préservée et une tranquillité retrouvée.</span></p>
+      <h2 class="section-title">Un seul groupe, <span class="nx-mark">plusieurs solutions.</span></h2>
+      <p class="section-copy">NEXUS DKS GROUP est un groupe multiservices de droit béninois, basé à Cotonou. <span class="nx-conv">De la construction à l'agro-industrie, de l'immobilier au conseil, nous mettons la complémentarité de nos pôles au service de vos projets — avec un interlocuteur unique et une exigence de qualité constante.</span></p>
     </div></div>
-    <div class="nx-statbar reveal">__STATBAR__</div>
+    <div class="nx-stats reveal">__STATBAR__</div>
     <div class="nx-split nx-why-inline">
-      <div class="nx-figure reveal">
-        <img src="img/people/agente-cover.jpg" alt="Agente d'entretien NEXUS DKS GROUP">
-        <span class="nx-figure-tag">__SPK__ Au service de votre image</span>
-      </div>
+      __HUB__
       <div class="reveal d1">
         <span class="nx-eyebrow">Pourquoi nous</span>
         <h2 class="section-title">Choisir NEXUS DKS GROUP, c'est&hellip;</h2>
-        <p class="section-copy">Bien plus qu'un prestataire : un partenaire qui comprend que la propreté est un levier d'image, de bien-être et de productivité.</p>
+        <p class="section-copy">Bien plus qu'un prestataire : un groupe intégré qui mobilise ses propres filières, ses marques et ses partenaires pour livrer une solution complète.</p>
         <ul class="nx-list" style="margin-top:18px">
-          <li>__CK__<span><strong>Améliorer l'image de vos espaces</strong> — des lieux qui inspirent confiance, dès le premier regard.</span></li>
-          <li>__CK__<span><strong>Offrir un environnement sain et agréable</strong> — pour vos collaborateurs, vos clients, vos proches.</span></li>
-          <li>__CK__<span><strong>Gagner du temps et de l'efficacité</strong> — vous vous concentrez sur votre activité, nous gérons le reste.</span></li>
-          <li>__CK__<span><strong>Bénéficier d'un service professionnel structuré</strong> — protocoles, encadrement et contrôle qualité.</span></li>
+          <li>__CK__<span><strong>Un interlocuteur unique</strong> — plusieurs métiers coordonnés, un seul point de contact.</span></li>
+          <li>__CK__<span><strong>La force d'un circuit intégré</strong> — du champ à l'assiette, du terrain à la livraison, sans rupture de chaîne.</span></li>
+          <li>__CK__<span><strong>Des marques et partenaires d'excellence</strong> — COQ BARON, DIAMOND DÉCORATION, une flotte logistique propre.</span></li>
+          <li>__CK__<span><strong>Un ancrage local, une exigence durable</strong> — au Bénin, avec le sens du détail et du long terme.</span></li>
         </ul>
-        <div class="nx-hero-cta" style="margin-top:26px"><a class="btn-main" href="about.html">Découvrir notre méthode</a></div>
+        <div class="nx-hero-cta" style="margin-top:26px"><a class="btn-main" href="about.html">Découvrir le groupe</a></div>
       </div>
     </div>
   </div>
-</section>""".replace("__CK__", ico("check")).replace("__SPK__", ico("sparkle")).replace("__STATBAR__", statbar)
+</section>""".replace("__CK__", ico("check")).replace("__SPK__", ico("sparkle")).replace("__STATBAR__", statbar).replace("__HUB__", hub)
 
-    # prestations (6 catégories) — cartes photo immersives (image dédiée par service)
-    SERVICE_IMG = {
-        "entreprises-bureaux":  "svc-bureaux.jpg",
-        "fin-de-chantier":      "svc-fin-chantier.jpg",
-        "residences":           "svc-residences.jpg",
-        "restaurants-lounges":  "svc-restaurants.jpg",
-        "espaces-specifiques":  "svc-espaces.jpg",
-        "textiles-surfaces":    "svc-textiles.jpg",
-    }
+    # pôles du groupe — cartes photo immersives (image dédiée par pôle)
     cards = ""
-    for i, (slug, label, icon, desc, bullets) in enumerate(CATS):
+    for i, p in enumerate(POLES):
         d = " d%d" % (i % 3) if i % 3 else ""
-        img = SERVICE_IMG.get(slug, "entretien.jpg")
-        cards += """<article class="nx-card-photo reveal%s" id="%s">
-  <img class="nx-card-photo-bg" src="img/services/%s" alt="" aria-hidden="true" loading="lazy">
+        cards += """<article class="nx-card-photo reveal%s" id="pole-%s">
+  <img class="nx-card-photo-bg" src="%s" alt="" aria-hidden="true" loading="lazy">
   <div class="nx-card-photo-body">
     <h3>%s</h3>
     <p>%s</p>
     <span class="nx-card-photo-link">En savoir plus %s</span>
   </div>
-  <a class="nx-card-photo-cover" href="services/%s.html" aria-label="En savoir plus : %s"></a>
+  <a class="nx-card-photo-cover" href="%s" aria-label="Découvrir le pôle : %s"></a>
 </article>
-""" % (d, slug, img, label, desc, ico("arrow"), slug, label)
-    prestations = """<section id="services" class="section section-soft">
+""" % (d, p["slug"], p["card_img"], p["label"], p["tagline"], ico("arrow"), p["href"], p["label"])
+    prestations = """<section id="poles" class="section section-soft">
   <div class="container">
     <div class="section-header reveal"><div class="section-heading">
-      <span class="nx-eyebrow">Nos prestations</span>
-      <h2 class="section-title">Une large gamme de services d'entretien professionnel</h2>
-      <p class="section-copy">Du bureau au chantier, de la résidence au lounge : six expertises pour répondre à chaque exigence, avec le même niveau de rigueur.</p>
+      <span class="nx-eyebrow">Nos pôles</span>
+      <h2 class="section-title">Sept domaines d'expertise, un même groupe</h2>
+      <p class="section-copy">Du chantier à la table, de l'immobilier au conseil : des activités complémentaires qui se renforcent mutuellement, au service de vos projets.</p>
     </div></div>
     <div class="nx-grid cols-3">%s</div>
-    <div style="text-align:center;margin-top:34px"><a class="btn-main" href="nos-services.html">Voir le détail des services %s</a></div>
+    <div style="text-align:center;margin-top:34px"><a class="btn-main" href="nos-poles.html">Découvrir tous nos pôles %s</a></div>
   </div>
 </section>""" % (cards, ico("arrow"))
 
-    # équipements
-    eq = ""
-    for (img, name, icon, d) in EQUIP:
-        eq += '<article class="nx-marquee-card"><div class="nx-marquee-media"><img src="img/equip/%s" alt="%s" loading="lazy"></div><div class="nx-marquee-cap"><span class="nx-ico is-lime nx-ico-sm">%s</span><span>%s</span></div></article>\n' % (img, name, ico(icon), name)
-    equip = """<section class="section section-soft">
+    # synergie / circuit intégré + marques & partenaires
+    synergie = """<section class="section section-dark">
   <div class="container">
-    <div class="section-header reveal"><div class="section-heading">
-      <span class="nx-eyebrow">Nos équipements</span>
-      <h2 class="section-title">Un matériel professionnel pour un résultat professionnel</h2>
-      <p class="section-copy">Aspiration industrielle, injection-extraction, monobrosse, haute pression et gammes de produits spécialisés : chaque support reçoit le traitement qu'il mérite.</p>
-    </div></div>
-    <div class="nx-marquee" data-partners-carousel role="list" aria-label="Nos équipements professionnels">%s</div>
-  </div>
-</section>""" % eq
-
-    # audience B2C/B2B
-    audience = """<section class="section section-soft nx-tuck-b">
-  <div class="container">
-    <div class="section-header reveal"><div class="section-heading">
-      <span class="nx-eyebrow">À qui nous nous adressons</span>
-      <h2 class="section-title">Pensé pour les particuliers comme pour les professionnels</h2>
-    </div></div>
-    <div class="nx-audience">
-      <article class="nx-aud b2c reveal"><span class="nx-aud-tag">__I_HOME__ Particuliers · B2C</span><h3>Votre intérieur, soigné comme il le mérite</h3><p>Résidences et appartements : grand ménage, entretien régulier ou ponctuel, textiles et surfaces. Simple, flexible, sans engagement lourd.</p><ul class="nx-list"><li>__CK__<span>Nettoyage complet &amp; entretien récurrent</span></li><li>__CK__<span>Canapés, moquettes, matelas</span></li><li>__CK__<span>Réservation rapide par WhatsApp</span></li></ul></article>
-      <article class="nx-aud b2b reveal d1"><span class="nx-aud-tag">__I_BRIEF__ Entreprises &amp; institutions · B2B</span><h3>Des contrats fiables, un interlocuteur unique</h3><p>Bureaux, commerces, restaurants, chantiers et ERP : des engagements de service, une facturation claire et un reporting qualité.</p><ul class="nx-list"><li>__CK__<span>Contrats d'entretien sur mesure</span></li><li>__CK__<span>Protocoles &amp; plan de prévention</span></li><li>__CK__<span>Interlocuteur dédié &amp; reporting</span></li></ul></article>
+    <div class="nx-split">
+      <div class="reveal">
+        <span class="nx-eyebrow">La synergie du groupe</span>
+        <h2 class="section-title">La force d'un <span class="nx-mark">circuit intégré</span> unique</h2>
+        <p class="section-copy">La vraie valeur de NEXUS DKS GROUP, c'est sa transversalité : nos pôles s'alimentent les uns les autres. Du champ à l'assiette, du gros œuvre aux finitions, du sourcing à la livraison — nous maîtrisons chaque maillon de la chaîne, en interne.</p>
+        <ul class="nx-list" style="margin-top:18px">
+          <li>__CK__<span><strong>Du champ à l'assiette</strong> — notre pôle Restauration s'approvisionne directement à la ferme de Sakété (volailles COQ BARON).</span></li>
+          <li>__CK__<span><strong>BTP ↔ Immobilier</strong> — la synergie construction/promotion garantit des ouvrages cohérents, de la recherche foncière aux clés.</span></li>
+          <li>__CK__<span><strong>Logistique propre</strong> — notre flotte de transport sécurise l'approvisionnement et la livraison, sans rupture de chaîne.</span></li>
+        </ul>
+      </div>
+      <div class="reveal d1">
+        <div class="nx-grid cols-2" style="gap:16px">
+          <div class="nx-card" style="background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.1)"><span class="nx-ico is-gold">__I_STAR__</span><h3 style="color:#fff">COQ BARON</h3><p style="color:rgba(255,255,255,.74)">Notre marque exclusive de volailles : qualité, croissance naturelle, traçabilité.</p></div>
+          <div class="nx-card" style="background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.1)"><span class="nx-ico is-navy">__I_SOFA__</span><h3 style="color:#fff">DIAMOND DÉCORATION</h3><p style="color:rgba(255,255,255,.74)">Notre partenaire exclusif pour la rénovation, le second œuvre et l'aménagement d'exception.</p></div>
+          <div class="nx-card" style="background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.1)"><span class="nx-ico is-navy">__I_WIND__</span><h3 style="color:#fff">Flotte logistique</h3><p style="color:rgba(255,255,255,.74)">Un transport de marchandises propre au groupe, garant de la chaîne du froid.</p></div>
+          <div class="nx-card" style="background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.1)"><span class="nx-ico is-gold">__I_LEAF__</span><h3 style="color:#fff">Filière Sakété</h3><p style="color:rgba(255,255,255,.74)">Palmier à huile et élevage, transformés localement au cœur du Plateau.</p></div>
+        </div>
+      </div>
     </div>
   </div>
-</section>""".replace("__CK__", ico("check")).replace("__I_HOME__", ico("home")).replace("__I_BRIEF__", ico("briefcase"))
+</section>""".replace("__CK__", ico("check")).replace("__I_STAR__", ico("star")).replace("__I_SOFA__", ico("sofa")).replace("__I_WIND__", ico("wind")).replace("__I_LEAF__", ico("leaf"))
 
     # témoignages
     quotes = [
-        ("Des bureaux impeccables chaque matin. L'équipe est discrète, ponctuelle et le contrôle qualité se voit vraiment.", "Direction", "PME de services, Cotonou", "PS"),
-        ("Remise en état de fin de chantier parfaite : nous avons livré l'appartement le jour même, sans la moindre reprise.", "Maître d'ouvrage", "Programme résidentiel, Calavi", "MA"),
-        ("Nos canapés et moquettes ont retrouvé une seconde vie. Service professionnel, résultat bluffant.", "Cliente particulière", "Résidence, Cotonou", "AK"),
+        ("Un seul interlocuteur pour le chantier, les finitions et l'entretien : un gain de temps et de cohérence considérable.", "Maître d'ouvrage", "Programme résidentiel, Calavi", "MA"),
+        ("La qualité des volailles COQ BARON et la régularité de l'approvisionnement font la différence dans notre cuisine.", "Restaurateur", "Établissement, Cotonou", "RC"),
+        ("Accompagnement stratégique sérieux et concret. Des recommandations applicables, des résultats mesurables.", "Dirigeante", "PME, Cotonou", "DK"),
     ]
     def quote_card(txt, who, role, ini, clone=False):
         cls = "nx-quote is-clone" if clone else "nx-quote reveal"
@@ -659,28 +815,54 @@ def build_home():
   <div class="container">
     <div class="section-header reveal"><div class="section-heading">
       <span class="nx-eyebrow">Le blog</span>
-      <h2 class="section-title">Conseils &amp; expertise du secteur de l'entretien</h2>
-      <p class="section-copy">Des analyses utiles pour les clients, les professionnels et les partenaires : hygiène, techniques, organisation.</p>
+      <h2 class="section-title">Actualités &amp; expertises du groupe</h2>
+      <p class="section-copy">Des analyses utiles pour nos clients et partenaires, au fil de nos métiers et de leurs bonnes pratiques.</p>
     </div></div>
     <div class="nx-mrail-wrap"><div class="nx-grid cols-3 nx-mrail">%s%s</div></div>
     <div style="text-align:center;margin-top:34px"><a class="btn-main" href="blog.html">Tous les articles %s</a></div>
   </div>
 </section>""" % (bc, bc_clone, ico("arrow"))
 
+    # Ambition internationale — ancrage local, regard global
+    international = """<section class="section">
+  <div class="container">
+    <div class="nx-split reverse">
+      <div class="nx-figure reveal">
+        <img src="img/poles/evenementiel-commerce-2.jpg" alt="Commerce général &amp; import-export — NEXUS DKS GROUP">
+        <span class="nx-figure-tag">__GLOBE__ Import-export &amp; négoce</span>
+      </div>
+      <div class="reveal d1">
+        <span class="nx-eyebrow">Une ambition internationale</span>
+        <h2 class="section-title">Ancrés au Bénin, <span class="nx-mark">tournés vers le monde.</span></h2>
+        <p class="section-copy">Notre terrain de jeu ne s'arrête pas aux frontières. De l'import-export à la distribution, du sourcing de produits de qualité aux partenariats stratégiques, NEXUS DKS GROUP connecte le savoir-faire béninois aux marchés régionaux et internationaux — avec la même exigence d'excellence à chaque maillon.</p>
+        <ul class="nx-list" style="margin-top:18px">
+          <li>__CK__<span><strong>Commerce sans frontières</strong> — import-export, négoce et distribution sur les marchés nationaux et internationaux.</span></li>
+          <li>__CK__<span><strong>Des standards à la hauteur</strong> — qualité, traçabilité et fiabilité conformes aux exigences des donneurs d'ordre les plus rigoureux.</span></li>
+          <li>__CK__<span><strong>Catalyseur de partenariats</strong> — nous ouvrons des ponts entre acteurs, secteurs et territoires pour faire grandir vos projets.</span></li>
+        </ul>
+        <div class="nx-hero-cta" style="margin-top:26px">
+          <a class="btn-lime" href="poles/evenementiel-commerce.html">__ARR__ Commerce &amp; international</a>
+          <a class="btn-secondary" href="poles/conseil-strategie.html">Conseil &amp; stratégie</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>""".replace("__CK__", ico("check")).replace("__GLOBE__", ico("link")).replace("__ARR__", ico("arrow"))
+
     website_ld = '<script type="application/ld+json">' + json.dumps({
         "@context": "https://schema.org", "@type": "WebSite",
         "name": "NEXUS DKS GROUP", "url": SITE["domain"] + "/", "inLanguage": "fr-BJ",
         "publisher": {"@type": "Organization", "name": "NEXUS DKS GROUP"},
     }, ensure_ascii=False) + '</script>\n'
-    body = website_ld + hero + pitch + prestations + audience + testi + equip + blog + contact_section(title="Confiez-nous vos espaces dès aujourd'hui")
-    title = "NEXUS DKS GROUP — Entretien professionnel à Cotonou (Bénin)"
-    desc = "Entreprise de droit béninois d'entretien professionnel à Cotonou, ses environs et dans tout le Bénin : bureaux, commerces, résidences, chantiers. Devis FCFA sous 24 h."
+    body = website_ld + hero + pitch + prestations + synergie + international + testi + blog + contact_section(title="Parlons de votre projet")
+    title = "NEXUS DKS GROUP — Groupe multiservices à Cotonou (Bénin)"
+    desc = "Groupe multiservices de droit béninois à Cotonou : BTP, entretien, immobilier, agro-pastoral (volailles COQ BARON), restauration & tourisme, événementiel & commerce, conseil. Devis FCFA sous 24 h."
     write("index.html", head(title, desc, "index.html", "page-home") + header("home") + body + footer())
 
 
 # ============================================================ NOS SERVICES
 def build_services():
-    banner = """<section class="page-banner" style="--banner-image:url('img/services/bandeau-supplies.jpg')">
+    banner = """<section class="page-banner" style="--banner-image:url('img/poles/entretien-1.jpg')">
   <div class="container"><div class="banner-shell reveal">
     <span class="nx-eyebrow">Nos services</span>
     <h1>Une large gamme de services d'entretien professionnel</h1>
@@ -845,34 +1027,81 @@ def build_offre():
 
 # ============================================================ NOTRE GROUPE
 def build_about():
-    banner = """<section class="page-banner" style="--banner-image:url('img/people/agente-cover.jpg')">
+    banner = """<section class="page-banner" style="--banner-image:url('img/poles/immobilier-1.jpg')">
   <div class="container"><div class="banner-shell reveal">
-    <span class="nx-eyebrow">Notre groupe</span>
+    <span class="nx-eyebrow">Le groupe</span>
     <h1>NEXUS DKS GROUP</h1>
-    <p class="lead">Une entreprise d'entretien professionnel à Cotonou — adossée à un groupe aux activités complémentaires. Notre raison d'être : faire de la propreté une norme accessible, et de chaque espace une fierté.</p>
-    <div class="nx-hero-cta"><a class="btn-lime" href="contact.html">__SEND__ Travailler avec nous</a><a class="btn-secondary" href="nos-services.html">Nos services</a></div>
+    <p class="lead">Un groupe multiservices de droit béninois, à Cotonou. Sept pôles complémentaires, des marques et des partenaires d'excellence, une même ambition : créer de la valeur durable, du terrain à la table.</p>
+    <div class="nx-hero-cta"><a class="btn-lime" href="nos-poles.html">__ARR__ Nos pôles</a><a class="btn-secondary" href="contact.html">__SEND__ Travailler avec nous</a></div>
   </div></div>
   <span class="nx-banner-rule"></span>
-</section>""".replace("__SEND__", ico("send"))
+</section>""".replace("__SEND__", ico("send")).replace("__ARR__", ico("arrow"))
 
     presentation = """<section class="section">
   <div class="container">
     <div class="nx-split">
       <div class="reveal">
         <span class="nx-eyebrow">Présentation</span>
-        <h2 class="section-title">Spécialistes de l'entretien, au service de votre image</h2>
-        <p class="section-copy">NEXUS DKS GROUP — ENTRETIEN accompagne entreprises, commerces, résidences et chantiers à Cotonou et ses environs, en leur offrant des prestations de qualité, adaptées à leurs besoins. Notre objectif est sans ambiguïté : <strong>garantir des espaces propres, sains et valorisés.</strong></p>
+        <h2 class="section-title">Un groupe intégré, ancré au Bénin</h2>
+        <p class="section-copy">NEXUS DKS GROUP réunit des activités complémentaires — BTP, entretien, immobilier, agro-pastoral, restauration & tourisme, événementiel & commerce, conseil & stratégie — sous une même bannière. De la construction à l'agro-industrie, nous maîtrisons nos filières et nos marques pour offrir à nos clients des solutions complètes et fiables.</p>
         <h3 style="font-family:'Bricolage Grotesque';color:var(--indigo);margin:24px 0 8px;font-size:1.2rem">Notre vision</h3>
-        <p class="section-copy">Faire de l'entretien professionnel une norme, et non un luxe. Permettre aux entreprises comme aux particuliers d'accéder à un service d'entretien de qualité, pour améliorer leur environnement et leur image.</p>
+        <p class="section-copy">Bâtir un groupe agro-industriel et de services de référence, qui valorise le terroir béninois, crée de l'emploi et accompagne durablement entreprises, institutions et particuliers — un seul groupe, plusieurs solutions.</p>
       </div>
-      <div class="reveal d1"><div class="nx-figure tall"><img src="img/people/agente-cover.jpg" alt="NEXUS DKS GROUP — entretien professionnel"><span class="nx-figure-tag">__SPK__ Une nouvelle norme</span></div></div>
+      <div class="reveal d1"><div class="nx-figure tall"><img src="img/services/immobilier.jpg" alt="NEXUS DKS GROUP — groupe multiservices"><span class="nx-figure-tag">__SPK__ Un groupe, plusieurs solutions</span></div></div>
     </div>
   </div>
 </section>""".replace("__SPK__", ico("sparkle"))
 
+    # circuit intégré
+    circuit = """<section class="section section-dark">
+  <div class="container">
+    <div class="nx-split">
+      <div class="reveal">
+        <span class="nx-eyebrow">La synergie du groupe</span>
+        <h2 class="section-title">La force d'un <span class="nx-mark">circuit intégré</span> unique</h2>
+        <p class="section-copy">En associant la fertilité des terres de Sakété, le savoir-faire de transformation, le prestige de la marque COQ BARON et la puissance de notre réseau de transport, NEXUS DKS GROUP maîtrise chaque maillon de la chaîne — et fait dialoguer ses pôles au bénéfice de vos projets.</p>
+      </div>
+      <div class="reveal d1">
+        <div class="nx-grid cols-2" style="gap:16px">
+          <div class="nx-card" style="background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.1)"><span class="nx-ico is-gold">__I_STAR__</span><h3 style="color:#fff">COQ BARON</h3><p style="color:rgba(255,255,255,.74)">Notre marque exclusive de volailles, référence de qualité et de traçabilité.</p></div>
+          <div class="nx-card" style="background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.1)"><span class="nx-ico is-navy">__I_SOFA__</span><h3 style="color:#fff">DIAMOND DÉCORATION</h3><p style="color:rgba(255,255,255,.74)">Partenaire exclusif pour la rénovation, le second œuvre et l'aménagement.</p></div>
+          <div class="nx-card" style="background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.1)"><span class="nx-ico is-navy">__I_WIND__</span><h3 style="color:#fff">Flotte logistique</h3><p style="color:rgba(255,255,255,.74)">Un transport propre au groupe, garant de la chaîne du froid et des délais.</p></div>
+          <div class="nx-card" style="background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.1)"><span class="nx-ico is-gold">__I_LEAF__</span><h3 style="color:#fff">Filière Sakété</h3><p style="color:rgba(255,255,255,.74)">Palmier à huile et élevage, transformés localement au cœur du Plateau.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>""".replace("__I_STAR__", ico("star")).replace("__I_SOFA__", ico("sofa")).replace("__I_WIND__", ico("wind")).replace("__I_LEAF__", ico("leaf"))
+
+    # grille des pôles
+    pc = "".join('<article class="nx-card reveal"><span class="nx-ico is-lime">%s</span><h3>%s</h3><p>%s</p><a class="nx-blog-link" href="%s">Découvrir ce pôle %s</a></article>\n' % (ico(p["icon"]), p["label"], p["intro"], p["href"], ico("arrow")) for p in POLES)
+    poles_sec = """<section class="section">
+  <div class="container">
+    <div class="section-header reveal"><div class="section-heading">
+      <span class="nx-eyebrow">Nos pôles</span>
+      <h2 class="section-title">Sept domaines d'expertise complémentaires</h2>
+      <p class="section-copy">Chaque pôle est un métier à part entière — ensemble, ils forment un groupe intégré, du chantier au conseil.</p>
+    </div></div>
+    <div class="nx-grid cols-3">%s</div>
+  </div>
+</section>""" % pc
+
+    # activités annexes
+    ac = "".join('<article class="nx-card reveal" style="flex-direction:row;align-items:flex-start;gap:14px"><span class="nx-ico is-gold nx-ico-sm">%s</span><div><h3 style="font-size:1.1rem">%s</h3><p style="margin-top:6px">%s</p></div></article>\n' % (ico(icon), name, d) for name, icon, d in ANNEXES)
+    annexes = """<section class="section section-soft">
+  <div class="container">
+    <div class="section-header reveal"><div class="section-heading">
+      <span class="nx-eyebrow">Et aussi</span>
+      <h2 class="section-title">Des activités qui complètent l'écosystème</h2>
+      <p class="section-copy">Au-delà de nos sept pôles, le groupe développe d'autres savoir-faire au service de ses clients.</p>
+    </div></div>
+    <div class="nx-grid cols-2">%s</div>
+  </div>
+</section>""" % ac
+
     # valeurs
     vc = "".join('<article class="nx-card reveal" style="flex-direction:row;align-items:center;gap:14px;padding:22px 24px"><span class="nx-ico is-lime nx-ico-sm">%s</span><h3 style="font-size:1.1rem">%s</h3></article>\n' % (ico(icon), name) for name, icon in VALUES)
-    valeurs = """<section class="section section-soft">
+    valeurs = """<section class="section">
   <div class="container">
     <div class="section-header reveal"><div class="section-heading">
       <span class="nx-eyebrow">Nos valeurs</span>
@@ -882,24 +1111,185 @@ def build_about():
   </div>
 </section>""" % vc
 
-    # autres activités du groupe
-    oc = "".join('<article class="nx-card reveal"><span class="nx-ico">%s</span><h3>%s</h3><p>%s</p></article>\n' % (ico(icon), name, d) for name, icon, d in OTHER)
-    other = """<section class="section section-dark">
+    body = banner + presentation + circuit + poles_sec + annexes + valeurs + cta()
+    title = "Le Groupe | NEXUS DKS GROUP — Groupe multiservices, Cotonou (Bénin)"
+    desc = "NEXUS DKS GROUP : groupe multiservices de droit béninois à Cotonou (BTP, entretien, immobilier, agro-pastoral COQ BARON, restauration, événementiel & commerce, conseil)."
+    write("about.html", head(title, desc, "about.html", "page-about") + header("about") + body + footer())
+
+
+# ============================================================ NOS PÔLES (index)
+def build_poles():
+    banner = """<section class="page-banner" style="--banner-image:url('img/poles/btp-1.jpg')">
+  <div class="container"><div class="banner-shell reveal">
+    <span class="nx-eyebrow">Nos pôles</span>
+    <h1>Sept domaines d'expertise, un même groupe</h1>
+    <p class="lead">Du chantier à la table, de l'immobilier au conseil : explorez les pôles de NEXUS DKS GROUP. Des métiers complémentaires, coordonnés par un interlocuteur unique.</p>
+    <div class="nx-hero-cta"><a class="btn-lime" href="contact.html">__SEND__ Demander un devis</a><a class="btn-secondary" href="about.html">Le groupe</a></div>
+  </div></div>
+  <span class="nx-banner-rule"></span>
+</section>""".replace("__SEND__", ico("send"))
+
+    cards = ""
+    for i, p in enumerate(POLES):
+        d = " d%d" % (i % 3) if i % 3 else ""
+        cards += """<article class="nx-card-photo reveal%s" id="pole-%s">
+  <img class="nx-card-photo-bg" src="%s" alt="" aria-hidden="true" loading="lazy">
+  <div class="nx-card-photo-body">
+    <h3>%s</h3>
+    <p>%s</p>
+    <span class="nx-card-photo-link">Découvrir %s</span>
+  </div>
+  <a class="nx-card-photo-cover" href="%s" aria-label="Découvrir le pôle : %s"></a>
+</article>
+""" % (d, p["slug"], p["card_img"], p["label"], p["tagline"], ico("arrow"), p["href"], p["label"])
+    grid = """<section class="section">
+  <div class="container">
+    <div class="nx-grid cols-3">%s</div>
+  </div>
+</section>""" % cards
+
+    body = banner + grid + cta(title="Un projet sur l'un de nos pôles ?", text="Décrivez votre besoin : nous mobilisons le bon pôle et vous adressons une proposition claire en FCFA sous 24&nbsp;heures.") + contact_section()
+    title = "Nos pôles | NEXUS DKS GROUP — Groupe multiservices, Cotonou"
+    desc = "Les sept pôles de NEXUS DKS GROUP : BTP, entretien, immobilier, agro-pastoral (COQ BARON), restauration & tourisme, événementiel & commerce, conseil & stratégie. Cotonou, Bénin."
+    write("nos-poles.html", head(title, desc, "nos-poles.html", "page-poles") + header("poles") + body + footer())
+
+
+# ============================================================ PAGES PÔLES (détail)
+def build_pole_pages():
+    for p in POLES:
+        if p.get("external"):
+            continue
+        slug, label = p["slug"], p["label"]
+        pre = "../"
+
+        hero = """<section class="svc-hero svc-hero-article">
+  <img class="svc-hero-bg" src="%s%s" alt="" aria-hidden="true">
+  <div class="container">
+    <span class="nx-eyebrow">Pôle %s</span>
+    <h1>%s — %s</h1>
+    <p class="lead">%s</p>
+    <div class="nx-hero-cta"><a class="btn-lime" href="%scontact.html">%s Demander un devis</a><a class="btn-secondary" href="%snos-poles.html">%s Tous nos pôles</a></div>
+  </div>
+</section>""" % (pre, p["img"], label, label, p["tagline"], p["intro"], pre, ico("send"), pre, ico("arrow"))
+
+        ax = ""
+        for i, (icon, t, body_txt) in enumerate(p["axes"]):
+            ax += """<article class="nx-presta reveal%s">
+  <div class="nx-presta-head"><span class="nx-ico is-lime">%s</span><span class="nx-num">%02d</span></div>
+  <h3>%s</h3><p>%s</p>
+</article>
+""" % (" d%d" % (i % 3) if i % 3 else "", ico(icon), i + 1, t, body_txt)
+        axes = """<section class="section">
   <div class="container">
     <div class="section-header reveal"><div class="section-heading">
-      <span class="nx-eyebrow">L'écosystème NEXUS DKS GROUP</span>
-      <h2 class="section-title">Au-delà de l'entretien, un groupe multiservices</h2>
-      <p class="section-copy">L'entretien est notre signature et notre site lui est dédié. Mais NEXUS DKS GROUP, c'est aussi un ensemble d'activités complémentaires — un seul groupe, plusieurs solutions.</p>
+      <span class="nx-eyebrow">Notre savoir-faire</span>
+      <h2 class="section-title">Ce que nous prenons en charge</h2>
     </div></div>
     <div class="nx-grid cols-3">%s</div>
-    <p class="form-note" style="text-align:center;color:rgba(255,255,255,.7);margin-top:22px">Un besoin sur l'une de ces activités ? <a href="contact.html" style="color:var(--lime-bright);font-weight:800">Contactez le groupe &rarr;</a></p>
+  </div>
+</section>""" % ax
+
+        # galerie premium (mosaïque) — ~3 visuels du pôle
+        gallery = ""
+        if p.get("gallery"):
+            items = ""
+            for gi, (gimg, gcap) in enumerate(p["gallery"]):
+                feat = " is-feature" if gi == 0 else ""
+                items += """<figure class="nx-gallery-item%s reveal"><img src="%s%s" alt="%s — %s" loading="lazy"><figcaption>%s</figcaption></figure>\n""" % (
+                    feat, pre, gimg, label, gcap, gcap)
+            gcls = " nx-gallery-3" if len(p["gallery"]) >= 3 else ""
+            gallery = """<section class="section compact">
+  <div class="container">
+    <div class="section-header reveal"><div class="section-heading">
+      <span class="nx-eyebrow">En images</span>
+      <h2 class="section-title">Le pôle %s en action</h2>
+    </div></div>
+    <div class="nx-gallery%s">%s</div>
+  </div>
+</section>""" % (label, gcls, items)
+
+        # à qui s'adresse ce pôle (ton orienté cibles)
+        audiences = ""
+        if p.get("audiences"):
+            ac = "".join('<article class="nx-aud-card reveal%s"><span class="nx-ico is-lime">%s</span><h3>%s</h3><p>%s</p></article>\n' % (
+                " d%d" % (i % 3) if i % 3 else "", ico(ic), lab, desc) for i, (ic, lab, desc) in enumerate(p["audiences"]))
+            audiences = """<section class="section section-soft">
+  <div class="container">
+    <div class="section-header reveal"><div class="section-heading">
+      <span class="nx-eyebrow">À qui s'adresse ce pôle</span>
+      <h2 class="section-title">Des solutions pour chaque profil</h2>
+      <p class="section-copy">Entreprises, institutions, investisseurs, partenaires ou particuliers : nous adaptons notre accompagnement à vos enjeux.</p>
+    </div></div>
+    <div class="nx-grid cols-3">%s</div>
+  </div>
+</section>""" % ac
+
+        # encart partenaire / circuit intégré (selon le pôle)
+        feature = ""
+        if p.get("partner"):
+            pn, ptitle, ptext = p["partner"]
+            feature = """<section class="section section-dark">
+  <div class="container">
+    <div class="nx-split">
+      <div class="reveal">
+        <span class="nx-eyebrow">Partenariat d'excellence</span>
+        <h2 class="section-title">%s</h2>
+        <p class="section-copy">%s</p>
+      </div>
+      <div class="reveal d1"><div class="nx-grid cols-1"><div class="nx-card" style="background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.1)"><span class="nx-ico is-gold">%s</span><h3 style="color:#fff">%s</h3><p style="color:rgba(255,255,255,.74)">Une alliance qui marie la puissance technique du groupe au sens du détail de notre partenaire.</p></div></div></div>
+    </div>
+  </div>
+</section>""" % (ptitle, ptext, ico("sofa"), pn)
+        elif p.get("circuit"):
+            ctitle, ctext = p["circuit"]
+            feature = """<section class="section section-dark">
+  <div class="container">
+    <div class="nx-cta reveal">
+      <span class="nx-eyebrow">Intégration verticale</span>
+      <h2>%s</h2>
+      <p>%s</p>
+    </div>
+  </div>
+</section>""" % (ctitle, ctext)
+
+        # autres pôles (maillage interne)
+        others = [q for q in POLES if q["slug"] != slug][:3]
+        oc = "".join('<article class="nx-card reveal"><span class="nx-ico is-lime">%s</span><h3>%s</h3><p>%s</p><a class="nx-blog-link" href="%s%s">Découvrir %s</a></article>\n' % (ico(q["icon"]), q["label"], q["tagline"], pre, q["href"], ico("arrow")) for q in others)
+        related = """<section class="section section-soft">
+  <div class="container">
+    <div class="section-header reveal"><div class="section-heading">
+      <span class="nx-eyebrow">La synergie du groupe</span>
+      <h2 class="section-title">Découvrez aussi nos autres pôles</h2>
+    </div></div>
+    <div class="nx-grid cols-3">%s</div>
   </div>
 </section>""" % oc
 
-    body = banner + presentation + valeurs + section_engage() + section_method() + other + cta()
-    title = "Notre Groupe | NEXUS DKS GROUP — Entretien & multiservices, Cotonou"
-    desc = "NEXUS DKS GROUP : spécialiste de l'entretien professionnel à Cotonou, adossé à un groupe multiservices (BTP, immobilier, commerce, agro, événementiel, conseil)."
-    write("about.html", head(title, desc, "about.html", "page-about") + header("about") + body + footer())
+        crumbs = {
+            "@context": "https://schema.org", "@type": "BreadcrumbList",
+            "itemListElement": [
+                {"@type": "ListItem", "position": 1, "name": "Accueil", "item": SITE["domain"] + "/"},
+                {"@type": "ListItem", "position": 2, "name": "Nos pôles", "item": SITE["domain"] + "/nos-poles.html"},
+                {"@type": "ListItem", "position": 3, "name": label, "item": SITE["domain"] + "/poles/" + slug + ".html"},
+            ],
+        }
+        service_ld = {
+            "@context": "https://schema.org", "@type": "Service", "serviceType": label,
+            "provider": {"@type": "Organization", "name": "NEXUS DKS GROUP"},
+            "areaServed": "Bénin", "description": p["intro"],
+        }
+        ld = '<script type="application/ld+json">' + json.dumps(crumbs, ensure_ascii=False) + '</script>\n' \
+           + '<script type="application/ld+json">' + json.dumps(service_ld, ensure_ascii=False) + '</script>\n'
+
+        body = ld + hero + gallery + axes + audiences + feature + related \
+            + cta(prefix=pre, title="Un projet sur le pôle %s ?" % label,
+                  text="Décrivez votre besoin : nous vous adressons une proposition claire, chiffrée en FCFA, sous 24&nbsp;heures.") \
+            + contact_section(prefix=pre)
+        title = "%s | NEXUS DKS GROUP — Cotonou (Bénin)" % label
+        desc = ("%s — %s" % (label, p["intro"]))[:158]
+        write("poles/%s.html" % slug,
+              head(title, desc, "poles/%s.html" % slug, "page-pole", prefix=pre, og_type="article")
+              + header("poles", prefix=pre) + body + footer(prefix=pre))
 
 
 # ============================================================ BLOG (index)
@@ -924,8 +1314,8 @@ def build_blog():
   <img class="svc-hero-bg" src="img/services/bandeau-accessoires.jpg" alt="" aria-hidden="true">
   <div class="container">
     <span class="nx-eyebrow">Le blog</span>
-    <h1>Le journal de la propreté professionnelle</h1>
-    <p class="lead">Hygiène, techniques, organisation et bonnes pratiques : des contenus utiles pour les clients, les professionnels et les partenaires du secteur de l'entretien.</p>
+    <h1>Actualités &amp; expertises du groupe</h1>
+    <p class="lead">Bonnes pratiques, techniques et regards de terrain au fil de nos métiers : des contenus utiles pour nos clients et partenaires, du chantier à la table.</p>
   </div>
 </section>"""
     grid = """<section class="section">
@@ -935,9 +1325,9 @@ def build_blog():
     <p class="nx-blog-empty" hidden>Aucun article dans cette catégorie pour le moment.</p>
   </div>
 </section>""" % (filters, bc)
-    body = hero + grid + cta(title="Un sujet d'entretien à approfondir ?", text="Nos experts répondent à vos questions et conçoivent la solution adaptée à vos espaces.")
-    title = "Blog entretien & propreté | NEXUS DKS GROUP"
-    desc = "Articles d'experts sur l'entretien professionnel : bionettoyage, fin de chantier, traitement des textiles, hygiène des espaces. NEXUS DKS GROUP, Cotonou."
+    body = hero + grid + cta(title="Un sujet à approfondir ?", text="Nos équipes répondent à vos questions et conçoivent la solution adaptée à votre projet.")
+    title = "Blog — actualités & expertises | NEXUS DKS GROUP"
+    desc = "Le blog de NEXUS DKS GROUP : bonnes pratiques et expertises au fil de nos métiers (BTP, entretien, agro-pastoral, immobilier, conseil…). Cotonou, Bénin."
     write("blog.html", head(title, desc, "blog.html", "page-blog") + header("blog") + body + footer())
 
 
@@ -1188,7 +1578,7 @@ def build_articles():
             "image": SITE["domain"] + "/" + img,
             "author": {"@type": "Organization", "name": "NEXUS DKS GROUP"},
             "publisher": {"@type": "Organization", "name": "NEXUS DKS GROUP",
-                          "logo": {"@type": "ImageObject", "url": SITE["domain"] + "/img/brand/nexus-logo.png"}},
+                          "logo": {"@type": "ImageObject", "url": SITE["domain"] + "/img/brand/nexus-logo-clean.png"}},
             "mainEntityOfPage": SITE["domain"] + "/blog/" + slug + ".html",
             "articleSection": catg, "inLanguage": "fr-BJ",
         }
@@ -1217,7 +1607,7 @@ def build_contact():
       <div class="reveal">
         <span class="nx-eyebrow">Contact &amp; devis</span>
         <h1>Demandez votre devis gratuit</h1>
-        <p class="lead">Un besoin d'entretien ponctuel ou un contrat régulier ? Décrivez-nous vos espaces : nous revenons vers vous sous 24&nbsp;heures.</p>
+        <p class="lead">Un projet sur l'un de nos pôles — BTP, entretien, immobilier, agro, restauration, événementiel ou conseil ? Décrivez-nous votre besoin : nous revenons vers vous sous 24&nbsp;heures.</p>
         <div class="nx-hero-cta"><a class="btn-lime" href="tel:__T1H__">__PH__ __T1D__</a><a class="btn-secondary" href="https://wa.me/__WA__" target="_blank" rel="noopener noreferrer">__MSG__ WhatsApp</a></div>
         <div class="nx-hero-note"><span>__CK__ Réponse sous 24&nbsp;h</span><span>__CK__ Devis en FCFA</span><span>__CK__ Cotonou &amp; tout le Bénin</span></div>
       </div>
@@ -1230,26 +1620,26 @@ def build_contact():
 </section>""".replace("__T1H__", SITE["tel1_href"]).replace("__T1D__", SITE["tel1_disp"]).replace("__WA__", SITE["wa"]).replace("__PH__", ico("phone")).replace("__MSG__", ico("message")).replace("__CK__", ico("check"))
     body = banner + contact_section()
     title = "Contact &amp; devis | NEXUS DKS GROUP — Cotonou"
-    desc = "Contactez NEXUS DKS GROUP à Cotonou pour un devis d'entretien : téléphone, WhatsApp, email. Réponse sous 24 h. C/34 Guinkomey, Cotonou (Bénin)."
+    desc = "Contactez NEXUS DKS GROUP à Cotonou pour un devis sur l'un de nos pôles : téléphone, WhatsApp, email. Réponse sous 24 h. C/34 Guinkomey, Cotonou (Bénin)."
     write("contact.html", head(title, desc, "contact.html", "page-contact") + header("contact") + body + footer())
 
 
 # ============================================================ CARRIÈRES
 def build_carrieres():
     hero = """<section class="svc-hero svc-hero-article">
-  <img class="svc-hero-bg" src="img/services/hero-entreprises.jpg" alt="" aria-hidden="true">
+  <img class="svc-hero-bg" src="img/poles/btp-3.jpg" alt="" aria-hidden="true">
   <div class="container">
     <span class="nx-eyebrow">Carrières · Recrutement</span>
-    <h1>Construisons ensemble la nouvelle norme du propre</h1>
-    <p class="lead">NEXUS DKS GROUP recrute des profils rigoureux, fiers du travail bien fait. Formation continue, encadrement et matériel professionnel : ici, l'entretien est un véritable métier d'expertise.</p>
+    <h1>Construisons ensemble l'avenir du groupe</h1>
+    <p class="lead">NEXUS DKS GROUP recrute, dans tous ses pôles, des profils rigoureux et fiers du travail bien fait. Formation continue, encadrement et perspectives d'évolution : ici, chaque métier est une véritable expertise.</p>
     <div class="nx-hero-cta"><a class="btn-lime" href="#postuler">__RKT__ Postuler en 1 minute</a><a class="btn-secondary" href="nexus-dks-group-presentation.pdf" download>__DL__ La brochure</a></div>
   </div>
 </section>""".replace("__RKT__", ico("rocket")).replace("__DL__", ico("download"))
 
     JOIN = [
-        ("graduation", "Formation continue", "Montée en compétence sur nos protocoles métier : bionettoyage, injection-extraction, HACCP, ERP."),
-        ("users", "Équipes encadrées", "Un cadre clair, des chefs d'équipe, des consignes précises — et le respect de chacun."),
-        ("spray", "Matériel professionnel", "Vous travaillez avec un équipement de niveau pro, pas avec les moyens du bord."),
+        ("graduation", "Formation continue", "Montée en compétence sur les savoir-faire de nos pôles — du chantier à l'agro-industrie, en passant par les services."),
+        ("users", "Équipes encadrées", "Un cadre clair, des responsables présents, des consignes précises — et le respect de chacun."),
+        ("briefcase", "Un groupe qui grandit", "Rejoindre un groupe multiservices en développement, c'est multiplier les opportunités de mobilité interne."),
         ("target", "Évolution au mérite", "Le sérieux et la régularité ouvrent l'accès à des postes d'encadrement et de spécialiste."),
     ]
     feats = "".join('<article class="nx-feature reveal%s"><span class="nx-ico is-lime">%s</span><div><h3>%s</h3><p>%s</p></div></article>' % (" d%d" % (i % 3) if i % 3 else "", ico(ic), t, d) for i, (ic, t, d) in enumerate(JOIN))
@@ -1258,8 +1648,8 @@ def build_carrieres():
     <div class="svc-split">
       <div class="reveal">
         <span class="nx-eyebrow">Pourquoi nous rejoindre</span>
-        <h2 class="section-title">Un métier d'expertise, un cadre qui fait grandir</h2>
-        <p class="section-copy">Chez NEXUS DKS GROUP, la propreté n'est pas un petit boulot : c'est une discipline. Nous formons, encadrons et équipons nos équipes pour qu'elles livrent une exigence — et en soient fières.</p>
+        <h2 class="section-title">Des métiers d'expertise, un cadre qui fait grandir</h2>
+        <p class="section-copy">Chez NEXUS DKS GROUP, chaque métier est une discipline. Nous formons, encadrons et accompagnons nos équipes pour qu'elles livrent une exigence — et en soient fières.</p>
       </div>
       <div class="nx-feature-list reveal d1">%s</div>
     </div>
@@ -1267,11 +1657,11 @@ def build_carrieres():
 </section>""" % feats
 
     ROLES = [
-        ("Agent d'entretien", "broom", "Nettoyage courant et bionettoyage, sens du détail, ponctualité et discrétion."),
-        ("Chef d'équipe", "users", "Encadrement terrain, contrôle qualité et relation client de proximité."),
-        ("Technicien spécialisé", "droplet", "Injection-extraction, monobrosse, haute pression, nettoyage fin de chantier."),
-        ("Superviseur qualité", "badge", "Contrôle interne après exécution, traçabilité et amélioration continue."),
-        ("Commercial · Développement", "briefcase", "Prospection B2B, devis, suivi de comptes et partenariats institutionnels."),
+        ("Métiers du BTP", "hardhat", "Conducteurs de travaux, maçons, ouvriers du second œuvre et finitions — du terrassement à la livraison."),
+        ("Métiers de l'entretien", "broom", "Agents, chefs d'équipe et techniciens spécialisés : nettoyage, bionettoyage, espaces verts."),
+        ("Agro-pastoral & logistique", "leaf", "Agriculture, élevage (COQ BARON), transformation et conducteurs de notre flotte de transport."),
+        ("Fonctions support & conseil", "briefcase", "Gestion, finance, marketing, communication, commerce, immobilier — les expertises qui pilotent le groupe."),
+        ("Encadrement & qualité", "badge", "Superviseurs, contrôle interne, traçabilité et amélioration continue sur tous nos pôles."),
         ("Candidature spontanée", "heart", "Un autre profil fiable et motivé ? Présentez-vous : nous cherchons des talents."),
     ]
     rc = "".join('<article class="nx-card reveal%s"><span class="nx-ico is-lime">%s</span><h3>%s</h3><p>%s</p></article>\n' % (" d%d" % (i % 3) if i % 3 else "", ico(ic), t, d) for i, (t, ic, d) in enumerate(ROLES))
@@ -1287,7 +1677,7 @@ def build_carrieres():
 </section>""" % rc
 
     fields = [
-        ("select", "Poste visé", ["Agent d'entretien", "Chef d'équipe", "Technicien spécialisé", "Superviseur qualité", "Commercial / Développement", "Candidature spontanée"]),
+        ("select", "Pôle / métier visé", ["BTP & travaux publics", "Entretien & propreté", "Agro-pastoral & logistique", "Restauration & tourisme", "Immobilier", "Fonctions support / conseil", "Encadrement & qualité", "Candidature spontanée"]),
         ("select", "Expérience", ["Débutant·e motivé·e", "1 à 3 ans", "3 à 5 ans", "Plus de 5 ans"]),
         ("select", "Disponibilité", ["Immédiate", "Sous 2 semaines", "Sous 1 mois", "À convenir"]),
         ("text", "Zone / quartier", "Ex. Cotonou, Calavi, Akpakpa…"),
@@ -1332,7 +1722,7 @@ def build_carrieres():
     body = hero + why + roles + config + cta(title="Envie de rejoindre l'aventure NEXUS&nbsp;?",
         text="Postulez dès maintenant, ou téléchargez notre brochure de présentation pour mieux nous connaître.")
     title = "Carrières & recrutement | NEXUS DKS GROUP — Cotonou (Bénin)"
-    desc = "Rejoignez NEXUS DKS GROUP, entreprise de droit béninois d'entretien professionnel à Cotonou : agents, chefs d'équipe, techniciens, superviseurs. Postulez par WhatsApp."
+    desc = "Rejoignez NEXUS DKS GROUP, groupe multiservices de droit béninois à Cotonou : BTP, entretien, agro-pastoral, immobilier, fonctions support. Postulez par WhatsApp."
     write("carrieres.html", head(title, desc, "carrieres.html", "page-carrieres") + header("") + body + footer())
 
 
@@ -1340,23 +1730,25 @@ def build_carrieres():
 def build_llms():
     d = SITE["domain"]
     L = []
-    L.append("# NEXUS DKS GROUP — Entretien professionnel")
+    L.append("# NEXUS DKS GROUP — Groupe multiservices")
     L.append("")
-    L.append("> Entreprise de droit béninois spécialisée dans les services d'entretien professionnel, "
-             "basée à Cotonou et intervenant à Cotonou, ses environs et dans tout le Bénin. "
-             "Slogan : « Nous ne faisons pas que nettoyer, nous valorisons vos espaces. »")
+    L.append("> Groupe multiservices de droit béninois, basé à Cotonou (Bénin), réunissant sept pôles "
+             "complémentaires : BTP, entretien & propreté, immobilier, agro-pastoral (marque de volailles "
+             "COQ BARON), restauration & tourisme, événementiel & commerce général, conseil & stratégie. "
+             "Slogan : « Un groupe, plusieurs solutions. »")
     L.append("")
-    L.append("NEXUS DKS GROUP — ENTRETIEN sert entreprises, institutions, commerces, résidences et chantiers. "
-             "Méthodologie : formation continue des équipes, encadrement, matériel professionnel et contrôle "
-             "interne des travaux après exécution. Contact privilégié par WhatsApp ; devis en FCFA sous 24 h.")
+    L.append("NEXUS DKS GROUP s'appuie sur un circuit intégré (filière agricole de Sakété, marque COQ BARON, "
+             "partenaire DIAMOND DÉCORATION pour la rénovation et l'aménagement, flotte logistique propre) "
+             "pour servir entreprises, institutions et particuliers. Un interlocuteur unique ; devis en FCFA "
+             "sous 24 h ; contact privilégié par WhatsApp.")
     L.append("")
-    L.append("## Services")
-    for slug, label, icon, desc, bullets in CATS:
-        L.append("- [%s](%s/services/%s.html) : %s" % (label, d, slug, desc))
+    L.append("## Pôles")
+    for p in POLES:
+        L.append("- [%s](%s/%s) : %s" % (p["label"], d, p["href"], p["intro"]))
     L.append("")
     L.append("## Pages clés")
-    for path, name in [("", "Accueil"), ("nos-services.html", "Nos services"),
-                       ("entretien-proprete.html", "Offre & formules"), ("about.html", "Notre Groupe"),
+    for path, name in [("", "Accueil"), ("nos-poles.html", "Nos pôles"),
+                       ("about.html", "Le Groupe"), ("nos-services.html", "Pôle Entretien — services"),
                        ("carrieres.html", "Carrières"), ("contact.html", "Contact & devis")]:
         L.append("- [%s](%s/%s)" % (name, d, path))
     L.append("")
@@ -1380,9 +1772,9 @@ def build_404():
     body = """<section class="page-banner" style="--banner-image:url('img/services/bandeau-supplies.jpg')">
   <div class="container"><div class="banner-shell reveal">
     <span class="nx-eyebrow">Erreur 404</span>
-    <h1>Cette page a disparu au grand nettoyage</h1>
+    <h1>Cette page est introuvable</h1>
     <p class="lead">La page demandée n'existe pas ou a été déplacée. Retrouvez l'essentiel ci-dessous.</p>
-    <div class="nx-hero-cta"><a class="btn-lime" href="index.html">Retour à l'accueil</a><a class="btn-secondary" href="nos-services.html">Nos services</a><a class="btn-secondary" href="contact.html">Contact</a></div>
+    <div class="nx-hero-cta"><a class="btn-lime" href="index.html">Retour à l'accueil</a><a class="btn-secondary" href="nos-poles.html">Nos pôles</a><a class="btn-secondary" href="contact.html">Contact</a></div>
   </div></div>
   <span class="nx-banner-rule"></span>
 </section>"""
@@ -1758,14 +2150,16 @@ def build_service_pages():
 # ============================================================ MAIN
 if __name__ == "__main__":
     build_home()
+    build_about()
+    build_poles()
+    build_pole_pages()
     build_services()
     build_service_pages()
     build_offre()
-    build_about()
     build_blog()
     build_articles()
     build_contact()
     build_carrieres()
     build_llms()
     build_404()
-    print("\n✅ Site NEXUS DKS GROUP — ENTRETIEN régénéré.")
+    print("\n✅ Site corporate NEXUS DKS GROUP régénéré.")

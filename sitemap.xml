@@ -1,15 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://nexusdksgroup.com/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
-  <url><loc>https://nexusdksgroup.com/nos-services.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://nexusdksgroup.com/about.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://nexusdksgroup.com/nos-poles.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://nexusdksgroup.com/poles/btp.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://nexusdksgroup.com/poles/immobilier.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://nexusdksgroup.com/poles/agro-pastoral.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://nexusdksgroup.com/poles/restauration-tourisme.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://nexusdksgroup.com/poles/evenementiel-commerce.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://nexusdksgroup.com/poles/conseil-strategie.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://nexusdksgroup.com/nos-services.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://nexusdksgroup.com/services/entreprises-bureaux.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://nexusdksgroup.com/services/fin-de-chantier.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://nexusdksgroup.com/services/residences.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://nexusdksgroup.com/services/restaurants-lounges.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://nexusdksgroup.com/services/espaces-specifiques.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://nexusdksgroup.com/services/textiles-surfaces.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://nexusdksgroup.com/entretien-proprete.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://nexusdksgroup.com/about.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://nexusdksgroup.com/entretien-proprete.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://nexusdksgroup.com/carrieres.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://nexusdksgroup.com/blog.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://nexusdksgroup.com/blog/bionettoyage-bureaux.html</loc><changefreq>yearly</changefreq><priority>0.6</priority></url>

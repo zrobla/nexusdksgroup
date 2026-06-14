@@ -1,22 +1,23 @@
-# NEXUS DKS GROUP — Entretien professionnel
+# NEXUS DKS GROUP — Groupe multiservices
 
-> Entreprise de droit béninois spécialisée dans les services d'entretien professionnel, basée à Cotonou et intervenant à Cotonou, ses environs et dans tout le Bénin. Slogan : « Nous ne faisons pas que nettoyer, nous valorisons vos espaces. »
+> Groupe multiservices de droit béninois, basé à Cotonou (Bénin), réunissant sept pôles complémentaires : BTP, entretien & propreté, immobilier, agro-pastoral (marque de volailles COQ BARON), restauration & tourisme, événementiel & commerce général, conseil & stratégie. Slogan : « Un groupe, plusieurs solutions. »
 
-NEXUS DKS GROUP — ENTRETIEN sert entreprises, institutions, commerces, résidences et chantiers. Méthodologie : formation continue des équipes, encadrement, matériel professionnel et contrôle interne des travaux après exécution. Contact privilégié par WhatsApp ; devis en FCFA sous 24 h.
+NEXUS DKS GROUP s'appuie sur un circuit intégré (filière agricole de Sakété, marque COQ BARON, partenaire DIAMOND DÉCORATION pour la rénovation et l'aménagement, flotte logistique propre) pour servir entreprises, institutions et particuliers. Un interlocuteur unique ; devis en FCFA sous 24 h ; contact privilégié par WhatsApp.
 
-## Services
-- [Entreprises & Bureaux](https://nexusdksgroup.com/services/entreprises-bureaux.html) : Des environnements de travail sains, valorisants et propices à la performance — entretien régulier piloté par un plan de propreté.
-- [Fin de Chantier](https://nexusdksgroup.com/services/fin-de-chantier.html) : La remise en état post-travaux qui transforme un chantier livré en espace prêt à occuper, sans la moindre trace.
-- [Résidences & Appartements](https://nexusdksgroup.com/services/residences.html) : Votre intérieur soigné comme il le mérite — la sérénité d'un refuge impeccable, sans y penser.
-- [Restaurants & Lounges](https://nexusdksgroup.com/services/restaurants-lounges.html) : L'hygiène irréprochable qui protège votre réputation et celle de vos clients, dans le respect des bonnes pratiques alimentaires.
-- [Espaces Spécifiques](https://nexusdksgroup.com/services/espaces-specifiques.html) : Des lieux à forte fréquentation entretenus avec des protocoles dédiés : confort, sécurité et image au rendez-vous.
-- [Textiles & Surfaces](https://nexusdksgroup.com/services/textiles-surfaces.html) : La technicité du nettoyage en profondeur : redonner éclat et hygiène à vos textiles et revêtements.
+## Pôles
+- [BTP & Travaux Publics](https://nexusdksgroup.com/poles/btp.html) : Bâtiment, gros œuvre, second œuvre et travaux publics : NEXUS DKS GROUP conçoit et réalise des ouvrages durables, du terrassement à la finition. En synergie avec notre pôle Immobilier et grâce à un partenariat d'excellence, nous maîtrisons chaque maillon de la construction.
+- [Entretien & Propreté](https://nexusdksgroup.com/nos-services.html) : Nettoyage et entretien de locaux, bionettoyage, entretien d'espaces verts : des environnements sains, valorisants et durables pour les entreprises, commerces, résidences et chantiers. Notre pôle de services, détaillé sur ses propres pages.
+- [Immobilier](https://nexusdksgroup.com/poles/immobilier.html) : Parce que l'immobilier est au cœur du développement économique et de la sécurité financière, NEXUS DKS GROUP couvre l'ensemble du cycle de vie des actifs immobiliers — de l'idée initiale à la gestion quotidienne.
+- [Agro-pastoral & Logistique](https://nexusdksgroup.com/poles/agro-pastoral.html) : Acteur engagé dans le développement durable et la sécurité alimentaire, NEXUS DKS GROUP déploie une infrastructure agro-pastorale de premier plan au cœur du Bénin, à Sakété (département du Plateau) : production, transformation locale et acheminement de produits de haute qualité, en alliant méthodes traditionnelles et techniques modernes.
+- [Restauration & Tourisme](https://nexusdksgroup.com/poles/restauration-tourisme.html) : Restauration et tourisme portés par la transversalité unique du groupe : du champ à l'assiette, des espaces d'exception et une logistique maîtrisée, au service d'une expérience client mémorable.
+- [Événementiel & Commerce Général](https://nexusdksgroup.com/poles/evenementiel-commerce.html) : Concevoir un moment fort pour marquer les esprits, ou fluidifier le commerce de biens : NEXUS DKS GROUP déploie des solutions d'envergure clé en main, alliant l'excellence créative de l'ingénierie événementielle à l'efficacité opérationnelle du commerce global.
+- [Conseil & Stratégie](https://nexusdksgroup.com/poles/conseil-strategie.html) : Un cabinet d'experts multidisciplinaires dédié à l'accompagnement des dirigeants, des entreprises et des porteurs de projets. Notre mission : transformer vos défis en opportunités de croissance, à travers six piliers de compétences fondamentaux.
 
 ## Pages clés
 - [Accueil](https://nexusdksgroup.com/)
-- [Nos services](https://nexusdksgroup.com/nos-services.html)
-- [Offre & formules](https://nexusdksgroup.com/entretien-proprete.html)
-- [Notre Groupe](https://nexusdksgroup.com/about.html)
+- [Nos pôles](https://nexusdksgroup.com/nos-poles.html)
+- [Le Groupe](https://nexusdksgroup.com/about.html)
+- [Pôle Entretien — services](https://nexusdksgroup.com/nos-services.html)
 - [Carrières](https://nexusdksgroup.com/carrieres.html)
 - [Contact & devis](https://nexusdksgroup.com/contact.html)
 
